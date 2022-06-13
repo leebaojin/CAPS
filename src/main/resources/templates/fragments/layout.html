@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head th:fragment="headsection">
+    	<title>Front page for Course Application Processing System</title>
+		<!-- For input stylesheet -->
+		<!-- Using bootstrap 4.3.1 -->
+		<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/home.css"/>
+		<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
+	</head>
+	<body>  
+	  		
+		<nav class="navbar navbar-expand-sm bg-light navbar-light" th:fragment="headermenu">
+  			<a class="navbar-brand" th:href="@{/home}">CAPS</a>
+
+  			<ul class="navbar-nav" th:if="${headerbar == null}">
+   				<li class="nav-item">
+      				<a class="nav-link" href="#">Home</a>
+    			</li>
+  			</ul>
+  			<div style="text-align:right;width:auto;">
+  			<ul class="navbar-nav" th:if="${headerbar != null and not #lists.isEmpty(headerbar.headerList)}">
+   				<li class="nav-item" th:each="header : ${headerbar.headerList}">
+      				<a class="nav-link" th:href="@{{path}(path=${header.path})}" th:text="${header.text}"></a>
+    			</li>
+  			</ul>
+  			</div>
+		</nav>
+    
+	</body>
+</html>
