@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
@@ -24,6 +25,7 @@ public class Lecturer {
 	private String firstname;
 	private String lastname;
 	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="ACCOUNT_ID")
 	private Account account;
 	
 	@ManyToMany(mappedBy="courseLecturers", fetch = FetchType.EAGER)
