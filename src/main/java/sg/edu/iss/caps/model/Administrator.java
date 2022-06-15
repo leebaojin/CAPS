@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
@@ -21,7 +22,9 @@ public class Administrator {
 	private String firstname;
 	private String lastname;
 	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="ACCOUNT_ID")
 	private Account account;
+	
 	public Administrator(String firstname, String lastname) {
 		super();
 		this.firstname = firstname;
@@ -33,6 +36,7 @@ public class Administrator {
 		this.lastname = lastname;
 		this.account = account;
 	}
+
 	
 	
 }
