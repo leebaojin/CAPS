@@ -57,3 +57,31 @@ INSERT INTO COURSE(course_id,course_capacity,course_credits,course_description,c
 INSERT INTO COURSE(course_id,course_capacity,course_credits,course_description,course_status,course_title) VALUES (default,60,6,'After Completing this Course , you will have pretty good knowledge about HTML , CSS , Javascript , Jquery , Ajax, Bootstrap, PHP, MYSQL , Wordpress. You will Learn How to Create Multiuser Server Based Photogallery Site.','open','The Most Comprehensive Web Development Course');
 INSERT INTO COURSE(course_id,course_capacity,course_credits,course_description,course_status,course_title) VALUES (default,40,4,'Implement advanced JavaScript components, such as persistent drag and drop functionality and live page update via ActionCable into a Rails application. Deploying a Rails application along with the ActionCable web socket feature to Heroku.','open','Dissecting Ruby on Rails 5 - Become a Professional Developer');
 INSERT INTO COURSE(course_id,course_capacity,course_credits,course_description,course_status,course_title) VALUES (default,40,4,'Learn core concepts of both the front end and backend programming course. Get familiar with the latest web developer technologies and ecosystems. Learn all about sql and nosql databses. Learn complete web development process.','open','The Full Stack Web Development');
+
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','abed');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','troy');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','yasir');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','pratap');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','fang');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','rajani');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','manu');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','ling');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','nilam');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','aishah');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','jasvinder');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','mina');
+INSERT INTO ACCOUNT(account_id,password,role,username) VALUES (default,'password-4','STUDENT','padma');
+
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Abed','Nadir',20);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Troy','Barnes',21);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Yasir','Keefe',22);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Pratap','Wang',23);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Fang','Zhu',24);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Rajani','Guo',25);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Manu','Ren',26);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Ling','Lu',27);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Nilam','Tang',28);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Aishah','Cheng',29);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Jasvinder','Begum',30);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Mina','Tse',31);
+INSERT INTO STUDENT VALUES (default,'2020-12-15','Padma','Singh',32);
