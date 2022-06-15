@@ -2,6 +2,8 @@ package sg.edu.iss.caps.model;
 
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +22,7 @@ public class Account {
 	private String password;
 	//@Column(columnDefinition="BINARY(32) NOT NULL")
 	//private byte[] passwordHash;
+	@Enumerated(EnumType.STRING)
 	private Role role;
 	public Account(String username, String password, Role role) {
 		super();
