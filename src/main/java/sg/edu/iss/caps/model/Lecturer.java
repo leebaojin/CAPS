@@ -1,7 +1,5 @@
 package sg.edu.iss.caps.model;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,10 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,36 +17,29 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Student {
+public class Lecturer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer studentId;
+	private Integer lecturerId;
 	private String firstname;
 	private String lastname;
-	//@DateTimeFormat(pattern = "dd-mm-yyyy")
-	//private LocalDateTime enrolledDate;
-	@DateTimeFormat(pattern = "dd-mm-yyyy")
-	private Date enrolledDate;
 	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	private Account account;
-	@OneToMany(mappedBy="student",cascade=CascadeType.ALL)
-	private List<CourseStudent> courseAttended;
-	public Student(String firstname, String lastname, Date enrolledDate) {
+	
+	@ManyToMany(mappedBy="courseLecturers", fetch = FetchType.EAGER)
+	private List<Course> teachCourses;
+
+	public Lecturer(String firstname, String lastname) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.enrolledDate = enrolledDate;
 	}
-	public Student(String firstname, String lastname, Date enrolledDate, Account account) {
+
+	public Lecturer(String firstname, String lastname, Account account) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.enrolledDate = enrolledDate;
 		this.account = account;
 	}
-	
-	
-	
-	
 	
 }
