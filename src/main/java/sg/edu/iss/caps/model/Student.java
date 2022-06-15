@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -31,6 +32,7 @@ public class Student {
 	@DateTimeFormat(pattern = "dd-mm-yyyy")
 	private Date enrolledDate;
 	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="ACCOUNT_ID")
 	private Account account;
 	@OneToMany(mappedBy="student",cascade=CascadeType.ALL)
 	private List<CourseStudent> courseAttended;
