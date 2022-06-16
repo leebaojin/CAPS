@@ -6,11 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.Lecturer;
-import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.CourseRepository;
-import sg.edu.iss.caps.repo.StudentRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
