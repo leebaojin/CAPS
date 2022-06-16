@@ -35,9 +35,9 @@ public class Student extends User{
 	@OneToMany(mappedBy="student",cascade=CascadeType.ALL)
 	private List<CourseStudent> courseAttended;
 
-	public Student(String username, byte[] passwordHash, String firstname, String lastname, String email, Role role,
+	public Student(String username, byte[] passwordHash, String firstName, String lastName, String email, Role role,
 			Date enrolledDate) {
-		super(username, firstname, lastname, email, passwordHash, role);
+		super(username, firstName, lastName, email, passwordHash, role);
 		this.enrolledDate = enrolledDate;
 	}
 	
