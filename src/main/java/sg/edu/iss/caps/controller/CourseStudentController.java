@@ -4,14 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Grade;
-import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/course-student")
