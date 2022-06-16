@@ -5,50 +5,42 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Student {
+@EqualsAndHashCode(callSuper=true)
+public class Student extends User{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer studentId;
-	private String firstname;
-	private String lastname;
 	//@DateTimeFormat(pattern = "dd-mm-yyyy")
 	//private LocalDateTime enrolledDate;
 	@DateTimeFormat(pattern = "dd-mm-yyyy")
 	private Date enrolledDate;
-	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="ACCOUNT_ID")
-	private Account account;
+
 	@OneToMany(mappedBy="student",cascade=CascadeType.ALL)
 	private List<CourseStudent> courseAttended;
-	public Student(String firstname, String lastname, Date enrolledDate) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
+
+	public Student(String username, byte[] passwordHash, String firstname, String lastname, String email, Role role,
+			Date enrolledDate) {
+		super(username, firstname, lastname, email, passwordHash, role);
 		this.enrolledDate = enrolledDate;
 	}
-	public Student(String firstname, String lastname, Date enrolledDate, Account account) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.enrolledDate = enrolledDate;
-		this.account = account;
-	}
+	
 	
 	
 	

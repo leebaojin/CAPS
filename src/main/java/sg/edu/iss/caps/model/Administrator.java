@@ -1,41 +1,30 @@
 package sg.edu.iss.caps.model;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Administrator {
+@EqualsAndHashCode(callSuper=true)
+public class Administrator extends User{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer adminId;
-	private String firstname;
-	private String lastname;
-	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="ACCOUNT_ID")
-	private Account account;
+
+	public Administrator(String username,  byte[] passwordHash, String firstname, String lastname, String email,
+			Role role) {
+		super(username, firstname, lastname, email, passwordHash, role);
+	}
+
 	
-	public Administrator(String firstname, String lastname) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
-	}
-	public Administrator(String firstname, String lastname, Account account) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.account = account;
-	}
 
 	
 	
