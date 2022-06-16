@@ -23,18 +23,18 @@ public class StudentStatusController {
     StudentRepository studentRepo;
 
     @GetMapping("/courses")
-    public String listCourses (Model model){
+    public String listCourses(Model model){
         List<Course> courseList = courseRepo.findAll();
         return "courses";
     }
 
     @GetMapping("/grades")
-    public String listGrades (Model model, @ModelAttribute("student") Student s) {
+    public String listGrades(Model model, @ModelAttribute("student") Student s) {
         return "grades";
     }
 
     @GetMapping("/{id}")
-    public String viewStudentProfile (Model model, @PathVariable("id") Integer id) {
+    public String viewStudentProfile(Model model, @PathVariable("id") Integer id) {
         Student s = studentRepo.findById(id).get();
         model.addAttribute("student", s);
         return "profile";

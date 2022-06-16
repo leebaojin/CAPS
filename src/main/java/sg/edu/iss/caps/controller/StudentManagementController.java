@@ -18,49 +18,48 @@ public class StudentManagementController {
 
     @GetMapping("/create")
     public String createStudentPage(Model model) {
+        Student s = new Student();
+        model.addAttribute("student",s);
         return "create-student";
     }
 
     @GetMapping("/list")
-    public String listStudents (Model model) {
+    public String listStudents(Model model) {
         List<Student> studentList = studentRepo.findAll();
         model.addAttribute("studentList", studentList);
         return "list-students";
     }
 
     @GetMapping("/list-name/{name}")
-    public String listStudentsByName (Model model, @PathVariable("name") String name) {
+    public String listStudentsByName(Model model, @PathVariable("name") String name) {
         List<Student> studentList = studentRepo.findStudentByFirstName(name);
         model.addAttribute("studentList", studentList);
         return "students";
     }
 
     @PostMapping("/save")
-    public String saveStudent (@ModelAttribute("student") Student s) {
+    public String saveStudent(@ModelAttribute("student") Student s) {
         studentRepo.save(s);
         return "forward:/student-management/list";
     }
 
     // clarify purpose of editStudentPage
     @GetMapping("/edit-page")
-    public String editStudentPage (Model model) {
+    public String editStudentPage(Model model) {
         return "edit-student";
     }
 
     // clarify difference between this and editStudentPage
     @GetMapping("/edit/{id}")
-    public String editStudent (Model model, @PathVariable("id") Integer id) {
+    public String editStudent(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("student", studentRepo.findById(id).get());
         return "edit-student";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteStudent (Model model, @PathVariable("id") Integer id) {
+    public String deleteStudent(Model model, @PathVariable("id") Integer id) {
         Student s = studentRepo.findById(id).get();
         studentRepo.delete(s);
         return "forward:/student-management/list";
     }
-
-
-
 }
