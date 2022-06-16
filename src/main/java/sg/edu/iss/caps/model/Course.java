@@ -19,13 +19,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Course {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer courseId;
+	private String courseCode;
 	private String courseTitle;
 	private String courseDescription;
 	private String courseCredits;
 	private Integer courseCapacity;
-	private String courseStatus;
+	private CourseStatus courseStatus;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="CourseLecturer")
@@ -34,9 +33,10 @@ public class Course {
 	@OneToMany(mappedBy="course")
 	private List<CourseStudent> courseStudents;
 
-	public Course(String courseTitle, String courseDescription, String courseCredits, Integer courseCapacity,
-			String courseStatus) {
+	public Course(String courseCode, String courseTitle, String courseDescription, String courseCredits, Integer courseCapacity,
+			CourseStatus courseStatus) {
 		super();
+		this.courseCode = courseCode;
 		this.courseTitle = courseTitle;
 		this.courseDescription = courseDescription;
 		this.courseCredits = courseCredits;
