@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.StudentRepository;
-import sg.edu.iss.caps.util.HeaderUtil;
 
 import java.util.List;
 
@@ -24,14 +23,16 @@ public class StudentManagementController {
 
     @GetMapping("/list")
     public String listStudents (Model model) {
+        List<Student> studentList = studentRepo.findAll();
+        model.addAttribute("studentList", studentList);
         return "list-students";
     }
 
     @GetMapping("/list-name/{name}")
     public String listStudentsByName (Model model, @PathVariable("name") String name) {
         List<Student> studentList = studentRepo.findStudentByFirstName(name);
-        model.addAttribute("allStudentList", studentList);
-        return "list-students";
+        model.addAttribute("studentList", studentList);
+        return "students";
     }
 
     @PostMapping("/save")
