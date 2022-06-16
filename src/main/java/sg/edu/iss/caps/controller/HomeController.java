@@ -12,13 +12,13 @@ import sg.edu.iss.caps.util.HeaderUtil;
 public class HomeController {
 	
 	@RequestMapping("")
-	public String HomePage(Model model) {
+	public String loadHomePage(Model model) {
 		HeaderUtil.setHeader(model, new String[] {"Home", "Course"}, "John");
 		return "index";
 	}
 
 	@GetMapping("/contact")
-	public String ContactPage(Model model) {
+	public String loadContactPage(Model model) {
 		return "contact";
 	}
 }
