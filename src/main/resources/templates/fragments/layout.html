@@ -18,12 +18,47 @@
       				<a class="nav-link" href="#">Home</a>
     			</li>
   			</ul>
+  			
   			<div style="text-align:right;width:auto;">
   			<ul class="navbar-nav" th:if="${headerbar != null and not #lists.isEmpty(headerbar.headerList)}">
    				<li class="nav-item" th:each="header : ${headerbar.headerList}">
       				<a class="nav-link" th:href="@{{path}(path=${header.path})}" th:text="${header.text}"></a>
     			</li>
   			</ul>
+  			</div>
+  			
+  			<!--Wellcome Back Sign-->
+  			<h2 th:if="${not #strings.isEmpty(usession)}"><em th:utext="'Wellcome Back '+ ${session.usession.user.name}"></em></h2>
+		</nav>
+		
+		<nav class="navbar navbar-expand-sm bg-light navbar-light" th:fragment="Anotherheadermenu">
+			<div th:each="role : ${session.usession.user.roleSet}">
+  				
+  				<!--Admin Header Menu-->
+  				<div th:if="${role.roleId == 'admin'}">
+  					<a th:href="@{/manageStudents}">Manage Students</a>
+					<a th:href="@{/manageLecturers}">Manage Lecturers</a>
+					<a th:href="@{/manageCourses}">Manage Courses</a>
+					<a th:href="@{/manageEnrollment}">Manage Enrollment</a>
+					<a th:href="@{/logout}">Log Out</a>
+  				</div>
+  				
+  				<!--Student Header Menu-->
+  				<div th:if="${role.roleId == 'student'}">
+  					<a th:href="@{/viewGrades}">Grades and GPA</a>
+					<a th:href="@{/viewCourses}">View Courses</a>
+					<a th:href="@{/enrollACourse}">Enroll for a Course</a>
+					<a th:href="@{/logout}">Log Out</a>
+  				</div>
+  				
+  				<!--Lecturer Header Menu-->
+  				<div th:if="${role.roleId == 'lecturer'}">
+  					<a th:href="@{/viewCoursesTaught}">View Courses Taught</a>
+					<a th:href="@{/viewCourseEnrollment}">View Courses Enrollment</a>
+					<a th:href="@{/gradeACourse}">Grade a Course</a>
+					<a th:href="@{/viewStudentPerformance}">View Student Performance</a>
+					<a th:href="@{/logout}">Log Out</a>
+  				</div>
   			</div>
 		</nav>
     
