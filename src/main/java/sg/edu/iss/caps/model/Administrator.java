@@ -19,9 +19,9 @@ public class Administrator extends User{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer adminId;
 
-	public Administrator(String username,  byte[] passwordHash, String firstname, String lastname, String email,
+	public Administrator(String username,  byte[] passwordHash, String firstName, String lastName, String email,
 			Role role) {
-		super(username, firstname, lastname, email, passwordHash, role);
+		super(username, firstName, lastName, email, passwordHash, role);
 	}
 
 	
