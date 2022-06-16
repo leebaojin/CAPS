@@ -32,7 +32,6 @@ public class CourseRegistrationController {
 
     @GetMapping("/delete/{id}")
     public String deleteCourseStudent(Model model, @PathVariable("id") Integer courseStudentId) {
-
         CourseStudent cs = courseStudentRepo.findById(courseStudentId).get();
         courseStudentRepo.delete(cs);
         return "forward:/course-register/home";
