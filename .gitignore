@@ -32,5 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+### Ignore bin ###
+/bin/
+/.mvn/
+
 ### Properties ###
-application.properties
+#src/main/resources/application.properties

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Front page for Course Application Processing System</title>
+		<!-- For input stylesheet -->
+		<!-- Using bootstrap 4.3.1 -->
+		<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/loginpage.css"/>
+		<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
+		
+	
+	</head>
+	
+	<body>
+		<!-- Menu section -->
+		<div th:replace="fragments/layout :: headermenu"></div>
+		<br>
+		<div class="container">
+			<div class="row">
+				<div class="col-4 login-side">
+					<p>Course</p>
+					<p>Application</p>
+					<p>Processing</p>
+					<p>System</p>
+					<p>Login</p>
+				</div>
+				<div class="col-8 login-input">
+					<form action="#" th:object="account" th:action="@{/authenticate}" method="post">
+						<fieldset>
+							<span th:text="Username: "></span>
+						
+						</fieldset>
+						<fieldset></fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div th:replace="fragments/layout :: footersection"></div>
+	</body>
+	
+
+</html>

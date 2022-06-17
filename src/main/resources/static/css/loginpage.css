@@ -1,0 +1,15 @@
+.login-side{
+	background-color:#696CFF;
+	height:100%;
+	min-height:500px;
+	color:white;
+	font-size:36;
+	text-align:right;
+	padding-top:10%;
+}
+
+.login-input{
+	background-color:white;
+	padding-top:10%;
+	font-size:18px;
+}
