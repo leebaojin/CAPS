@@ -6,10 +6,9 @@
 		<!-- For input stylesheet -->
 		<!-- Using bootstrap 4.3.1 -->
 		<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
-		<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/loginpage.css"/>
+		<link th:rel="stylesheet" th:href="@{/fontawesome/css/all.min.css} "/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/loginpage.css}" href="../static/css/loginpage.css"/>
 		<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
-		
-	
 	</head>
 	
 	<body>
@@ -23,15 +22,62 @@
 					<p>Application</p>
 					<p>Processing</p>
 					<p>System</p>
-					<p>Login</p>
 				</div>
 				<div class="col-8 login-input">
-					<form action="#" th:object="account" th:action="@{/authenticate}" method="post">
-						<fieldset>
-							<span th:text="Username: "></span>
+					
+					
+					<form action="#" th:object="${account}" th:action="@{/authenticate}" method="post">
 						
+						<div class="form-group row">
+							<div ><b>Login</b></div>
+							<div class="w-100" th:if="${repeatlogin}"></div>
+							<div class="form-err" th:if="${repeatlogin}">*Incorrect Username or password</div>
+						</div>
+						
+						
+						<fieldset>
+						<div class="form-group row">
+							<div class="form-input-bar">
+								<span><i class="fa fa-regular fa-link"></i></span>
+								<select th:field="*{domain}">
+									<option th:value="'STUDENT'" th:text="STUDENT"></option>
+								 	<option th:value="'LECTURER'" th:text="LECTURER"></option>
+								 	<option th:value="'ADMIN'" th:text="ADMIN"></option>
+								</select>
+							</div>
+							
+						</div>
 						</fieldset>
-						<fieldset></fieldset>
+						
+						<fieldset>
+						<div class="form-group row">
+							<div class="form-input-bar">
+								<span><i class="fa fa-regular fa-user"></i></span>
+								<input  type="text" placeholder="Username" th:field="*{username}" />
+							</div>
+							
+						</div>
+						</fieldset>
+						
+						<fieldset>
+						<div class="form-group row">
+							<div class="form-input-bar">
+								<span><i class="fa fa-regular fa-lock"></i></span>
+								<input  type="password" placeholder="Password" th:field="*{password}" />
+							</div>
+							
+						</div>
+						</fieldset>
+						
+						<div class="form-group row">
+							<div class="form-forgetpw"><a th:href="@{/login/forget-password/}">Forget Password</a></div>
+						</div>
+						
+						<fieldset>
+						<div class="form-group row btn-row">
+							<button type="submit" class="btn btn-dark btn-login">Enter</button>
+							</div>
+						</fieldset>
 					</form>
 				</div>
 			</div>

@@ -6,4 +6,5 @@ import sg.edu.iss.caps.model.Administrator;
 
 public interface AdministratorRepository extends JpaRepository<Administrator, Integer> {
 
+	Administrator findFirstByUsername(String username);
 }

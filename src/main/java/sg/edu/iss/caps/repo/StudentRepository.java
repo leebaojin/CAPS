@@ -13,4 +13,10 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 	List<Student> findByUsername(String username); 
 	
 	List<Student> findStudentByFirstName(String firstName);
+	
+	@Query("SELECT s FROM Student s WHERE s.username = :u_name AND s.passwordHash = :pass")
+	List<Student> autenticateAccount(@Param("u_name") String username,@Param("pass") byte[] passwordHash);
+
+	Student findFirstByUsername(String username);
+	Student findFirstByEmail(String email);
 }

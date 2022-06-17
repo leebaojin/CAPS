@@ -6,4 +6,6 @@ import sg.edu.iss.caps.model.Lecturer;
 
 public interface LecturerRepository extends JpaRepository<Lecturer, Integer> {
 
+	Lecturer findFirstByUsername(String username);
+	Lecturer findFirstByEmail(String email);
 }
