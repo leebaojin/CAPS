@@ -3,11 +3,14 @@ package sg.edu.iss.caps.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.StudentRepository;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/student-management")
@@ -20,10 +23,21 @@ public class StudentManagementController {
     public String createStudentPage(Model model) {
         Student s = new Student();
         model.addAttribute("student",s);
-        return "create-student";
+        return "studentForm";
     }
 
-    @GetMapping("/list")
+//    @PostMapping("/save")
+    @GetMapping("/save")
+    public String saveStudent(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, Model model) {
+    	if (bindingResult.hasErrors()) 
+		{
+			return "studentForm";
+		}
+    	studentRepo.save(s);
+        return "forward:/student-management/list";
+    }
+
+    @GetMapping("/liststudents")
     public String listStudents(Model model) {
         List<Student> studentList = studentRepo.findAll();
         model.addAttribute("studentList", studentList);
@@ -35,18 +49,6 @@ public class StudentManagementController {
         List<Student> studentList = studentRepo.findStudentByFirstName(name);
         model.addAttribute("studentList", studentList);
         return "students";
-    }
-
-    @PostMapping("/save")
-    public String saveStudent(@ModelAttribute("student") Student s) {
-        studentRepo.save(s);
-        return "forward:/student-management/list";
-    }
-
-    // clarify purpose of editStudentPage
-    @GetMapping("/edit-page")
-    public String editStudentPage(Model model) {
-        return "edit-student";
     }
 
     // clarify difference between this and editStudentPage
@@ -62,4 +64,10 @@ public class StudentManagementController {
         studentRepo.delete(s);
         return "forward:/student-management/list";
     }
+    
+//  clarify purpose of editStudentPage
+// @GetMapping("/edit-page")
+// public String editStudentPage(Model model) {
+//     return "edit-student";
+// }
 }

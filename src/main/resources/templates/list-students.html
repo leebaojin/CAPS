@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+		<!-- For input stylesheet -->
+		<!-- Using bootstrap 4.3.1 -->
+		<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/home.css"/>
+		<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
+<title>Student List</title>
+</head>
+
+<body>
+<h1>Student Listing</h1>     
+
+<table>
+ <tr>
+   	<th >Student Id</th>
+	<th >First Name</th>
+	<th >Last Name</th>
+	<th >User Name</th>
+	<th >Email</th>
+	<th >Role</th>
+	<th >Edit Member</th>
+	<th >Delete Member</th>
+ </tr>
+ <tr th:each="student:${studentList}" class="table-row">
+   <td th:text="${student.firstName}">ID</td> 
+   <td th:text="${student.lastName}">ID</td>
+   <td th:text="${student.username}">ID</td>
+   <td th:text="${student.email}">ID</td>
+   <td th:text="${student.role}">ID</td>
+   <td th:text="${#student.format(product.dom, 'dd-MM-yyyy')}">ID</td>
+   <td><a href="EditProduct.html"
+		th:href="@{/student/edit/}+${student.id}" th:utext="#{student.page.edit}"> Edit </a></td>
+	      <td><a href="DeleteProduct.html"
+		th:href="@{/student/delete/}+${product.id}" th:utext="#{student.page.delete}"> Delete </a></td>
+   
+ </tr>
+</table>
+</body>
+</html>
