@@ -13,7 +13,7 @@
 			<div class="col-6">
 				<h2>Lecturer Form</h2>
 				<form method="post" th:action="@{/lecturer-management/save}" th:object="${lecturer}">
-					<input type="text" th:field="*{lecturerId}"/>
+					<input type="hidden" th:field="*{lecturerId}" readonly/>
 	  				<div class="row mb-3">
     					<label for="inputFirstName3" class="col-sm-3 col-form-label">First Name</label>
     					<div class="col-sm-9">
