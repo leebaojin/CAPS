@@ -1,8 +1,5 @@
 package sg.edu.iss.caps.controller;
 
-import java.util.UUID;
-
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,14 +26,16 @@ public class AuthController {
 
     @GetMapping("/login")
     public String loadLoginPage(Model model) {
+    	//Display login page
     	Account account = new Account();
     	model.addAttribute("account",account);
     	model.addAttribute("repeatlogin", false);
         return "login";
     }
 
-    @PostMapping(path = "/authenticate")
+    @PostMapping(path = "/login/authenticate")
     public String login (@ModelAttribute("Account") Account account, HttpSession session, Model model) {
+    	//To authenticate the login
     	//Admin - capslbj, Student - troy, Lecturer - yuenkwan
     	
     	//To check if the user exist
@@ -61,48 +59,86 @@ public class AuthController {
         return "redirect:/home";
     }
     
+    /*
+    Methods for forget password handling
+    	Forget password
+    		- To display the page to enter email
+    	Request password reset 
+    		- To receive an email from the forget password page
+    		- Validate the email address
+    		- Send an email containing a reset link 
+    			- Reset link has a uuid that is valid for 1 hour
+    		- Store the request in the model ChangePWRequest
+    	Reset password by link
+    		- Receive the uuid as a parameter from the path
+    		- Validate that the uuid is correct against the repository
+    		- Divert the user to a change password page if the link is correct
+    	Reset new password
+    		- To validate the uuid
+    		- To replace the old password with a new one
+    */
     
-    
-    //Forget password handling
-    //Will send an email with a UUID valid for 1 hour
-    //Need to create another model to handle this. UUID to be stored 
-    //UUID, timeout, student, lecturer, administrator
-    //When a user login, it will also check if there is a request present
-    //If the user clicks the UUID url, it will divert the user to the password change page
-    //Timeout is the timelimit the UUID is valid
     @GetMapping("/login/forget-password")
     public String forgetPassword (Model model) {
-        // update after completing pages
+        // To display the page which allows the reset password request via email
         return "loginForgetPassword";
     }
     
     @GetMapping("/login/request-reset")
-    public String resquestPasswordReset (@RequestParam("emailval") String emailstr,HttpServletRequest request, Model model) {
-        // update after completing pages
+    public String requestPasswordReset (@RequestParam("emailval") String emailstr,HttpServletRequest request, Model model) {
+        // To handle a request for password reset
+
+    	//Check if the email is a valid one
     	User user = accAuthService.findUserByEmail(emailstr);
+    	
+    	//Generate the url for the password reset (e.g. http://localhost:8080/login/passwordreset)
     	String url = request.getRequestURL().toString().replace(request.getRequestURI(),"/");
+    	
     	if(user != null) {
+    		// Send email which contain a link with a UUID that is valid for 1 hour
     		accAuthService.sendPasswordResetEmail(user,url);
     	}
         return "loginSentReset";
     }
 
     @GetMapping("/login/passwordreset")
-    public String requestPasswordByEmail (@RequestParam("resetId") String uuidStr, Model model) {
+    public String resetPasswordByLink (@RequestParam("resetId") String uuidStr, Model model) {
     	//Checks if the uuid is valid and redirect to password reset page
-    	if(uuidStr == null) {
+    	if(uuidStr == null || uuidStr.length() != 36) {
+    		//No uuid found or uuid is invalid
     		return "redirect:/login";
     	}
+    	//Find the request by checking the uuid
     	ChangePWRequest chPwRequest = accAuthService.findPasswordResetRequestById(uuidStr);
     	if(chPwRequest == null) {
+    		//No request found (invalidate / expired uuid)
     		return "redirect:/login";
     	}
+    	//Valid request exist. Display the password reset form
     	model.addAttribute("resetId",uuidStr);
     	model.addAttribute("repeatreset",false);
         return "loginPasswordResetForm";
     }
     
-    //To check the ChangePWRequest table
+    @PostMapping("/login/reset-new-password")
+    public String resetNewPassword (@ModelAttribute("resetId") String uuidStr,@ModelAttribute("newPW") String newPW,
+    		@ModelAttribute("newCmfPW") String newCmfPW,Model model) {
+    	// To perform the password reset
+        
+    	if(!newPW.equals(newCmfPW)) {
+    		// To check if both password are the same
+    		model.addAttribute("resetId",uuidStr);
+    		model.addAttribute("repeatreset",true);
+    		return "loginPasswordResetForm";
+    	}
+    	//Perform change of password if password are the same
+    	accAuthService.changeNewPasswordUUid(uuidStr,newPW);
+    	
+        return "redirect:/login";
+    }
+    
+    /*
+    //Temp controller method for testing purposes
     @GetMapping("/change-password")
     public String changePassword (Model model) {
         // need to standardize naming conventions here
@@ -111,20 +147,6 @@ public class AuthController {
     	model.addAttribute("repeatreset",false);
         return "loginPasswordResetForm";
     }
-    
-    //To check the ChangePWRequest table
-    @PostMapping("/login/reset-password")
-    public String resetPassword (@ModelAttribute("resetId") String uuidStr,@ModelAttribute("newPW") String newPW,
-    		@ModelAttribute("newCmfPW") String newCmfPW,Model model) {
-        // To check if both password are the same
-    	if(!newPW.equals(newCmfPW)) {
-    		model.addAttribute("resetId",uuidStr);
-    		model.addAttribute("repeatreset",true);
-    		return "loginPasswordResetForm";
-    	}
-    	accAuthService.changeNewPassword(uuidStr,newPW);
-    	
-        return "redirect:/login";
-    }
+    */
 
 }

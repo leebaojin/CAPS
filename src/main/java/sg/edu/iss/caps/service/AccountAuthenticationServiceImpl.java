@@ -73,16 +73,11 @@ public class AccountAuthenticationServiceImpl implements AccountAuthenticationSe
 		}
 		return null;
 	}
-
-	@Override
-	public Student isStudent(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public  User findUserByEmail(String email) {
 		//Find user by email
+		//This is only used for student and lecturer
 		User user = stuRepo.findFirstByEmail(email);
 		if(user == null) {
 			user = lecRepo.findFirstByEmail(email);
@@ -92,6 +87,7 @@ public class AccountAuthenticationServiceImpl implements AccountAuthenticationSe
 	
 	@Override
 	public void sendPasswordResetEmail(User user, String hostUrl) {
+		//This is to send an email to the user with a valid url where he can reset the password
 		
 		UUID uuid = UUID.randomUUID();
 		//To clear old requests
@@ -99,15 +95,24 @@ public class AccountAuthenticationServiceImpl implements AccountAuthenticationSe
 			//Unable to create a request
 			return;
 		}
+		//Get the address to reset password
 		String resetAddress = hostUrl + "login/passwordreset?resetId=" + uuid.toString();
+		
+		//Use the emailservice to send the reset password message to the user
 		emailService.sendResetPWMessage(user.getEmail(), user.getFirstName() + user.getLastName(), resetAddress);
 	}
 	
 	@Override
 	public boolean updatePasswordResetRequest(User user, UUID uuid) {
-		Long expiredTime = Instant.now().getEpochSecond() + 3600; //Expire after 1 hour
+		//This is to manage the update password request
+		
+		//Create the expiration time of the request (1 hour)
+		Long expiredTime = Instant.now().getEpochSecond() + 3600; 
+		
+		//Placeholders
 		ChangePWRequest newRequest = null;
 		List<ChangePWRequest> requestlist = new ArrayList<>();
+		
 		//Find any old request present in the system
 		if(user instanceof Lecturer) {
 			Lecturer lecturer = (Lecturer) user;
@@ -165,9 +170,10 @@ public class AccountAuthenticationServiceImpl implements AccountAuthenticationSe
 	}
 	
 	@Override
-	public void changeNewPassword(String uuidStr, String newPW) {
+	public void changeNewPasswordUUid(String uuidStr, String newPW) {
 		ChangePWRequest chPwRequest = findPasswordResetRequestById(uuidStr);
 		
+		//Replace the passwordHash and save the new password
 		if(chPwRequest.getLecturer() != null) {
 			Lecturer lecturer = chPwRequest.getLecturer();
 			byte[] passwordHash = HashUtil.getHash(lecturer.getUsername(), newPW);
