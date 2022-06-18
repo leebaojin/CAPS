@@ -7,7 +7,6 @@
 	<header th:replace="fragments/layout.html :: headermenu"></header>
 	<!-- <div th:replace="fragments/layout.html :: Anotherheadermenu"> -->
 	
-	
 	<div class="container">
 		<div class="row">
 			<div class="col-1"></div>
@@ -21,6 +20,8 @@
 	      <th scope="col">Last Name</th>
 	      <th scope="col">Username</th>
 	      <th scope="col">Email</th>
+	      <th scope="col">Role</th>
+	      <th scope="col">Status</th>
 	      <th scope="col">Edit</th>
 	      <th scope="col">Delete</th>
 	    </tr>
@@ -32,7 +33,9 @@
 	      <td th:text=${lecturer.lastName}>Last Name</td>
 	      <td th:text=${lecturer.username}>Username</td>
 	      <td th:text=${lecturer.email}>Email</td>
-	      <td><a href="EditLecturer.html" th:href="@{/lecturer-management/edit-lecturer/}+${lecturer.lecturerId}"> Edit </a></td>
+	      <td th:text=${lecturer.role}>Role</td>
+	      <td th:text=${lecturer.userStatus}>Status</td>
+	      <td><a href="EditLecturer.html" th:href="@{/lecturer-management/edit/}+${lecturer.lecturerId}"> Edit </a></td>
 	      <td><a href="DeleteLecturer.html" th:href="@{/lecturer-management/delete/}+${lecturer.lecturerId}"> Delete </a></td>
 	    </tr>
 	  </tbody>
