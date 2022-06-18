@@ -21,7 +21,7 @@ public class CourseManagementController {
     public String createCoursePage(Model model) {
         Course c = new Course();
         model.addAttribute("course", c);
-        return "create-course";
+        return "course-form";
     }
 
     @GetMapping("/list")
@@ -39,7 +39,7 @@ public class CourseManagementController {
 
     // clarify purpose of editCoursePage
     @GetMapping("/edit-page")
-    public String editSCoursePage(Model model) {
+    public String editCoursePage(Model model) {
         return "edit-course";
     }
 
@@ -47,7 +47,7 @@ public class CourseManagementController {
     @GetMapping("/edit/{id}")
     public String editCourse(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("course", courseRepo.findById(id).get());
-        return "edit-course";
+        return "course-form";
     }
 
     @GetMapping("/delete/{id}")
