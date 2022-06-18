@@ -9,32 +9,40 @@
 </head>
 
 <body>
-<h1>Student Listing</h1>     
-
-<table>
- <tr>
-   	<th >Student Id</th>
-	<th >First Name</th>
-	<th >Last Name</th>
-	<th >User Name</th>
-	<th >Email</th>
-	<th >Role</th>
-	<th >Edit Member</th>
-	<th >Delete Member</th>
- </tr>
- <tr th:each="student:${studentList}" class="table-row">
-   <td th:text="${student.firstName}">ID</td> 
-   <td th:text="${student.lastName}">ID</td>
-   <td th:text="${student.username}">ID</td>
-   <td th:text="${student.email}">ID</td>
-   <td th:text="${student.role}">ID</td>
-   <td th:text="${#student.format(product.dom, 'dd-MM-yyyy')}">ID</td>
-   <td><a href="EditProduct.html"
-		th:href="@{/student/edit/}+${student.id}" th:utext="#{student.page.edit}"> Edit </a></td>
-	      <td><a href="DeleteProduct.html"
-		th:href="@{/student/delete/}+${product.id}" th:utext="#{student.page.delete}"> Delete </a></td>
-   
- </tr>
-</table>
+	<header th:replace="fragments/layout.html :: headermenu"></header>
+	<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+				<div class="col-10">
+				<h2>Student Listing</h2>
+					<table class="table">
+						 <tr>
+						   	<th scope="col">Student Id</th>
+							<th scope="col">First Name</th>
+							<th scope="col">Last Name</th>
+							<th scope="col">User Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Role</th>
+							<th scope="col">Enrolled Date</th>
+							<th scope="col">Edit</th>
+							<th scope="col">Delete</th>
+						 </tr>
+						 <tr th:each="student:${studentList}" class="table-row">
+						 	<td th:text="${student.studentId}">ID</td> 
+						   	<td th:text="${student.firstName}">ID</td> 
+						   	<td th:text="${student.lastName}">ID</td>
+						   	<td th:text="${student.username}">ID</td>
+						   	<td th:text="${student.email}">ID</td>
+						   	<td th:text="${student.role}">ID</td>
+						   	<td th:text="${#dates.format(student.enrolledDate, 'dd-MM-yyyy')}">ID</td>
+						   	<td><a href="EditProduct.html" th:href="@{/student-management/edit/}+${student.studentId}" th:utext="#{student.page.edit}"> Edit </a></td>
+							<td><a href="DeleteProduct.html" th:href="@{/student-management/delete/}+${student.studentId}" th:utext="#{student.page.delete}"> Delete </a></td>
+						 </tr>
+					</table>
+				</div>
+				<div class="col-1"></div>
+		</div>
+	</div>
 </body>
+<div th:replace="fragments/layout.html :: footersection"></div>
 </html>

@@ -6,9 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sg.edu.iss.caps.model.Course;
+
 import sg.edu.iss.caps.model.CourseStudent;
-import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
 
 @Controller

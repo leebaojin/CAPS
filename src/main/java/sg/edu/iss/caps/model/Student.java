@@ -40,10 +40,4 @@ public class Student extends User{
 		super(username, firstName, lastName, email, passwordHash, role);
 		this.enrolledDate = enrolledDate;
 	}
-	
-	
-	
-	
-	
-	
 }

@@ -6,7 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.caps.model.Lecturer;
+import sg.edu.iss.caps.model.Role;
+import sg.edu.iss.caps.model.UserStatus;
 import sg.edu.iss.caps.repo.LecturerRepository;
+import sg.edu.iss.caps.util.HashUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +31,27 @@ public class LecturerManagementController {
     }
     
     @PostMapping("/save")
-    public String saveLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()) {
-        	return "lecturer-form";
-        }
-    	lecturerRepo.save(l);
+    public String saveLecturerForm(@ModelAttribute("lecturer")  Lecturer l) {
+    	if (l.getLecturerId() != null) {
+    		Lecturer l2 = lecturerRepo.findById(l.getLecturerId() ).get();
+    		l2.setFirstName(l.getFirstName());
+    		l2.setLastName(l.getLastName());
+    		l2.setUsername( l.getUsername());
+    		l2.setEmail(l.getEmail());
+    		lecturerRepo.save(l2);
+    	} else {
+    		l.setRole(Role.LECTURER);
+    		l.setUserStatus(UserStatus.ACTIVE);
+    		String defaultPwd = "123456";
+    		l.setPasswordHash(HashUtil.getHash(l.getUsername(),defaultPwd));
+    		lecturerRepo.save(l);
+    	}
         return "forward:/lecturer-management/list";
     }
 
     @RequestMapping("/list")
     public String listLecturers(Model model) {
-        List<Lecturer> lecturerList = lecturerRepo.findAll();
+        List<Lecturer> lecturerList = lecturerRepo.findAllActiveLecturers();
         model.addAttribute("lecturerList", lecturerList);
         return "list-lecturers";
     }
@@ -54,22 +67,25 @@ public class LecturerManagementController {
 	}
 
     // clarify purpose of editLecturerPage
-    @GetMapping("/edit-page")
-    public String editLecturerPage(Model model) {
-        return "edit-lecturer";
-    }
+//    @GetMapping("/edit-page")
+//    public String editLecturerPage(Model model) {
+//        return "edit-lecturer";
+//    }
 
     // clarify difference between this and editLecturerPage
-    @GetMapping("/edit/{id}")
-    public String editLecturer(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("lecturer", lecturerRepo.findById(id).get());
-        return "edit-lecturer";
+    @GetMapping("/edit/{lecturerId}")
+    public String editLecturer(Model model, @PathVariable("lecturerId") Integer lecturerId) {
+        model.addAttribute("lecturer", lecturerRepo.findById(lecturerId).get());
+        return "lecturer-form";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteLecturer(Model model, @PathVariable("id") Integer id) {
-        Lecturer l = lecturerRepo.findById(id).get();
-        lecturerRepo.delete(l);
+    @GetMapping("/delete/{lecturerId}")
+    public String deleteLecturer(Model model, @PathVariable("lecturerId") Integer lecturerId) {
+    	Lecturer l2 = lecturerRepo.findById(lecturerId ).get();
+    	if (l2.getLecturerId() != null) {
+    		l2.setUserStatus(UserStatus.INACTIVE);
+    		lecturerRepo.save(l2);
+    	}
         return "forward:/lecturer-management/list";
     }
 }
