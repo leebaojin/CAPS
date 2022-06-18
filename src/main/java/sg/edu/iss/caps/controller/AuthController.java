@@ -3,11 +3,15 @@ package sg.edu.iss.caps.controller;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,12 +21,21 @@ import sg.edu.iss.caps.model.ChangePWRequest;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.AccountAuthenticationService;
 import sg.edu.iss.caps.service.UserSessionService;
+import sg.edu.iss.caps.validator.AccountValidator;
 
 @Controller
 public class AuthController {
 	
 	@Autowired
-	AccountAuthenticationService accAuthService;
+	private AccountAuthenticationService accAuthService;
+	
+	@Autowired
+	private AccountValidator aValidator;
+	
+	@InitBinder
+	private void initAccountBinder(WebDataBinder binder) {
+		binder.addValidators(aValidator);
+	}
 	
 
     @GetMapping("/login")
@@ -35,10 +48,13 @@ public class AuthController {
     }
 
     @PostMapping(path = "/login/authenticate")
-    public String login (@ModelAttribute("Account") Account account, HttpSession session, Model model) {
+    public String login (@ModelAttribute("account") @Valid Account account, BindingResult result, HttpSession session, Model model) {
     	//To authenticate the login
     	//Admin - capslbj, Student - troy, Lecturer - yuenkwan
-    	
+    	if(result.hasErrors()) {
+    		model.addAttribute("repeatlogin", false);
+    		return "login";
+    	}
     	//To check if the user exist
     	User user = accAuthService.authenticateAccount(account);
     	if(user == null) {

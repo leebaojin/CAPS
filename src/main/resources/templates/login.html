@@ -54,8 +54,10 @@
 							<div class="form-input-bar">
 								<span><i class="fa fa-regular fa-user"></i></span>
 								<input  type="text" placeholder="Username" th:field="*{username}" />
+								
 							</div>
-							
+							<div class="w-100" th:if="${#fields.hasErrors('username')}"></div>
+							<div class="form-err"th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
 						</div>
 						</fieldset>
 						
@@ -64,8 +66,10 @@
 							<div class="form-input-bar">
 								<span><i class="fa fa-regular fa-lock"></i></span>
 								<input  type="password" placeholder="Password" th:field="*{password}" />
+								
 							</div>
-							
+							<div class="w-100" th:if="${#fields.hasErrors('password')}"></div>
+							<div class="form-err"th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 						</div>
 						</fieldset>
 						
