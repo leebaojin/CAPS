@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/home.css"/>
+	<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
+<title>Student Form</title>
+</head>
+<body>
+<h1>Student Form</h1>
+<header th:replace="fragments/layout.html :: headermenu"></header>
+<form action="" th:object="${product}" th:action="@{/product/save}" method="post">
+        <div class="form-group row">
+    		<label for="text" class="col-4 col-form-label">First Name</label> 
+    	<div class="col-8">
+      	<input id="text" name="text" placeholder="Input First Name" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="text1" class="col-4 col-form-label">Last Name</label> 
+    <div class="col-8">
+      <input id="text1" name="text1" placeholder="Input Last Name" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="text2" class="col-4 col-form-label">UserName</label> 
+    <div class="col-8">
+      <input id="text2" name="text2" placeholder="Input Username" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="text3" class="col-4 col-form-label">Email</label> 
+    <div class="col-8">
+      <input id="text3" name="text3" placeholder="Input Email Address" type="text" class="form-control">
+    </div>
+  </div> 
+  <div class="form-group row">
+    <div class="offset-4 col-8">
+      <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+</body>
+</html>

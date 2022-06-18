@@ -23,18 +23,17 @@ public class StudentManagementController {
     public String createStudentPage(Model model) {
         Student s = new Student();
         model.addAttribute("student",s);
-        return "studentForm";
+        return "student-form";
     }
 
-//    @PostMapping("/save")
-    @GetMapping("/save")
+    @PostMapping("/save")
     public String saveStudent(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, Model model) {
     	if (bindingResult.hasErrors()) 
 		{
-			return "studentForm";
+			return "student.studentId";
 		}
     	studentRepo.save(s);
-        return "forward:/student-management/list";
+        return "forward:/student-management/liststudents";
     }
 
     @GetMapping("/liststudents")
@@ -44,30 +43,23 @@ public class StudentManagementController {
         return "list-students";
     }
 
-    @GetMapping("/list-name/{name}")
+    @GetMapping("/liststudents/{name}")
     public String listStudentsByName(Model model, @PathVariable("name") String name) {
         List<Student> studentList = studentRepo.findStudentByFirstName(name);
         model.addAttribute("studentList", studentList);
-        return "students";
+        return "list-students";
     }
 
-    // clarify difference between this and editStudentPage
     @GetMapping("/edit/{id}")
     public String editStudent(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("student", studentRepo.findById(id).get());
-        return "edit-student";
+        return "student-form";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteStudent(Model model, @PathVariable("id") Integer id) {
         Student s = studentRepo.findById(id).get();
         studentRepo.delete(s);
-        return "forward:/student-management/list";
+        return "forward:/student-management/liststudents";
     }
-    
-//  clarify purpose of editStudentPage
-// @GetMapping("/edit-page")
-// public String editStudentPage(Model model) {
-//     return "edit-student";
-// }
 }
