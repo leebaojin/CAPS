@@ -32,7 +32,7 @@ public class CourseManagementController {
     }
 
     @PostMapping("/save")
-    public String saveCourse(@ModelAttribute("student") Course c) {
+    public String saveCourse(@ModelAttribute("course") Course c) {
         courseRepo.save(c);
         return "forward:/courses/list";
     }

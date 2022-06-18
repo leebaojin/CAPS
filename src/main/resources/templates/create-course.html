@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: headsection"></head>
+
+<body>
+<header th:replace="fragments/layout.html :: headermenu"></header>
+<!-- <div th:replace="fragments/layout.html :: Anotherheadermenu"> -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h2>Course Form</h2>
+            <form method="post" th:action="@{/courses/save}" th:object="${course}">
+                <div class="row mb-3">
+                    <label for="courseCode" class="col-sm-3 col-form-label">Course Code</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="courseCode" th:field="*{courseCode}">
+                        <p th:if="${#fields.hasErrors('courseCode')}" th:errors="*{courseCode}"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="courseTitle" class="col-sm-3 col-form-label">Course Title</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="courseTitle" th:field="*{courseTitle}">
+                        <p th:if="${#fields.hasErrors('courseTitle')}" th:errors="*{courseTitle}"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="courseDescription" class="col-sm-3 col-form-label">Course Description</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="courseDescription" th:field="*{courseDescription}">
+                        <p th:if="${#fields.hasErrors('courseDescription')}" th:errors="*{courseDescription}"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="courseCredits" class="col-sm-3 col-form-label">Credits</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="courseCredits" th:field="*{courseCredits}">
+                        <p th:if="${#fields.hasErrors('courseCredits')}" th:errors="*{courseCredits}"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="courseCapacity" class="col-sm-3 col-form-label">Capacity</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="courseCapacity" th:field="*{courseCapacity}">
+                        <p th:if="${#fields.hasErrors('courseCapacity')}" th:errors="*{courseCapacity}"></p>
+                    </div>
+                    <div class="col-sm-9">
+                        <select class="form-select-lg mb-3" aria-label="Default select example" th:field="*{courseStatus}" >
+                            <option selected value="OPEN">Open</option>
+                            <option value="CLOSE">Close</option>
+                        </select>
+                    </div>
+                </div>
+<!--                <div class="row mb-3">-->
+<!--                    <label for="inputUsername3" class="col-sm-3 col-form-label">Capacity</label>-->
+<!--                    <div class="col-sm-9">-->
+<!--                        <input th:if="*{username} == null" type="text" class="form-control" id="inputUsername3" th:field="*{username}">-->
+<!--                        <input th:if="*{username} != null" type="text" class="form-control" id="inputUsername3" th:field="*{username}" readonly>-->
+<!--                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <!--<div class="row mb-3">
+                   <label for="inputPasswordHash3" class="col-sm-3 col-form-label">Password</label>
+                   <div class="col-sm-9">
+                         <input type="text" class="form-control" id="inputPasswordHash3" th:field="*{passwordHash}">
+                         <p th:if="${#fields.hasErrors('passwordHash')}" th:errors="*{passwordHash}"></p>
+                   </div>
+                 </div>
+                 <div class="row mb-3">
+                   <label for="inputRole3" class="col-sm-3 col-form-label">Role</label>
+                   <div class="col-sm-9">
+                         <input type="text" class="form-control" id="inputRole3" th:field="*{role}" placeholder="LECTURER" value="LECTURER" readonly>
+                   </div>
+                 </div>
+                 <div class="row mb-3">
+                   <label for="inputUserStatus3" class="col-sm-3 col-form-label">Status</label>
+                   <div class="col-sm-9">
+                         <select class="form-select-lg mb-3" aria-label="Default select example" th:field="*{userStatus}" >
+                             <option selected value="ACTIVE">Active</option>
+                             <option value="INACTIVE">Inactive</option>
+                         </select>
+                   </div>
+                 </div>-->
+                <input type="submit" value="Submit" class="btn btn-secondary"></input>
+                &nbsp; &nbsp;
+                <input type="reset" value="Reset" class="btn btn-secondary"></input>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+</body>
+
+<div th:replace="fragments/layout.html :: footersection"></div>
+
+</html>
