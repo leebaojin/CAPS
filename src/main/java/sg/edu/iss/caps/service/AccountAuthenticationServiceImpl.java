@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import sg.edu.iss.caps.model.Account;
 import sg.edu.iss.caps.model.ChangePWRequest;
 import sg.edu.iss.caps.model.Lecturer;
-import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.repo.AdministratorRepository;
