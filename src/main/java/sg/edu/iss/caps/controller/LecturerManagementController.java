@@ -3,12 +3,15 @@ package sg.edu.iss.caps.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.caps.model.Lecturer;
-import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.LecturerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/lecturer-management")
@@ -18,24 +21,37 @@ public class LecturerManagementController {
     LecturerRepository lecturerRepo;
 
     @GetMapping("/create")
-    public String createLecturerPage(Model model) {
+    public String loadLecturerForm(Model model) {
         Lecturer l = new Lecturer();
         model.addAttribute("lecturer",l);
-        return "create-lecturer";
+        return "lecturer-form";
+    }
+    
+    @PostMapping("/save")
+    public String saveLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+        	return "lecturer-form";
+        }
+    	lecturerRepo.save(l);
+        return "forward:/lecturer-management/list";
     }
 
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String listLecturers(Model model) {
         List<Lecturer> lecturerList = lecturerRepo.findAll();
-        model.addAttribute("studentList", lecturerList);
+        model.addAttribute("lecturerList", lecturerList);
         return "list-lecturers";
     }
 
-    @PostMapping("/save")
-    public String saveLecturer(@ModelAttribute("lecturer") Lecturer l) {
-        lecturerRepo.save(l);
-        return "forward:/lecturer-management/list";
-    }
+	@GetMapping("/{lecturerId}")
+	public String displayDetails(@PathVariable("lecturerId") String lecturerId, Model model) {
+		List<Integer> displayLecturer = new ArrayList<Integer>();
+		displayLecturer.add(Integer.parseInt(lecturerId));
+		List<Lecturer> lecturerList = lecturerRepo.findAllById(displayLecturer);
+		System.out.println(lecturerList.get(0));
+		model.addAttribute("lecturerList", lecturerList);
+		return "list-lecturers";
+	}
 
     // clarify purpose of editLecturerPage
     @GetMapping("/edit-page")
