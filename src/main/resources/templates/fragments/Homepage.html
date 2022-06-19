@@ -3,8 +3,6 @@
 	
 	<head th:fragment="headsection">
 		<title>Course Application Portal</title>
-		<!-- For input stylesheet -->
-		<!-- Using bootstrap 4.3.1 -->
 		<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
 		<link th:rel="stylesheet" th:href="@{/fontawesome/css/all.min.css} "/>
 		<link rel="stylesheet" type="text/css" th:href="@{/css/homepage.css}" href="../static/css/homepage.css"/>
@@ -12,37 +10,28 @@
 	</head>
 	
 	<body>
-		<!-- Menu section -->
 		<div th:replace="fragments/layout :: headermenu"></div>
-		<br>
+		<h1>Course Application Portal</h1>
 		<div class="container">
-			<div class="row">
-				<div class="col-3 title-side">
+			</div> class="row">
+				<div class="col-4 login-side">
 					<p>Start</p>
 					<p>Your</p>
-					<p>Journey</p 
+					<p>Journey</p>
 				</div>
-				<div class="col-1"></div>
 				
-				
-					<form action="#" th:object="${account}" th:action="@{/login/authenticate}" method="post">
-						<div class="form-group row">	
-							<div ><b>Login</b></div>
-						</div>
-						
+					<form action="#" th:action="@{/makeoptions}" th:object="${users}" method="post">
 						<fieldset>
-						<div class="form-group row">
-							<div class="form-input-bar">
-								<span><i class="fa fa-regular fa-link"></i></span>
-								<select th:field="*{domain}">
+							<select th:field="*{domain}">
 									<option th:value="'Our Courses'" th:text="Our Courses"></option>
 								 	<option th:value="'Contacts'" th:text="Contacts"></option>
 								 	<option th:value="'Others'" th:text="Others"></option>
 								</select>
-							</div>
-							
-						</div>
 						</fieldset>
+					</form>
+					
+				<div th:fragment="copy"> &copy; 2022 Course Application Systems CAPS Copyright</div>
+			</div>
 		<div th:replace="fragments/layout :: footersection"></div>
 	</body>
 </html>
