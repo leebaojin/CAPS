@@ -17,7 +17,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/student-management")
+@RequestMapping("/manage/student")
 public class StudentManagementController {
 
     @Autowired
@@ -30,11 +30,12 @@ public class StudentManagementController {
         return "student-form";
     }
 
-    @PostMapping("/save")
+    @GetMapping("/save")
+//    @PostMapping("/save")
     public String saveStudent(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, Model model) {
     	if (bindingResult.hasErrors()) 
 		{
-			return "student.studentId";
+			return "student-form";
 		}
     	
     	//Creating a new Student Code Block
@@ -58,17 +59,17 @@ public class StudentManagementController {
 			s.setPasswordHash(HashUtil.getHash(s.getUsername(),defaultPwd));
 			studentRepo.save(s);
 		}
-        return "forward:/student-management/liststudents";
+        return "forward:/manage/student/view";
     }
 
-    @RequestMapping("/liststudents")
+    @GetMapping("/view")
     public String listStudents(Model model) {
         List<Student> studentList = studentRepo.findAllActiveStudents();
         model.addAttribute("studentList", studentList);
         return "list-students";
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/view/{name}")
     public String listStudentsByName(Model model, @PathVariable("name") String name) {
         List<Student> studentList = studentRepo.findStudentByFirstName(name);
         model.addAttribute("studentList", studentList);
@@ -89,6 +90,6 @@ public class StudentManagementController {
         	s.setUserStatus(UserStatus.INACTIVE);
         	studentRepo.save(s);
         }
-        return "forward:/student-management/liststudents";
+        return "forward:/manage/student/view";
     }
 }
