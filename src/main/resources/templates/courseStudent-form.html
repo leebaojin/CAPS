@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: headsection"></head>
+
+<body>
+	<header th:replace="fragments/layout.html :: headermenu"></header>
+	<!-- <div th:replace="fragments/layout.html :: Anotherheadermenu"> -->
+		
+	<div class="container">
+		<div class="row">
+			<div class="col-3"></div>
+			<div class="col-6">
+				<h2>Student Grade Management Form</h2>
+				<form method="post" th:action="@{/course-student/save}" th:object="${courseStudent}">
+					<input type="hidden" th:field="*{courseStudentId}" readonly/>
+	  				<div class="row mb-3">
+    					<label for="inputStudentId3" class="col-sm-3 col-form-label">Student Id</label>
+    					<div class="col-sm-9">
+      						<input type="text" class="form-control" id="inputStudentId3" th:field="*{student.studentId}" readonly />
+    					</div>
+  					</div>
+  					<div class="row mb-3">
+    					<label for="inputFirstName3" class="col-sm-3 col-form-label">First Name</label>
+    					<div class="col-sm-9">
+      						<input type="text" class="form-control" id="inputFirstName3" th:field="*{student.firstName}" readonly/>
+    					</div>
+  					</div>
+  					<div class="row mb-3">
+    					<label for="inputLastName3" class="col-sm-3 col-form-label">Last Name</label>
+    					<div class="col-sm-9">
+      						<input type="text" class="form-control" id="inputLastName3" th:field="*{student.lastName}" readonly/>
+    					</div>
+  					</div>
+  					<div class="row mb-3">
+    					<label for="inputCourseCode3" class="col-sm-3 col-form-label">Course Code</label>
+    					<div class="col-sm-9">
+      						<input type="text" class="form-control" id="inputCourseCode3" th:field="*{course.courseCode}" readonly/>
+    					</div>
+  					</div>
+					<input type="hidden" th:field="*{courseStudentStatus}" readonly/>
+  					<div class="row mb-3">
+    					<label for="inputGrade3" class="col-sm-3 col-form-label">Score</label>
+    					<div class="col-sm-9">
+      						<input type="text" class="form-control" id="inputScore3" th:field="*{score}">
+      						<p th:if="${#fields.hasErrors('score')}" th:errors="*{score}"></p>
+    					</div>
+  					</div>
+					<input type="submit" value="Submit" class="btn btn-secondary"></input>
+					&nbsp; &nbsp; 	
+					<input type="reset" value="Reset" class="btn btn-secondary"></input>
+				</form>
+			</div>
+			<div class="col-3"></div>
+		</div>
+	</div>
+
+</body>
+
+<div th:replace="fragments/layout.html :: footersection"></div>
+
+</html>
