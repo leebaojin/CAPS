@@ -15,13 +15,11 @@ public class HomeController {
 		HeaderUtil.setHeader(model, new String[] {"Home", "Login"}, "John");
 		return "index";
 	}
-
 	
 	@RequestMapping("/contact")
 	public String loadContactPage(Model model) {
 		HeaderUtil.setHeader(model, new String[] {"Contact", "Details"}, "John");
 		return "contact";
 	}
-
 
 }
