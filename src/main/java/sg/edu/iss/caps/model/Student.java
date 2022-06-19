@@ -29,7 +29,7 @@ public class Student extends User{
 	private Integer studentId;
 	//@DateTimeFormat(pattern = "dd-mm-yyyy")
 	//private LocalDateTime enrolledDate;
-	@DateTimeFormat(pattern = "dd-mm-yyyy")
+	@DateTimeFormat(pattern = "DD-MM-YYYY")
 	private Date enrolledDate;
 
 	@OneToMany(mappedBy="student",cascade=CascadeType.ALL)

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
 
+	@NotEmpty
 	private String username;
+	@NotEmpty
 	private String firstName;
+	@NotEmpty
 	private String lastName;
+	@NotEmpty
 	private String email;
 	//private String password;
 	@Column(columnDefinition="BINARY(32) NOT NULL")

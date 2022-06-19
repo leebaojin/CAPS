@@ -4,7 +4,7 @@
 	<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/home.css"/>
 	<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
-	
+
 </head>
 <body>
 	<header th:replace="fragments/layout.html :: headermenu"></header>
@@ -15,7 +15,7 @@
 			<div class="col-3"></div>
 			<div class="col-6">
 				<h2>Student Form</h2>
-				<form method="post" th:action="@{/student-management/save}" th:object="${student}">
+				<form method="get" th:action="@{/manage/student/save}" th:object="${student}">
 					<input type="hidden" th:field="*{studentId}"/>
 					
 	  				<div class="row mb-3">
@@ -50,10 +50,9 @@
       						<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
     					</div>
   					</div>
-  					
-<!--  					<div class="row mb-3">
-			            <input id="inputEnrolledDate3" type="date" class="form-control" 
-        min="01-01-1970" max="01-01-2030" th:field="*{enrolledDate}"/>
+<!--  					
+				<div class="row mb-3">
+			            <input type="text"  th:field="*{enrolledDate}">
         			</div>-->
   					
 					<input type="submit" value="Submit" class="btn btn-secondary"></input>
