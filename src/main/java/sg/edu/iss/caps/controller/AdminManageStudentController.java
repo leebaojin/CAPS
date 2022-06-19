@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/manage/student")
-public class StudentManagementController {
+public class AdminManageStudentController {
 
     @Autowired
     StudentRepository studentRepo;

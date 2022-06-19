@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Front page for Course Application Processing System</title>
+	<!-- For input stylesheet -->
+	<!-- Using bootstrap 4.3.1 -->
+	<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} " />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/home.css" />
+	<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
+
+
+</head>
+
+<body>
+	<!-- Menu section -->
+	<div th:replace="fragments/layout :: headermenu"></div>
+	<br>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+				<div class="col-10">
+				<h2>Course Listing</h2>
+					<table class="table">
+						 <tr>
+						   	<th scope="col">Course Code</th>
+							<th scope="col">Title</th>
+							<th scope="col">Description</th>
+							<th scope="col">Credits</th>
+							<th scope="col">Capacity</th>
+							<th scope="col">Status</th>
+							<th scope="col">Register</th>
+						 </tr>
+						 <tr th:each="course:${courseAvailable}" class="table-row">
+						 	<td th:text="${course.courseCode}">ID</td>
+						   	<td th:text="${course.courseTitle}">ID</td>
+						   	<td th:text="${course.courseDescription}">ID</td>
+						   	<td th:text="${course.courseCredits}">ID</td>
+						   	<td th:text="${course.courseCapacity}">ID</td>
+						   	<td th:text="${course.courseStatus}">ID</td>
+						   	<td><a  th:href="@{/student/course-registration/register/}+${course.courseCode}" th:utext="#{student.course-registration.register}"> Register</a></td>
+						   	
+						 </tr>
+					</table>
+				</div>
+				<div class="col-1"></div>
+		</div>
+	</div>
+
+
+
+	<div th:replace="fragments/layout :: footersection"></div>
+</body>
+
+
+</html>

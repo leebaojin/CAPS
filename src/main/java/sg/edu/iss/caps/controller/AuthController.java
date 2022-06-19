@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sg.edu.iss.caps.model.Account;
 import sg.edu.iss.caps.model.ChangePWRequest;
 import sg.edu.iss.caps.model.User;
+import sg.edu.iss.caps.model.UserStatus;
 import sg.edu.iss.caps.service.AccountAuthenticationService;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.validator.AccountValidator;
@@ -57,8 +58,9 @@ public class AuthController {
     	}
     	//To check if the user exist
     	User user = accAuthService.authenticateAccount(account);
-    	if(user == null) {
+    	if(user == null || user.getUserStatus() == UserStatus.INACTIVE) {
     		//Return back to login page if fail to authenticate
+    		//Return back if the account is inactive
         	model.addAttribute("account",account);
         	model.addAttribute("repeatlogin", true);
         	//Clear any old password reset request since login is successful

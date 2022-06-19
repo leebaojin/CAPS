@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/course")
-public class CourseManagementController {
+public class AdminManageCourseController {
 
     @Autowired
     CourseRepository courseRepo;
