@@ -20,6 +20,7 @@ public class HeaderUtil {
 		headermap.put("Home", "/home");
 		headermap.put("Course", "/course");
 		headermap.put("Student", "/student");
+		headermap.put("Login", "/login");
 	}
 	
 	
