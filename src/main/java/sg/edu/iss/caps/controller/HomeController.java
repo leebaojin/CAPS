@@ -13,7 +13,7 @@ public class HomeController {
 	
 	@RequestMapping("")
 	public String loadHomePage(Model model) {
-		HeaderUtil.setHeader(model, new String[] {"Home", "Course"}, "John");
+		HeaderUtil.setHeader(model, new String[] {"Home", "Login"}, "John");
 		return "index";
 	}
 

@@ -18,7 +18,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<Student> findAllStudents() {
 		// TODO Auto-generated method stub
-		return null;
+		return srepo.findAllActiveStudents();
 	}
 
 	@Override

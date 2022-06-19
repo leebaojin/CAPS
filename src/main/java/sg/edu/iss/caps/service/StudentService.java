@@ -6,8 +6,8 @@ import sg.edu.iss.caps.model.Student;
 
 public interface StudentService {
 	
-	List<Student> findAllStudents();
+	public List<Student> findAllStudents();
 	
-	Student findStudent(Integer sId);
+	public Student findStudent(Integer sId);
 
 }

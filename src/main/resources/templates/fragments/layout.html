@@ -15,8 +15,36 @@
 
   			<ul class="navbar-nav" th:if="${headerbar == null}">
    				<li class="nav-item">
-      				<a class="nav-link" href="#">Home</a>
+      				<a class="nav-link" th:href="@{/home}">Home</a>
     			</li>
+    			<li class="nav-item dropdown">
+    				<a class="nav-link  dropdown-toggle" th:href="@{/student-management/liststudents}" data-bs-toggle="dropdown">  Manage Student  </a>
+    					<ul class="dropdown-menu">
+			  				<li><a class="dropdown-item" th:href="@{/student-management/liststudents}"> List Student </a></li>
+			 				<li><a class="dropdown-item"th:href="@{/student-management/create}"> Add Student </a></li>
+			  				
+		    			</ul>
+    		
+    			</li>
+    			<li class="nav-item dropdown">
+    				<a class="nav-link  dropdown-toggle" th:href="@{/lecturer-management/list}" data-bs-toggle="dropdown">  Manage Lecturer  </a>
+    					<ul class="dropdown-menu">
+			  				<li><a class="dropdown-item" th:href="@{/lecturer-management/list}"> List Lecturer </a></li>
+			 				<li><a class="dropdown-item"th:href="@{/lecturer-management/create}"> Add Lecturer </a></li>
+			  				
+		    			</ul>
+    		
+    			</li>
+    			<li class="nav-item dropdown">
+    				<a class="nav-link  dropdown-toggle" th:href="@{/courses/list}" data-bs-toggle="dropdown">  Manage Courses  </a>
+    					<ul class="dropdown-menu">
+			  				<li><a class="dropdown-item"  th:href="@{/courses/list}"> List Courses </a></li>
+			 				<li><a class="dropdown-item"th:href="@{/courses/create}"> Add Courses </a></li>
+			  				
+		    			</ul>
+    		
+    			</li>
+    			
   			</ul>
   			
   			<div style="text-align:right;width:auto;">

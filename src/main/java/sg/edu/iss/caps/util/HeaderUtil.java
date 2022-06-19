@@ -18,8 +18,10 @@ public class HeaderUtil {
 	static {
 		headermap = new HashMap<String, String>();
 		headermap.put("Home", "/home");
-		headermap.put("Course", "/course");
-		headermap.put("Student", "/student");
+		headermap.put("Course", "/courses/list");
+		headermap.put("Student", "/student-management/list");
+		headermap.put("Login", "/login");
+		
 	}
 	
 	

@@ -32,6 +32,7 @@ public class LecturerManagementController {
     
     @PostMapping("/save")
     public String saveLecturerForm(@ModelAttribute("lecturer")  Lecturer l) {
+    	
     	if (l.getLecturerId() != null) {
     		Lecturer l2 = lecturerRepo.findById(l.getLecturerId() ).get();
     		l2.setFirstName(l.getFirstName());
