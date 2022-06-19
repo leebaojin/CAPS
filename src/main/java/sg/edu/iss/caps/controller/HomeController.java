@@ -13,9 +13,14 @@ public class HomeController {
 	
 	@RequestMapping("")
 	public String loadHomePage(Model model) {
+<<<<<<< HEAD
 		HeaderUtil.setHeader(model, new String[] {"Home", "Course"}, "John");
+=======
+		HeaderUtil.setHeader(model, new String[] {"Home", "Login"}, "John");
+>>>>>>> branch 'main' of https://github.com/leebaojin/CAPS.git
 		return "index";
 	}
+<<<<<<< HEAD
 	
 	@RequestMapping("/contact")
 	public String loadContactPage(Model model) {
@@ -23,4 +28,8 @@ public class HomeController {
 		return "contact";
 	}
 
+=======
+
+	
+>>>>>>> branch 'main' of https://github.com/leebaojin/CAPS.git
 }
