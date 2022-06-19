@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: headsection"></head>
+
+<body>
+	<header th:replace="fragments/layout.html :: headermenu"></header>
+	<!-- <div th:replace="fragments/layout.html :: Anotherheadermenu"> -->
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			<div class="col-10">
+			<h2>Student Grade Listing</h2>
+	<table class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">Id</th>
+	      <th scope="col">Student Id</th>
+	      <th scope="col">First Name</th>
+	      <th scope="col">Last Name</th>
+	      <th scope="col">Course Code</th>
+	      <th scope="col">Status</th>
+	      <th scope="col">Score</th>
+	      <th scope="col">Grade</th>
+	      <th scope="col">Add Grade</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr th:each="courseStudent:${courseStudentList}">
+	      <th scope="row" th:text=${courseStudent.courseStudentId}>Id</th>
+	      <td th:text=${courseStudent.student.studentId}>Student Id</td>
+	      <td th:text=${courseStudent.student.firstName}>First Name</td>
+	      <td th:text=${courseStudent.student.lastName}>Last Name</td>
+	      <td th:text=${courseStudent.course.courseCode}>Course Code</td>
+	      <td th:text=${courseStudent.courseStudentStatus}>Status</td>
+	      <td th:text=${courseStudent.score}>Score</td>
+	      <td th:text=${courseStudent.grade}>Grade</td>
+	      <td th:if="*{courseStudent.grade} != null">-</td>
+	      <td th:if="*{courseStudent.grade} == null"><a href="courseStudent-form.html" th:href="@{/course-student/add-grade/}+${courseStudent.courseStudentId}"> Add Grade </a></td>
+	    </tr>
+	  </tbody>
+</table>
+			</div>
+			<div class="col-1"></div>
+		</div>
+	</div>
+</body>
+
+<div th:replace="fragments/layout.html :: footersection"></div>
+
+</html>

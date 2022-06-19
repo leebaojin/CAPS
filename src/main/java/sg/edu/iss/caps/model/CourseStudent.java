@@ -18,16 +18,20 @@ public class CourseStudent {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer courseStudentId;
+	private Integer score;
 	@Enumerated(EnumType.STRING)
 	private Grade grade;
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private CourseStudentStatus courseStudentStatus;
 	@ManyToOne
 	private Student student;
 	@ManyToOne
 	private Course course;
-	public CourseStudent(String status, Student student, Course course) {
+	
+	public CourseStudent(Integer score, CourseStudentStatus courseStudentStatus, Student student, Course course) {
 		super();
-		this.status = status;
+		this.score = score;
+		this.courseStudentStatus = courseStudentStatus;
 		this.student = student;
 		this.course = course;
 	}
