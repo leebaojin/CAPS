@@ -1,8 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
 	<head th:fragment="headsection">
-		<title>Course Application Homepage</title>
+		<title>Course Application Portal</title>
 		<!-- For input stylesheet -->
 		<!-- Using bootstrap 4.3.1 -->
 		<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} "/>
-		
+		<link th:rel="stylesheet" th:href="@{/fontawesome/css/all.min.css} "/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/homepage.css}" href="../static/css/homepage.css"/>
+		<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
+	</head>
+	
+	<body>
+		<!-- Menu section -->
+		<div th:replace="fragments/layout :: headermenu"></div>
+		<br>
+		<div class="container">
+			<div class="row">
+				<div class="col-3 title-side">
+					<p>Start</p>
+					<p>Your</p>
+					<p>Journey</p 
+				</div>
+				<div class="col-1"></div>
+				
+				
+					<form action="#" th:object="${account}" th:action="@{/login/authenticate}" method="post">
+						<div class="form-group row">	
+							<div ><b>Login</b></div>
+						</div>
+						
+						<fieldset>
+						<div class="form-group row">
+							<div class="form-input-bar">
+								<span><i class="fa fa-regular fa-link"></i></span>
+								<select th:field="*{domain}">
+									<option th:value="'Our Courses'" th:text="Our Courses"></option>
+								 	<option th:value="'Contacts'" th:text="Contacts"></option>
+								 	<option th:value="'Others'" th:text="Others"></option>
+								</select>
+							</div>
+							
+						</div>
+						</fieldset>
+		<div th:replace="fragments/layout :: footersection"></div>
+	</body>
+</html>
+	
