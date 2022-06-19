@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sg.edu.iss.caps.model.Course;
-import sg.edu.iss.caps.model.Lecturer;
+import sg.edu.iss.caps.model.*;
 import sg.edu.iss.caps.repo.CourseRepository;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/courses")
+@RequestMapping("/course")
 public class CourseManagementController {
 
     @Autowired
@@ -24,7 +23,7 @@ public class CourseManagementController {
         return "course-form";
     }
 
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String listCourses(Model model) {
         List<Course> courseList = courseRepo.findAll();
         model.addAttribute("courseList", courseList);
@@ -33,48 +32,64 @@ public class CourseManagementController {
 
     @PostMapping("/save")
     public String saveCourse(@ModelAttribute("course") Course c) {
-        courseRepo.save(c);
-        return "forward:/courses/list";
+        if (c.getCourseCode() != null) {
+            // update existing course
+            Course c2 = courseRepo.findById(c.getCourseCode()).get();
+            c2.setCourseCode(c.getCourseCode());
+            c2.setCourseTitle(c.getCourseTitle());
+            c2.setCourseDescription(c.getCourseDescription());
+            c2.setCourseCredits(c.getCourseCredits());
+            c2.setCourseCapacity(c.getCourseCapacity());
+            c2.setCourseStatus(c.getCourseStatus());
+            courseRepo.save(c2);
+        } else {
+            // set it to close by default, only manually open up when course is confirmed.
+            c.setCourseStatus(CourseStatus.CLOSE);
+            courseRepo.save(c);
+        }
+        return "forward:/course/list";
     }
 
-    // clarify purpose of editCoursePage
-    @GetMapping("/edit-page")
-    public String editCoursePage(Model model) {
-        return "edit-course";
-    }
+//    // clarify purpose of editCoursePage
+//    @GetMapping("/edit-page")
+//    public String editCoursePage(Model model) {
+//        return "edit-course";
+//    }
 
     // clarify difference between this and editCoursePage
-    @GetMapping("/edit/{id}")
-    public String editCourse(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("course", courseRepo.findById(id).get());
+    @GetMapping("/edit/{courseId}")
+    public String editCourse(Model model, @PathVariable("courseId") String courseId) {
+        Course c = courseRepo.findById(courseId).get();
+        model.addAttribute("course", c);
         return "course-form";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteCourse(Model model, @PathVariable("id") Integer id) {
-        Course c = courseRepo.findById(id).get();
+    @GetMapping("/delete/{courseId}")
+    public String deleteCourse(Model model, @PathVariable("courseId") String courseId) {
+        Course c = courseRepo.findById(courseId).get();
         courseRepo.delete(c);
-        return "forward:/courses/list";
+        return "forward:/course/list";
     }
 
+    // can add validation for the form
     @GetMapping("/{id}/lecturers")
-    public String listCourseLecturers(Model model, @PathVariable("id") Integer id) {
+    public String listCourseLecturers(Model model, @PathVariable("id") String id) {
         List<Lecturer> lecturerList = courseRepo.findById(id).get().getCourseLecturers();
         model.addAttribute("lecturers", lecturerList);
         return "/lecturers";
     }
 
     @PostMapping("/{id}/add-lecturer")
-    public String addCourseLecturer(Model model, @PathVariable("id") Integer id, @ModelAttribute("lecturer") Lecturer l) {
+    public String addCourseLecturer(Model model, @PathVariable("id") String id, @ModelAttribute("lecturer") Lecturer l) {
         Course c = courseRepo.findById(id).get();
         c.getCourseLecturers().add(l);
         courseRepo.save(c);
-        return "forward:/courses/{id}/lecturer";
+        return "forward:/course/{id}/lecturer";
     }
 
     @GetMapping("/{id}/remove-lecturer")
     public String removeCourseLecturer(Model model, @PathVariable("id") Integer id) {
-        return "forward:/courses/{id}/lecturer";
+        return "forward:/course/{id}/lecturer";
     }
 
 }

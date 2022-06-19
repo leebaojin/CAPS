@@ -12,7 +12,7 @@
         <div class="col-3"></div>
         <div class="col-6">
             <h2>Course Form</h2>
-            <form method="post" th:action="@{/courses/save}" th:object="${course}">
+            <form method="post" th:action="@{/course/save}" th:object="${course}">
                 <div class="row mb-3">
                     <label for="courseCode" class="col-sm-3 col-form-label">Course Code</label>
                     <div class="col-sm-9">
@@ -37,14 +37,14 @@
                 <div class="row mb-3">
                     <label for="courseCredits" class="col-sm-3 col-form-label">Credits</label>
                     <div class="col-sm-9">
-                        <input type="email" class="form-control" id="courseCredits" th:field="*{courseCredits}">
+                        <input type="number" class="form-control" id="courseCredits" th:field="*{courseCredits}">
                         <p th:if="${#fields.hasErrors('courseCredits')}" th:errors="*{courseCredits}"></p>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="courseCapacity" class="col-sm-3 col-form-label">Capacity</label>
                     <div class="col-sm-9">
-                        <input type="email" class="form-control" id="courseCapacity" th:field="*{courseCapacity}">
+                        <input type="number" class="form-control" id="courseCapacity" th:field="*{courseCapacity}">
                         <p th:if="${#fields.hasErrors('courseCapacity')}" th:errors="*{courseCapacity}"></p>
                     </div>
                     <div class="col-sm-9">
