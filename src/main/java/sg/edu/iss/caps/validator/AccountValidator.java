@@ -12,7 +12,8 @@ public class AccountValidator implements Validator{
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Account.class.isAssignableFrom(clazz);
+		boolean ac = Account.class.isAssignableFrom(clazz);
+		return ac;
 	}
 
 	@Override
