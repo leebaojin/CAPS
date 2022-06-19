@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<link rel="stylesheet" type="text/css" th:href="@{/css/loginpage.css}" href="../static/css/loginpage.css" />
 <head th:replace="fragments/layout.html :: headsection"></head>
 
 <body>
@@ -12,35 +12,35 @@
 			<div class="col-3"></div>
 			<div class="col-6">
 				<h2>Lecturer Form</h2>
-				<form method="post" th:action="@{/lecturer-management/save}" th:object="${lecturer}">
+				<form method="post" th:object="${lecturer}">
 					<input type="hidden" th:field="*{lecturerId}" readonly/>
 	  				<div class="row mb-3">
     					<label for="inputFirstName3" class="col-sm-3 col-form-label">First Name</label>
     					<div class="col-sm-9">
       						<input type="text" class="form-control" id="inputFirstName3" th:field="*{firstName}">
-      						<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+      						<p class="form-err" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
     					</div>
   					</div>
   					<div class="row mb-3">
     					<label for="inputLastName3" class="col-sm-3 col-form-label">Last Name</label>
     					<div class="col-sm-9">
       						<input type="text" class="form-control" id="inputLastName3" th:field="*{lastName}">
-      						<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+      						<p class="form-err" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
     					</div>
   					</div>
   					<div class="row mb-3">
     					<label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
     					<div class="col-sm-9">
       						<input type="email" class="form-control" id="inputEmail3" th:field="*{email}">
-      						<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+      						<p class="form-err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
     					</div>
   					</div>
   					<div class="row mb-3">
     					<label for="inputUsername3" class="col-sm-3 col-form-label">Username</label>
     					<div class="col-sm-9">
-      						<input th:if="*{username} == null" type="text" class="form-control" id="inputUsername3" th:field="*{username}">
-      						<input th:if="*{username} != null" type="text" class="form-control" id="inputUsername3" th:field="*{username}" readonly>
-      						<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+      						<input th:if="${action} == 'create'" type="text" class="form-control" id="inputUsername3" th:field="*{username}">
+      						<input th:if="${action} == 'edit'" type="text" class="form-control" id="inputUsername3" th:field="*{username}" readonly>
+      						<p class="form-err" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
     					</div>
   					</div>
  					<!--<div class="row mb-3">
@@ -67,7 +67,9 @@
   					</div>-->
 					<input type="submit" value="Submit" class="btn btn-secondary"></input>
 					&nbsp; &nbsp; 	
-					<input type="reset" value="Reset" class="btn btn-secondary"></input>
+				<!--	<input type="reset" value="Reset" class="btn btn-secondary"></input>-->
+					<input th:if="${action} == 'create'" type="reset" value="Reset" class="btn btn-secondary"/>
+      				<input th:if="${action} == 'edit'"  type="hidden" value="Reset" class="btn btn-secondary"/>
 				</form>
 			</div>
 			<div class="col-3"></div>
