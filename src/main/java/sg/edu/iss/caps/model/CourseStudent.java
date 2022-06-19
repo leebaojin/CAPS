@@ -35,6 +35,15 @@ public class CourseStudent {
 		this.student = student;
 		this.course = course;
 	}
+
+	public CourseStudent(Student student, Course course) {
+		super();
+		this.student = student;
+		this.course = course;
+		this.courseStudentStatus = CourseStudentStatus.ENROLLED;
+	}
+	
+	
 	
 	
 }

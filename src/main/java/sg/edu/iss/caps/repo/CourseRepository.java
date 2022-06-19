@@ -10,6 +10,10 @@ import sg.edu.iss.caps.model.Student;
 
 public interface CourseRepository extends JpaRepository<Course, String> {
 
-	@Query("SELECT c FROM Course c JOIN c.courseStudents cs WHERE cs.student = :s")
+	@Query("SELECT c FROM Course c WHERE c NOT IN(SELECT c FROM Course c  JOIN c.courseStudents cs WHERE cs.student = :s)")
 	public List<Course> findCourseNotTaken(Student s);
+	
+	@Query("SELECT c FROM Course c WHERE c NOT IN(SELECT c FROM Course c  JOIN c.courseStudents cs WHERE cs.student = :s) "
+			+ "AND (c.courseCode LIKE CONCAT('%',:searchStr,'%') or c.courseTitle LIKE CONCAT('%',:searchStr,'%'))")
+	public List<Course> findCourseNotTakenSearch(Student s, String searchStr);
 }

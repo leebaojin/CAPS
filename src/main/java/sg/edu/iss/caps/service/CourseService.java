@@ -8,5 +8,7 @@ import sg.edu.iss.caps.model.Student;
 public interface CourseService {
 	
 	public List<Course> findAvailableCourseForStudent(Student s);
+	
+	public List<Course> findSearchCourseForStudent (Student s, String searchStr);
 
 }
