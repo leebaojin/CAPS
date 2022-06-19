@@ -49,11 +49,20 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="courseCapacity" class="col-sm-3 col-form-label">Status</label>
+                    <label for="courseStatus" class="col-sm-3 col-form-label">Status</label>
                     <div class="col-sm-9">
-                        <select class="form-select-lg mb-3" aria-label="Default select example" th:field="*{courseStatus}" >-->
+                        <select class="form-select-lg mb-3" id="courseStatus" aria-label="Default select example" th:field="*{courseStatus}" >-->
                             <option selected value="OPEN">Open</option>
                             <option value="CLOSE">Close</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="courseLecturers" class="col-sm-3 col-form-label">Lecturers</label>
+                    <div class="col-sm-9">
+                        <select class="form-select-lg mb-3" id="courseLecturers" aria-label="Default select example" th:field="*{courseLecturers}" >
+                            <option selected value="">Select lecturer</option>
+                            <option th:each="lecturer:${lecturerList}" th:value="${lecturer.lecturerId}"th:text="${lecturer.firstName}+${lecturer.lastName}">
                         </select>
                     </div>
                 </div>
