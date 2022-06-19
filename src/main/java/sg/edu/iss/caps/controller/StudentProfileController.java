@@ -17,7 +17,7 @@ import sg.edu.iss.caps.repo.StudentRepository;
 
 @Controller
 @RequestMapping("/student")
-public class StudentStatusController {
+public class StudentProfileController {
 
     @Autowired
     CourseRepository courseRepo;

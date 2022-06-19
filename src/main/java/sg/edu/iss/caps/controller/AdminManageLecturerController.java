@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/lecturer-management")
-public class LecturerManagementController {
+public class AdminManageLecturerController {
 
     @Autowired
     LecturerRepository lecturerRepo;

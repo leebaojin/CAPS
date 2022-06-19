@@ -17,7 +17,7 @@ import sg.edu.iss.caps.util.HashUtil;
 
 @Controller
 @RequestMapping("/course-student")
-public class CourseStudentController {
+public class LecturerUpdateCourseController {
 
     @Autowired
     CourseStudentRepository courseStudentRepo;
