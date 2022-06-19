@@ -31,10 +31,12 @@ public class CourseManagementController {
     }
 
     @PostMapping("/save")
+    // validation tbc
     public String saveCourse(@ModelAttribute("course") Course c) {
-        if (c.getCourseCode() != null) {
-            // update existing course
-            Course c2 = courseRepo.findById(c.getCourseCode()).get();
+        // if course present, get course object, otherwise create new course
+        Course c2 = courseRepo.findById(c.getCourseCode()).isPresent() ?
+                courseRepo.findById(c.getCourseCode()).get(): new Course();
+
             c2.setCourseCode(c.getCourseCode());
             c2.setCourseTitle(c.getCourseTitle());
             c2.setCourseDescription(c.getCourseDescription());
@@ -42,11 +44,6 @@ public class CourseManagementController {
             c2.setCourseCapacity(c.getCourseCapacity());
             c2.setCourseStatus(c.getCourseStatus());
             courseRepo.save(c2);
-        } else {
-            // set it to close by default, only manually open up when course is confirmed.
-            c.setCourseStatus(CourseStatus.CLOSE);
-            courseRepo.save(c);
-        }
         return "forward:/course/list";
     }
 

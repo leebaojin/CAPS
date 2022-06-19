@@ -47,43 +47,16 @@
                         <input type="number" class="form-control" id="courseCapacity" th:field="*{courseCapacity}">
                         <p th:if="${#fields.hasErrors('courseCapacity')}" th:errors="*{courseCapacity}"></p>
                     </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="courseCapacity" class="col-sm-3 col-form-label">Status</label>
                     <div class="col-sm-9">
-                        <select class="form-select-lg mb-3" aria-label="Default select example" th:field="*{courseStatus}" >
+                        <select class="form-select-lg mb-3" aria-label="Default select example" th:field="*{courseStatus}" >-->
                             <option selected value="OPEN">Open</option>
                             <option value="CLOSE">Close</option>
                         </select>
                     </div>
                 </div>
-<!--                <div class="row mb-3">-->
-<!--                    <label for="inputUsername3" class="col-sm-3 col-form-label">Capacity</label>-->
-<!--                    <div class="col-sm-9">-->
-<!--                        <input th:if="*{username} == null" type="text" class="form-control" id="inputUsername3" th:field="*{username}">-->
-<!--                        <input th:if="*{username} != null" type="text" class="form-control" id="inputUsername3" th:field="*{username}" readonly>-->
-<!--                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <!--<div class="row mb-3">
-                   <label for="inputPasswordHash3" class="col-sm-3 col-form-label">Password</label>
-                   <div class="col-sm-9">
-                         <input type="text" class="form-control" id="inputPasswordHash3" th:field="*{passwordHash}">
-                         <p th:if="${#fields.hasErrors('passwordHash')}" th:errors="*{passwordHash}"></p>
-                   </div>
-                 </div>
-                 <div class="row mb-3">
-                   <label for="inputRole3" class="col-sm-3 col-form-label">Role</label>
-                   <div class="col-sm-9">
-                         <input type="text" class="form-control" id="inputRole3" th:field="*{role}" placeholder="LECTURER" value="LECTURER" readonly>
-                   </div>
-                 </div>
-                 <div class="row mb-3">
-                   <label for="inputUserStatus3" class="col-sm-3 col-form-label">Status</label>
-                   <div class="col-sm-9">
-                         <select class="form-select-lg mb-3" aria-label="Default select example" th:field="*{userStatus}" >
-                             <option selected value="ACTIVE">Active</option>
-                             <option value="INACTIVE">Inactive</option>
-                         </select>
-                   </div>
-                 </div>-->
                 <input type="submit" value="Submit" class="btn btn-secondary"></input>
                 &nbsp; &nbsp;
                 <input type="reset" value="Reset" class="btn btn-secondary"></input>
