@@ -1,9 +1,5 @@
 package sg.edu.iss.caps.controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,21 +14,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
-import sg.edu.iss.caps.model.UserStatus;
-import sg.edu.iss.caps.repo.StudentRepository;
+import sg.edu.iss.caps.service.StudentService;
 import sg.edu.iss.caps.service.UserSessionService;
-import sg.edu.iss.caps.util.HashUtil;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 
 @Controller
 @RequestMapping("/manage/student")
 public class AdminManageStudentController {
 
+//    @Autowired
+//    StudentRepository studentRepo;
+    
     @Autowired
-    StudentRepository studentRepo;
+    StudentService stuService;
 
     @GetMapping("/create")
     public String createStudentPage(HttpSession session, Model model) {
@@ -45,7 +41,6 @@ public class AdminManageStudentController {
     }
 
     @GetMapping("/save")
-//    @PostMapping("/save")
     public String saveStudent(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, HttpSession session, Model model) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
@@ -54,37 +49,13 @@ public class AdminManageStudentController {
 			return "student-form";
 		}
     	
-    	//Creating a new Student Code Block
     	if(s.getStudentId() != null)
     	{
-    		//For Editing the existing Student
-    		Student newStudent = studentRepo.findById(s.getStudentId()).get();
-    		newStudent.setFirstName(s.getFirstName());
-    		newStudent.setLastName(s.getLastName());
-    		newStudent.setUsername(s.getUsername());
-    		newStudent.setEmail(s.getEmail());
-//    		newStudent.setEnrolledDate(s.getEnrolledDate());
-    		studentRepo.save(newStudent);
+    		stuService.editStudent(s);
     	}
     	else 
     	{
-    		//Setting Date 
-    		Date date = new Date();
-    	    String strDateFormat = "dd-MM-yyyy";
-    	    DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
-    	    String formattedDate= dateFormat.format(date);
-    		try {
-				s.setEnrolledDate(dateFormat.parse(formattedDate));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		
-			s.setRole(Role.STUDENT);
-			s.setUserStatus(UserStatus.ACTIVE);
-			String defaultPwd = "123456";
-			s.setPasswordHash(HashUtil.getHash(s.getUsername(),defaultPwd));
-			studentRepo.save(s);
+    		stuService.createStudent(s);
 		}
         return "forward:/manage/student/view";
     }
@@ -94,8 +65,8 @@ public class AdminManageStudentController {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
-        List<Student> studentList = studentRepo.findAllActiveStudents();
-        model.addAttribute("studentList", studentList);
+    	List<Student> studentActiveList = stuService.findAllActiveStudents();
+        model.addAttribute("studentList", studentActiveList);
         return "list-students";
     }
 
@@ -104,8 +75,8 @@ public class AdminManageStudentController {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
-        List<Student> studentList = studentRepo.findStudentByFirstName(name);
-        model.addAttribute("studentList", studentList);
+        List<Student> studentListByName = stuService.findAllStudentsByName(name);
+        model.addAttribute("studentList", studentListByName);
         return "list-students";
     }
 
@@ -114,7 +85,8 @@ public class AdminManageStudentController {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
-        model.addAttribute("student", studentRepo.findById(id).get());
+    	Student studentById = stuService.findStudentById(id);
+        model.addAttribute("student", studentById);
         return "student-form";
     }
 
@@ -123,12 +95,7 @@ public class AdminManageStudentController {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
-        Student s = studentRepo.findById(id).get();
-        if(s.getStudentId() != null)
-        {
-        	s.setUserStatus(UserStatus.INACTIVE);
-        	studentRepo.save(s);
-        }
+        stuService.deleteStudent(id);
         return "forward:/manage/student/view";
     }
 }

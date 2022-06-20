@@ -5,8 +5,15 @@ import java.util.List;
 import sg.edu.iss.caps.model.Student;
 
 public interface StudentService {
+	void createStudent(Student s);
 	
-	List<Student> findAllStudents();
+	List<Student> findAllActiveStudents();
 	
-	Student findStudent(Integer sId);
+	List<Student> findAllStudentsByName(String name);
+	
+	Student findStudentById(Integer id);
+
+	void editStudent(Student s);
+	
+	void deleteStudent(Integer id);
 }
