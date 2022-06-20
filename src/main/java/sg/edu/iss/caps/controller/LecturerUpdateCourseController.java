@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.CourseStudent;
+import sg.edu.iss.caps.model.CourseStudentStatus;
 import sg.edu.iss.caps.model.Grade;
 import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.Role;
@@ -22,6 +23,7 @@ import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
 import sg.edu.iss.caps.repo.LecturerRepository;
 import sg.edu.iss.caps.service.UserSessionService;
+import sg.edu.iss.caps.util.GradeUtil;
 import sg.edu.iss.caps.util.HashUtil;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 
@@ -69,22 +71,29 @@ public class LecturerUpdateCourseController {
         return "courseStudent-form";
     }
     
-//    @PostMapping("/add-score/{courseStudentId}")
-//    public String saveAddScoreForm(HttpSession session, Model model, @ModelAttribute("courseStudent") CourseStudent cs) {
-//    	User user = UserSessionService.findUser(session);
-//    	MenuNavBarUtil.generateNavBar(user, model);
-//    	
-//    	Student s = 
-//		CourseStudent cs2 = courseStudentRepo.findById(cs.).get();
-//		l2.setFirstName(l.getFirstName());
-//		l2.setLastName(l.getLastName());
-//		l2.setUsername( l.getUsername());
-//		l2.setEmail(l.getEmail());
-//		lecturerRepo.save(l2);
-//		
-//        model.addAttribute("action","edit");
-//        return "redirect:/manage/lecturer/list";
-//    }
+    @PostMapping("/add-score/{courseStudentId}")
+    public String saveAddScoreForm(HttpSession session, Model model, @ModelAttribute("courseStudent") CourseStudent cs, int score) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
+    	CourseStudent cs2 = courseStudentRepo.findById(cs.getCourseStudentId()).get();
+    		cs2.setScore(score);
+    		try {
+    			cs2.setGrade(GradeUtil.calculateGrade(score));
+    			if (cs2.getGrade() == Grade.F) {
+					cs2.setCourseStudentStatus(CourseStudentStatus.FAILED);
+				} else{
+					cs2.setCourseStudentStatus(CourseStudentStatus.COMPLETED);
+				};
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		courseStudentRepo.save(cs2);
+		
+        return "redirect:/lecturer/list-course-students/" + cs2.getCourse().getCourseCode();
+    }
     
     
     
@@ -99,24 +108,7 @@ public class LecturerUpdateCourseController {
 //    		courseStudentRepo.save(cs2);
 //        return "forward:/course-student/list";
 //    }
-    
-//public static void  calculateGrade(int score) {
-//	
-//	Grade g;
-//	
-//	if(score >= 90 || score <= 100) {
-//		g = Grade.A;
-//	} else if (score >= 80 || score <= 89){
-//		g = Grade.B;
-//	} else if (score >= 70 || score <= 79) {
-//		g = Grade.C;
-//	} else if (score >= 60 || score <= 69) {
-//		g = Grade.D;
-//	} else if (score >= 0 || score <= 59) {
-//		g = Grade.F;
-//	}
-
-    
+        
 //    @GetMapping("/{id}/list")
 //    public String listCourseStudent(Model model, @PathVariable("id") Integer courseStudentId) {
 //        CourseStudent courseStudent = courseStudentRepo.findById(courseStudentId).get();
