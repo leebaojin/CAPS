@@ -11,4 +11,6 @@ public class CommonController {
 	public String navigateHome(Model model) {
 		return "redirect:/home";
 	}
+	
+	
 }

@@ -2,6 +2,8 @@ package sg.edu.iss.caps.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +12,13 @@ import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Grade;
 import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.Role;
+import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.model.UserStatus;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.HashUtil;
+import sg.edu.iss.caps.util.MenuNavBarUtil;
 
 @Controller
 @RequestMapping("/course-student")
@@ -24,21 +29,29 @@ public class LecturerUpdateCourseController {
     CourseRepository courseRepo;
 
     @RequestMapping("/list")
-    public String listCourseStudents(Model model) {
+    public String listCourseStudents(HttpSession session, Model model) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
         List<CourseStudent> courseStudentList = courseStudentRepo.findAll();
         model.addAttribute("courseStudentList", courseStudentList);
         return "list-coursestudents";
     }
     
     @GetMapping("/add-grade/{courseStudentId}")
-    public String addGrade(Model model, @PathVariable("courseStudentId") Integer courseStudentId) {
+    public String addGrade(HttpSession session, Model model, @PathVariable("courseStudentId") Integer courseStudentId) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
     	model.addAttribute("courseStudent", courseStudentRepo.findById(courseStudentId).get());
         return "courseStudent-form";
     }
     
     @PostMapping("/save")
-    public String saveCourseStudentForm(@ModelAttribute("courseStudent")  CourseStudent cs) {
-    		CourseStudent cs2 = courseStudentRepo.findById(cs.getCourseStudentId()).get();
+    public String saveCourseStudentForm(@ModelAttribute("courseStudent")  CourseStudent cs, HttpSession session) {
+    	User user = UserSessionService.findUser(session);
+    	
+    	CourseStudent cs2 = courseStudentRepo.findById(cs.getCourseStudentId()).get();
     		cs2.setCourseStudentId(cs.getCourseStudentId());
     		cs2.setCourse(cs.getCourse());
     		cs2.setStudent(cs.getStudent());

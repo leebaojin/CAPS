@@ -1,9 +1,17 @@
 package sg.edu.iss.caps.repo;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.CourseStudent;
+import sg.edu.iss.caps.model.Student;
 
 public interface CourseStudentRepository extends JpaRepository<CourseStudent, Integer> {
-
+	
+	@Query("SELECT cs FROM CourseStudent cs WHERE cs.student = :s AND cs.course = :c")
+	public List<CourseStudent> findCSByStudentAndCourse(Student s, Course c);
+	
 }

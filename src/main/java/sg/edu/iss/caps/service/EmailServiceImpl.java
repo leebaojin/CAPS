@@ -25,4 +25,21 @@ public class EmailServiceImpl implements EmailService {
 		        emailSender.send(message);
 		        
 	}
+
+	@Override
+	public void SendCourseRegisteredEmail(String sendTo, String name, String courseCode) {
+		// Send email to user for registered course
+		
+		SimpleMailMessage message = new SimpleMailMessage(); 
+        message.setFrom("capssystem4@gmail.com");
+        message.setTo(sendTo); 
+        message.setSubject("Successful Registration for course: " + courseCode); 
+        
+        String msg = "Hi " + name + ",\n\tThis is to notify you that you have successfully enrolled for: " +
+        		courseCode+ "Please login to CAPS system to view your courses." + "\n" + "\nRegards,\nCAPS team";
+        
+        message.setText(msg);
+        emailSender.send(message);
+		
+	}
 }

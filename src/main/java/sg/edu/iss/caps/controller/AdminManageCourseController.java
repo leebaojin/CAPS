@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.caps.model.*;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.LecturerRepository;
+import sg.edu.iss.caps.service.UserSessionService;
+import sg.edu.iss.caps.util.MenuNavBarUtil;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/course")
@@ -21,7 +25,10 @@ public class AdminManageCourseController {
     LecturerRepository lecturerRepo;
 
     @GetMapping("/create")
-    public String createCoursePage(Model model) {
+    public String createCoursePage(HttpSession session, Model model) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
         Course c = new Course();
         List<Lecturer> lecturerList = lecturerRepo.findAll();
         model.addAttribute("course", c);
@@ -30,7 +37,10 @@ public class AdminManageCourseController {
     }
 
     @RequestMapping("/list")
-    public String listCourses(Model model) {
+    public String listCourses(HttpSession session, Model model) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
         List<Course> courseList = courseRepo.findAll();
         List<Lecturer> lecturerList = lecturerRepo.findAll();
         model.addAttribute("courseList", courseList);
@@ -40,8 +50,11 @@ public class AdminManageCourseController {
 
     @PostMapping("/save")
     // validation tbc: courseCode
-    public String saveCourse(@ModelAttribute("course") Course c) {
+    public String saveCourse(@ModelAttribute("course") Course c, HttpSession session) {
         // if course present, get course object, otherwise create new course
+    	
+    	User user = UserSessionService.findUser(session);
+    	
         Course c2 = courseRepo.findById(c.getCourseCode()).isPresent() ?
                 courseRepo.findById(c.getCourseCode()).get(): new Course();
 
@@ -64,7 +77,10 @@ public class AdminManageCourseController {
 
     // clarify difference between this and editCoursePage
     @GetMapping("/edit/{courseId}")
-    public String editCourse(Model model, @PathVariable("courseId") String courseId) {
+    public String editCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
         Course c = courseRepo.findById(courseId).get();
         List<Lecturer> lecturerList = lecturerRepo.findAll();
         model.addAttribute("course", c);
@@ -73,7 +89,10 @@ public class AdminManageCourseController {
     }
 
     @GetMapping("/delete/{courseId}")
-    public String deleteCourse(Model model, @PathVariable("courseId") String courseId) {
+    public String deleteCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
         Course c = courseRepo.findById(courseId).get();
         courseRepo.delete(c);
         return "forward:/course/list";
@@ -89,7 +108,10 @@ public class AdminManageCourseController {
 //    }
 
     @PostMapping("/{id}/add-lecturer")
-    public String addCourseLecturer(Model model, @PathVariable("id") String id, @ModelAttribute("lecturer") Lecturer l) {
+    public String addCourseLecturer(Model model, @PathVariable("id") String id, @ModelAttribute("lecturer") Lecturer l, HttpSession session) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
         Course c = courseRepo.findById(id).get();
         c.getCourseLecturers().add(l);
         courseRepo.save(c);
@@ -97,7 +119,9 @@ public class AdminManageCourseController {
     }
 
     @GetMapping("/{id}/remove-lecturer")
-    public String removeCourseLecturer(Model model, @PathVariable("id") Integer id) {
+    public String removeCourseLecturer(Model model, @PathVariable("id") Integer id, HttpSession session) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
         return "forward:/course/{id}/lecturer";
     }
 

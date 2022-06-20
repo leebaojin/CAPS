@@ -23,33 +23,38 @@ import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
 import sg.edu.iss.caps.repo.StudentRepository;
+import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.CourseServiceImpl;
+import sg.edu.iss.caps.service.CourseStudentService;
+import sg.edu.iss.caps.service.EmailService;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 
 @Controller
 @RequestMapping("/student/course-registration")
 public class StudentCourseRegistrationController {
 	//For students to register courses for themselves
-
-    @Autowired
-    CourseStudentRepository courseStudentRepo;
     
     @Autowired
-    StudentRepository stuRepo;
+    CourseService courseService;
     
     @Autowired
-    CourseRepository courseRepo;
+    CourseStudentService courseStudentService;
     
     @Autowired
-    CourseServiceImpl courseService;
+    EmailService emailService;
 
     @GetMapping("")
-    public String listAvailableCourse(HttpSession session, HttpServletRequest request, Model model) {
-    	Student student = stuRepo.findById(2).get();
+    public String listAvailableCourse(HttpSession session, HttpServletRequest request, 
+    		Model model) {
     	
-    	if(student == null) {
+    	User user = UserSessionService.findUser(session);
+    	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}
+    	
+    	Student student = (Student) user;
+    	
     	//Generate navigation bar
     	MenuNavBarUtil.generateNavBar(student, model);
     	
@@ -68,17 +73,20 @@ public class StudentCourseRegistrationController {
     
     
     @GetMapping("/find")
-    public String listAvailableCourseBySearch(@RequestParam("findCourse") String searchStr,HttpSession session, Model model) {
+    public String listAvailableCourseBySearch(@RequestParam("findCourse") String searchStr,
+    		HttpSession session, Model model) {
+    	
     	if(searchStr == null || searchStr.equals("")) {
     		//Redirect if search is empty
     		return "redirect:/student/course-registration";
     	}
     	
-    	Student student = stuRepo.findById(2).get();
-    	
-    	if(student == null) {
+    	User user = UserSessionService.findUser(session);
+    	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}
+    	
+    	Student student = (Student) user;
     	
     	MenuNavBarUtil.generateNavBar(student, model);
     	List<Course> courseAvailable = courseService.findSearchCourseForStudent(student, searchStr);
@@ -88,27 +96,25 @@ public class StudentCourseRegistrationController {
     }
 
     @GetMapping("/register/{id}")
-    public String addCourseStudent(@PathVariable("id") String courseCode,HttpServletRequest request, Model model) {
+    public String addCourseStudent(@PathVariable("id") String courseCode, HttpSession session, 
+    		HttpServletRequest request, Model model) {
     	
-    	Student student = stuRepo.findById(2).get();
+    	User user = UserSessionService.findUser(session);
+    	if(user == null || !(user instanceof Student)) {
+    		return "redirect:/home";
+    	}
+    	Student student = (Student) user;
     	
-    	if(student == null) {
+    	//Create the new CourseStudent
+    	CourseStudent cs = courseStudentService.CreateNewCourseStudent(student, courseCode);
+    	if(cs == null) {
     		return "redirect:/home";
     	}
     	
-    	Course course = courseRepo.findById(courseCode).get();
-    	for(CourseStudent cs : student.getCourseAttended()) {
-    		if(cs.getCourse().equals(course)) {
-    			//Cannot register if course already present
-    			return "redirect:/student/course-registration";
-    		}
-    	}
+    	//Send email notification
+    	//emailService.SendCourseRegisteredEmail(student.getEmail(), String.join(" ", student.getFirstName(),student.getLastName()), courseCode);
     	
-    	
-    	CourseStudent cs = new CourseStudent(student,course);
-    	student.getCourseAttended().add(cs);
-    	stuRepo.saveAndFlush(student);
-    	
+    	//Set the required attribute to the request before forwarding
     	request.setAttribute("successfulRegistration",true);
     	request.setAttribute("successfulCourse",courseCode);
         return "forward:/student/course-registration"; //Forward and pass new data
