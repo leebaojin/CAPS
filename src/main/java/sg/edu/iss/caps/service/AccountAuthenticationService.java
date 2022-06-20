@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import sg.edu.iss.caps.model.Account;
 import sg.edu.iss.caps.model.ChangePWRequest;
-import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 
 public interface AccountAuthenticationService {

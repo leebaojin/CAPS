@@ -1,7 +1,6 @@
 package sg.edu.iss.caps.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,20 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.iss.caps.model.Course;
-import sg.edu.iss.caps.model.CourseStatus;
 import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
-import sg.edu.iss.caps.repo.CourseRepository;
-import sg.edu.iss.caps.repo.CourseStudentRepository;
-import sg.edu.iss.caps.repo.StudentRepository;
 import sg.edu.iss.caps.service.CourseService;
-import sg.edu.iss.caps.service.CourseServiceImpl;
-import sg.edu.iss.caps.service.StudentCourseService;
 import sg.edu.iss.caps.service.EmailService;
+import sg.edu.iss.caps.service.StudentCourseService;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 

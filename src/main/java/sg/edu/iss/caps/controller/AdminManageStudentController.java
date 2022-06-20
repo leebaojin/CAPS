@@ -1,12 +1,23 @@
 package sg.edu.iss.caps.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import sg.edu.iss.caps.model.Administrator;
 import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
@@ -15,11 +26,6 @@ import sg.edu.iss.caps.repo.StudentRepository;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.HashUtil;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
-
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/manage/student")
@@ -62,7 +68,18 @@ public class AdminManageStudentController {
     	}
     	else 
     	{
-    		//For Adding a new student
+    		//Setting Date 
+    		Date date = new Date();
+    	    String strDateFormat = "dd-MM-yyyy";
+    	    DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+    	    String formattedDate= dateFormat.format(date);
+    		try {
+				s.setEnrolledDate(dateFormat.parse(formattedDate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
 			s.setRole(Role.STUDENT);
 			s.setUserStatus(UserStatus.ACTIVE);
 			String defaultPwd = "123456";
