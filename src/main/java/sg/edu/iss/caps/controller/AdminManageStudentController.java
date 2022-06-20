@@ -1,5 +1,9 @@
 package sg.edu.iss.caps.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -64,7 +68,18 @@ public class AdminManageStudentController {
     	}
     	else 
     	{
-    		//For Adding a new student
+    		//Setting Date 
+    		Date date = new Date();
+    	    String strDateFormat = "dd-MM-yyyy";
+    	    DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+    	    String formattedDate= dateFormat.format(date);
+    		try {
+				s.setEnrolledDate(dateFormat.parse(formattedDate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
 			s.setRole(Role.STUDENT);
 			s.setUserStatus(UserStatus.ACTIVE);
 			String defaultPwd = "123456";
