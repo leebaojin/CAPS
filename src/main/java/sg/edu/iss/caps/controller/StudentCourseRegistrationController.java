@@ -25,7 +25,7 @@ import sg.edu.iss.caps.repo.CourseStudentRepository;
 import sg.edu.iss.caps.repo.StudentRepository;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.CourseServiceImpl;
-import sg.edu.iss.caps.service.CourseStudentService;
+import sg.edu.iss.caps.service.StudentCourseService;
 import sg.edu.iss.caps.service.EmailService;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
@@ -39,7 +39,7 @@ public class StudentCourseRegistrationController {
     CourseService courseService;
     
     @Autowired
-    CourseStudentService courseStudentService;
+    StudentCourseService courseStudentService;
     
     @Autowired
     EmailService emailService;

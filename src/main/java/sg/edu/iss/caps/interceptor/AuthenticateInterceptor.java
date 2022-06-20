@@ -24,29 +24,51 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
 	HttpSession session;
 	
 	private List<String> noblocklist = Arrays.asList("/home","/login","/logout");
-	private List<String> adminlist = Arrays.asList("/lecturer-management");
+	private List<String> adminlist = Arrays.asList("/manage");
+	private List<String> studentlist = Arrays.asList("/student");
+	private List<String> lecturerlist = Arrays.asList("/lecturer");
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        //response.sendRedirect(request.getContextPath() + "/" + offerRedirect);
+        //Get path
 		String path = request.getRequestURI();
+		
+		//Allow all request for css and js to pass
 		if(path.endsWith(".css")||path.endsWith(".js")) {
 			return true;
 		}
+		
 		for(String p : noblocklist) {
 			if(path.startsWith(p)) {
 				return true;
 			}
 		}
+		
+		//Check user with session
 		User user = UserSessionService.findUser(session);
 		if(user == null) {
 			//Redirect if user is not found
 			response.sendRedirect("/home");
 	        return false;
 		}
+		
 		if(user.getRole() == Role.ADMIN) {
+			for(String p : adminlist) {
+				if(path.startsWith(p)) {
+					return true;
+				}
+			}
+		}
+		else if(user.getRole() == Role.STUDENT) {
 			return true;
 		}
+		else if(user.getRole() == Role.LECTURER) {
+			return true;
+		}
+		
+		//Redirect home for all other web
 		response.sendRedirect("/home");
+		
+		//response.sendRedirect(request.getContextPath() + "/" + redirection);
         return false;
     }
  

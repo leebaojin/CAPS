@@ -15,7 +15,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/course")
+@RequestMapping("/manage/course")
 public class AdminManageCourseController {
 
     @Autowired

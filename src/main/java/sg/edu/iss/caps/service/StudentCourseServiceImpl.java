@@ -12,7 +12,7 @@ import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
 
 @Service
-public class CourseStudentServiceImpl implements CourseStudentService {
+public class StudentCourseServiceImpl implements StudentCourseService {
 	
 	@Autowired
 	CourseStudentRepository courseStudentRepo;
@@ -47,5 +47,19 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     	
 		return cs;
 	}
-
+	
+	@Override
+	public List<Course> findEnrolledCourse(Student s) {
+		// Find the courses that the student have taken
+		List<Course> courseTaken = courseRepo.findCourseTaken(s);
+		return courseTaken;
+	}
+	
+	
+	@Override
+	public List<Course> findStudentGrades(Student s){
+		//List<Course> courseGrade = courseRepo.findGrades(s);
+		return null;
+	}
+	
 }

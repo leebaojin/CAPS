@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import sg.edu.iss.caps.model.Administrator;
 import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
