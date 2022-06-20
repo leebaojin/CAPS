@@ -1,6 +1,7 @@
 package sg.edu.iss.caps.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +41,12 @@ public class AdminManageCourseController {
     }
 
     @RequestMapping("/list")
-    public String listCourses(HttpSession session, Model model) {
+    public String listCourses(HttpSession session, Model model, @RequestParam(value="pageNo", required = false) Integer pageNo) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
+    	
+    	//Page<Course> pageCourse = courseService.findAllCoursesSortPage(0, 5);
+    	//List<Course> courseList = pageCourse.getContent();
     	
         List<Course> courseList = courseService.findAllCourses();
         List<Lecturer> lecturerList = lecturerService.findAllLecturers();

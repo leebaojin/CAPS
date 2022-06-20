@@ -115,10 +115,11 @@
 			<br>
 		</div>
 		-->
-		<div th:if="${NavMenu != null}">
+		<div  th:if="${NavMenu != null}">
 			<div th:if="${#strings.equals(NavMenu.role, 'ADMIN')}">
+			 <div class="container-fluid">
 				<nav class="navbar navbar-expand-sm navbar-light bg-light">
-
+					 
 					<div class="navbar-collapse collapse justify-content-center secondmenu">
 						<ul class="navbar-nav">
 							<li class="nav-item">
@@ -138,8 +139,9 @@
 							</li>
 						</ul>
 					</div>
-
+					
 				</nav>
+			</div>
 			</div>
 			<div th:if="${#strings.equals(NavMenu.role, 'STUDENT')}">
 				<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-center secondmenu">

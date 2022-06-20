@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.caps.model.Course;
@@ -91,6 +94,13 @@ public class CourseServiceImpl implements CourseService {
 		return courses.stream().filter(
 				c -> (c.getCourseStudents().size() < c.getCourseCapacity()) && c.getCourseStatus() == CourseStatus.OPEN)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public Page<Course> findAllCoursesSortPage(int page, int view) {
+		// Find all, sort ascending and page
+		
+		return courseRepo.findAll(PageRequest.of(page, view, Sort.Direction.ASC,"courseCode"));
 	}
 
 }

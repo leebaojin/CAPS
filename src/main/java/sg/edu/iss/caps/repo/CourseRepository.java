@@ -2,6 +2,8 @@ package sg.edu.iss.caps.repo;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,4 +24,6 @@ public interface CourseRepository extends JpaRepository<Course, String> {
 	
 //	@Query("SELECT c FROM Course c WHERE c IN(SELECT c FROM Course c  JOIN c.courseStudents cs WHERE cs.student = :s AND cs.courseStudentStatus IN ('COMPLETED','FAILED'))")
 //	public List<Course> findGrades(Student s);
+	
+	public Page<Course> findAll(Pageable pageable);
 }
