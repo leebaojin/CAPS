@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: headsection"></head>
+
+<body>
+	<header th:replace="fragments/layout.html :: headermenu"></header>
+	<!-- <div th:replace="fragments/layout.html :: Anotherheadermenu"> -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			<div class="col-10">
+			<h2>Course Assignment</h2>
+	<table class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">Course Code</th>
+	      <th scope="col">Title</th>
+	      <th scope="col">Capacity</th>
+	      <th scope="col">Status</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr th:each="course:${teachCoursesList}">
+	      <td><a href="list-courses-students.html" th:href="@{/lecturer/list-course-students/}+${course.courseCode}" th:text=${course.courseCode}> </a></td>
+	      <td th:text=${course.courseTitle}></td>
+	      <td th:text=${course.courseCapacity}></td>
+	      <td th:text=${course.courseStatus}></td>
+	    </tr>
+	  </tbody>
+</table>
+			</div>
+			<div class="col-1"></div>
+		</div>
+	</div>
+</body>
+
+<div th:replace="fragments/layout.html :: footersection"></div>
+
+</html>
