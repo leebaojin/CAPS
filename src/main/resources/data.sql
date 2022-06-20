@@ -74,3 +74,30 @@ INSERT INTO capsdata.course_student(course_student_id,course_student_status,grad
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4006',12);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4006',13);
 
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4001',1);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4001',2);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4002',3);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4002',4);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4002',5);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4003',6);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4003',7);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4004',8);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4004',9);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4004',10);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4005',11);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4005',12);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4006',13);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4007',1);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4008',2);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4008',3);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4009',4);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4009',5);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4009',6);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4010',7);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4010',8);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4011',9);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4011',10);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4011',11);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4012',12);
+INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4013',13);
+
