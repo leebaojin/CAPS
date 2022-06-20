@@ -66,7 +66,7 @@ INSERT INTO capsdata.course_student(course_student_id,course_student_status,grad
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'COMPLETED','B',89,'SA4004',7);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'COMPLETED','B',81,'SA4004',8);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'COMPLETED','A',98,'SA4004',9);
-INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'FAILED','F',50,'SA4004',10);
+INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'FAILED','F',35,'SA4004',10);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4005',11);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4005',12);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4005',13);
