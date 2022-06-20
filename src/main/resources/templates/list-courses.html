@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-1"></div>
-			<div class="col-10">
+			<div class="col-11">
 				<h2>Course Listing</h2>
 				<table class="table">
 					<tr>
@@ -24,9 +24,11 @@
 						<th scope="col">Credits</th>
 						<th scope="col">Capacity</th>
 						<th scope="col">Status</th>
-						<th scope="col">Lecturers</th>
+						<th class="col-2" scope="col">Lecturers</th>
 						<th scope="col">Edit</th>
+						<!--
 						<th scope="col">Delete</th>
+						-->
 					</tr>
 					<tr th:each="course:${courseList}" class="table-row">
 						<td th:text="${course.courseCode}">ID</td>
@@ -35,13 +37,16 @@
 						<td th:text="${course.courseCredits}">ID</td>
 						<td th:text="${course.courseCapacity}">ID</td>
 						<td th:text="${course.courseStatus}">ID</td>
-						<div th:each="lecturer:${course.courseLecturers}" class="table-row">
-							<td th:text="${lecturer.firstName}+${lecturer.lastName}">ID</td>
-						</div>
-						<td><a href="EditCourse.html" th:href="@{/course/edit/}+${course.courseCode}"
+						<td>
+							<span th:each="lecturer:${course.courseLecturers}" th:text="${lecturer.firstName}+' '+${lecturer.lastName}+';&#10;&#13;'">ID</span>
+						</td>
+						
+						<td><a href="EditCourse.html" th:href="@{/manage/course/edit/}+${course.courseCode}"
 								th:utext="#{course.page.edit}"> Edit Course Details</a></td>
-						<td><a href="DeleteCourse.html" th:href="@{/course/delete/}+${course.courseCode}"
+						<!--
+						<td><a href="DeleteCourse.html" th:href="@{/manage/course/delete/}+${course.courseCode}"
 								th:utext="#{course.page.delete}"> Delete Course </a></td>
+								-->
 					</tr>
 				</table>
 			</div>

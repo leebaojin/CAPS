@@ -12,7 +12,7 @@
         <div class="col-3"></div>
         <div class="col-6">
             <h2>Course Form</h2>
-            <form method="post" th:action="@{/course/save}" th:object="${course}">
+            <form method="post" th:action="@{/manage/course/save}" th:object="${course}">
                 <div class="row mb-3">
                     <label for="courseCode" class="col-sm-3 col-form-label">Course Code</label>
                     <div class="col-sm-9">
@@ -60,7 +60,7 @@
                 <div class="row mb-3">
                     <label for="courseLecturers" class="col-sm-3 col-form-label">Lecturers</label>
                     <div class="col-sm-9">
-                        <select class="form-select-lg mb-3" id="courseLecturers" aria-label="Default select example" th:field="*{courseLecturers}" >
+                        <select class="form-select-lg mb-3" id="courseLecturers" aria-label="Default select example" name="courseLecturerAdd" >
                             <option selected value="">Select lecturer</option>
                             <option th:each="lecturer:${lecturerList}" th:value="${lecturer.lecturerId}"th:text="${lecturer.firstName}+${lecturer.lastName}">
                         </select>
