@@ -1,12 +1,19 @@
 package sg.edu.iss.caps.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import sg.edu.iss.caps.model.Administrator;
 import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
@@ -15,11 +22,6 @@ import sg.edu.iss.caps.repo.StudentRepository;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.HashUtil;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
-
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/manage/student")
