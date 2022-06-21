@@ -7,7 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.caps.model.Role;
@@ -22,24 +27,28 @@ public class StudentServiceImpl implements StudentService {
 	@Resource
 	StudentRepository studentRepo;
 
+	@Transactional
 	@Override
 	public List<Student> findAllActiveStudents() {
 		List<Student> studentList = studentRepo.findAllActiveStudents();
 		return studentList;
 	}
 	
+	@Transactional
 	@Override
 	public List<Student> findAllStudentsByName(String name) {
 		List<Student> studentListByName = studentRepo.findStudentByFirstName(name);
 		return studentListByName;
 	}
 
+	@Transactional
 	@Override
 	public Student findStudentById(Integer id) {
 		Student studentById = studentRepo.findById(id).get();
 		return studentById;
 	}
 	
+	@Transactional
 	@Override
 	public void editStudent(Student s) {
 		Student newStudent = studentRepo.findById(s.getStudentId()).get();
@@ -50,6 +59,7 @@ public class StudentServiceImpl implements StudentService {
 		studentRepo.save(newStudent);
 	}
 
+	@Transactional
 	@Override
 	public void createStudent(Student s) {
 		//Setting Date 
@@ -71,6 +81,7 @@ public class StudentServiceImpl implements StudentService {
 		studentRepo.save(s);
 	}
 
+	@Transactional
 	@Override
 	public void deleteStudent(Integer id) {
 		Student s = studentRepo.findById(id).get();
@@ -81,6 +92,16 @@ public class StudentServiceImpl implements StudentService {
         }
 	}
 
-
-
+	@Transactional
+	@Override
+	public Page<Student> findPaginated(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		List<Student> allActiveStudent = studentRepo.findAllActiveStudents();
+		
+		int start = (int) pageable.getOffset();
+		int end = (int) ((start + pageable.getPageSize()) > allActiveStudent.size() ? allActiveStudent.size()
+				  : (start + pageable.getPageSize()));
+		Page<Student> page = new PageImpl<Student>(allActiveStudent.subList(start, end), pageable, allActiveStudent.size());
+		return page;
+	}
 }

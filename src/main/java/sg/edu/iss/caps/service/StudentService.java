@@ -2,6 +2,8 @@ package sg.edu.iss.caps.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import sg.edu.iss.caps.model.Student;
 
 public interface StudentService {
@@ -16,4 +18,6 @@ public interface StudentService {
 	void editStudent(Student s);
 	
 	void deleteStudent(Integer id);
+	
+	Page<Student> findPaginated(int pageNo, int pageSize);
 }
