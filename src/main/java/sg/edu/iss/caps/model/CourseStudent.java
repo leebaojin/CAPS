@@ -22,8 +22,8 @@ public class CourseStudent {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer courseStudentId;
-	@Min(value = 0, message = "Score should not be less than 0")
-    @Max(value = 100, message = "Score should not be greater than 100")
+//	@Min(value = 0, message = "Score should not be less than 0")
+//    @Max(value = 100, message = "Score should not be greater than 100")
 	private Integer score;
 	@Enumerated(EnumType.STRING)
 	private Grade grade;

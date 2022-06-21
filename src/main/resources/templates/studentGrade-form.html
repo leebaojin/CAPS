@@ -42,7 +42,9 @@
   					<div class="row mb-3">
     					<label for="inputGrade3" class="col-sm-3 col-form-label">Score</label>
     					<div class="col-sm-9">
-      						<input type="text" class="form-control" id="inputScore3" th:field="*{score}">
+      						<input type="number" class="form-control" id="inputScore3" th:field="*{score}" min="0" max="100" required 
+      						placeholder="Enter score" oninvalid="this.setCustomValidity('Please enter score (0 - 100)')" 
+      						oninput="this.setCustomValidity('')">
       						<p class="form-err" th:if="${#fields.hasErrors('score')}" th:errors="*{score}"></p>
     					</div>
   					</div>
