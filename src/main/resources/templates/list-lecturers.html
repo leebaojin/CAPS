@@ -28,15 +28,15 @@
 	  </thead>
 	  <tbody>
 	    <tr th:each="lecturer:${lecturerList}">
-	      <th scope="row" th:text=${lecturer.lecturerId}>Id</th>
-	      <td th:text=${lecturer.firstName}>First Name</td>
-	      <td th:text=${lecturer.lastName}>Last Name</td>
-	      <td th:text=${lecturer.username}>Username</td>
-	      <td th:text=${lecturer.email}>Email</td>
-	      <td th:text=${lecturer.role}>Role</td>
-	      <td th:text=${lecturer.userStatus}>Status</td>
-	      <td><a href="EditLecturer.html" th:href="@{/manage/lecturer/edit/}+${lecturer.lecturerId}"> Edit </a></td>
-	      <td><a href="DeleteLecturer.html" th:href="@{/manage/lecturer/delete/}+${lecturer.lecturerId}"> Delete </a></td>
+	      <th scope="row" th:text=${lecturer.lecturerId}></th>
+	      <td th:text=${lecturer.firstName}></td>
+	      <td th:text=${lecturer.lastName}></td>
+	      <td th:text=${lecturer.username}></td>
+	      <td th:text=${lecturer.email}></td>
+	      <td th:text=${lecturer.role}></td>
+	      <td th:text=${lecturer.userStatus}></td>
+	      <td><a th:href="@{/manage/lecturer/edit/}+${lecturer.lecturerId}"> Edit </a></td>
+	      <td><a th:href="@{/manage/lecturer/delete/}+${lecturer.lecturerId}"> Delete </a></td>
 	    </tr>
 	  </tbody>
 </table>
