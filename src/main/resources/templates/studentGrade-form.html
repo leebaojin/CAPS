@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<link rel="stylesheet" type="text/css" th:href="@{/css/loginpage.css}" href="../static/css/loginpage.css" />
 <head th:replace="fragments/layout.html :: headsection"></head>
 
 <body>
@@ -43,7 +43,7 @@
     					<label for="inputGrade3" class="col-sm-3 col-form-label">Score</label>
     					<div class="col-sm-9">
       						<input type="text" class="form-control" id="inputScore3" th:field="*{score}">
-      						<p th:if="${#fields.hasErrors('score')}" th:errors="*{score}"></p>
+      						<p class="form-err" th:if="${#fields.hasErrors('score')}" th:errors="*{score}"></p>
     					</div>
   					</div>
 					<input type="submit" value="Submit" class="btn btn-secondary"></input>
