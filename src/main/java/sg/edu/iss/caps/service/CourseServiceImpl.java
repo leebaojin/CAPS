@@ -3,6 +3,8 @@ package sg.edu.iss.caps.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -103,4 +105,9 @@ public class CourseServiceImpl implements CourseService {
 		return courseRepo.findAll(PageRequest.of(page, view, Sort.Direction.ASC,"courseCode"));
 	}
 
+	@Transactional
+	@Override
+	public Course findCourseByCourseCode(String courseCode) {
+		return courseRepo.findCourseCode(courseCode);
+	}
 }

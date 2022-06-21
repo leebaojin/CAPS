@@ -1,7 +1,5 @@
 package sg.edu.iss.caps.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -16,25 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.caps.model.Lecturer;
-import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.User;
-import sg.edu.iss.caps.model.UserStatus;
-import sg.edu.iss.caps.repo.LecturerRepository;
+import sg.edu.iss.caps.service.LecturerService;
 import sg.edu.iss.caps.service.UserSessionService;
-import sg.edu.iss.caps.util.HashUtil;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 
 @Controller
 @RequestMapping("/manage/lecturer") 
 public class AdminManageLecturerController {
-
+    
     @Autowired
-    LecturerRepository lecturerRepo;
-
+    LecturerService lecturerService;
+    
     @GetMapping("/create")
     public String loadLecturerForm(HttpSession session, Model model) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
+    	
         Lecturer l = new Lecturer();
         model.addAttribute("lecturer",l);
         model.addAttribute("action","create");
@@ -42,7 +38,7 @@ public class AdminManageLecturerController {
     }
     
     @PostMapping("/create")
-    public String loadLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, HttpSession session, Model model) {
+    public String saveLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, HttpSession session, Model model) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
@@ -50,12 +46,7 @@ public class AdminManageLecturerController {
     	if(bindingResult.hasErrors()) {
 			return "lecturer-form";
 		}
-		l.setRole(Role.LECTURER);
-		l.setUserStatus(UserStatus.ACTIVE);
-		String defaultPwd = "123456";
-		l.setPasswordHash(HashUtil.getHash(l.getUsername(),defaultPwd));
-		lecturerRepo.save(l);
-        
+    	lecturerService.saveLecturer(l);
         return "redirect:/manage/lecturer/list";
     }
     
@@ -63,29 +54,22 @@ public class AdminManageLecturerController {
     public String loadEditLecturerForm(Model model, @PathVariable("lecturerId") Integer lecturerId, HttpSession session) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
-    	model.addAttribute("lecturer", lecturerRepo.findById(lecturerId).get());
+    	
+    	model.addAttribute("lecturer", lecturerService.findLecturerById(lecturerId));
     	 model.addAttribute("action","edit");
         return "lecturer-form";
     }
     
     @PostMapping("/edit/{lecturerId}")
-    public String loadEditLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult,HttpSession session, Model model) {
-    	 
+    public String saveEditLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult,HttpSession session, Model model) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	model.addAttribute("action","edit");
-
 		if(bindingResult.hasErrors()) {
 			return "lecturer-form";
 		}
-		Lecturer l2 = lecturerRepo.findById(l.getLecturerId() ).get();
-		l2.setFirstName(l.getFirstName());
-		l2.setLastName(l.getLastName());
-		l2.setUsername( l.getUsername());
-		l2.setEmail(l.getEmail());
-		lecturerRepo.save(l2);
-		
+		lecturerService.saveEditLecturer(l);
         model.addAttribute("action","edit");
         return "redirect:/manage/lecturer/list";
     }
@@ -94,8 +78,8 @@ public class AdminManageLecturerController {
     public String listLecturers(HttpSession session, Model model) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
-        List<Lecturer> lecturerList = lecturerRepo.findAllActiveLecturers();
-        model.addAttribute("lecturerList", lecturerList);
+        
+        model.addAttribute("lecturerList", lecturerService.findAllActiveLecturers());
         return "list-lecturers";
     }
 
@@ -104,13 +88,9 @@ public class AdminManageLecturerController {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
-    	Lecturer l2 = lecturerRepo.findById(lecturerId ).get();
-    	if (l2.getLecturerId() != null) {
-    		l2.setUserStatus(UserStatus.INACTIVE);
-    		lecturerRepo.save(l2);
-    	}
+    	Lecturer l2 = lecturerService.findLecturerById(lecturerId);
+    	lecturerService.deleteLecturer(l2);
         return "redirect:/manage/lecturer/list";
-
     }
     
 //	@GetMapping("/{lecturerId}")

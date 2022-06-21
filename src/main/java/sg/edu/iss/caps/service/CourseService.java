@@ -25,5 +25,7 @@ public interface CourseService {
 	public void SaveCourseAddLecturer(Course c, Lecturer l);
 	
 	public void AddLecturerToCourse(String courseId, Lecturer l);
+	
+	public Course findCourseByCourseCode(String courseCode); 
 
 }
