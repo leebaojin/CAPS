@@ -20,6 +20,7 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Integer> {
 	@Query("Select l from Lecturer l join l.teachCourses lc WHERE lc.courseCode = :cId")
 	ArrayList<Lecturer>findLecturerByCourseId(@Param("cId") String courseCode);
 	
+	//Additional used by react.js
 	@Query("Select l from Lecturer l where l NOT IN (Select l2 from Lecturer l2 join l2.teachCourses lc WHERE lc.courseCode = :cId)")
 	ArrayList<Lecturer>findAvailLecturerByCourseId(@Param("cId") String courseCode);
 }

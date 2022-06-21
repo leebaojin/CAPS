@@ -2,6 +2,8 @@ package sg.edu.iss.caps.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.Lecturer;
+import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.LecturerRepository;
+import sg.edu.iss.caps.service.UserSessionService;
 
-@CrossOrigin(origins= "http://localhost:3000")
+@CrossOrigin(origins= "http://localhost:3000/", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/manage/courselecturer")
 public class AdminAssignCourseLecturerController {
@@ -45,6 +49,16 @@ public class AdminAssignCourseLecturerController {
 		return lecturerlist;
 	}
 	
+	@GetMapping("/getUser")
+	public ResponseEntity<String> getUser(HttpSession session){
+		User user = UserSessionService.findUser(session);
+		if(user == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		String name = user.getFirstName() + " " + user.getLastName();
+		return new ResponseEntity<>(name, HttpStatus.OK);
+	}
+	
 	@GetMapping("/listLecturerByCourseId/{id}")
 	public List<Lecturer> getLecturerByCourseId(@PathVariable("id") String courseId){
 		List<Lecturer> lecturerlist = lecturerRepo.findLecturerByCourseId(courseId);
@@ -64,9 +78,14 @@ public class AdminAssignCourseLecturerController {
 			//No such course
 			new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		try {
 		course.getCourseLecturers().clear();
 		course.getCourseLecturers().addAll(lecturers);
 		courseRepo.save(course);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
