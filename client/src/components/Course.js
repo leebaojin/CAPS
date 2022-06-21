@@ -1,26 +1,21 @@
 import React, { useState } from "react";
-import * as lecturers from "../api/lecturers.json";
+import lecturers from "../api/lecturers.json";
 
 const Course = () => {
   const code = "SA4001";
-  const initialCourseState = {
-    courseCode: code,
-    courseTitle: "",
-    courseDescription: "",
-    courseCredits: 0,
-    courseCapacity: 0,
-    courseStatus: true,
-    courseLecturers: lecturers,
-  };
-
+  const lecturers = allLecturers.lecturers;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [credits, setCredits] = useState(0);
   const [capacity, setCapacity] = useState(0);
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState("Open");
   const [availLecturers, setAvailLecturers] = useState([]);
-  const [selectedLecturers, setSelectedLecturers] = useState(lecturers);
-  const [courseObj, setCourseObj] = useState(initialCourseState);
+  const [selectedLecturers, setSelectedLecturers] = useState([]);
+
+  const handleAddLecturers = (lecturer) => {
+    availLecturers.push(lecturer);
+    console.log("avail lects", availLecturers);
+  };
 
   const submitForm = () => {
     const courseInfoObj = {
@@ -33,6 +28,8 @@ const Course = () => {
       courseLecturers: selectedLecturers,
     };
     console.log(courseInfoObj);
+    const json = JSON.stringify(courseInfoObj);
+    console.log(json);
   };
 
   return (
@@ -130,17 +127,15 @@ const Course = () => {
                     class="form-select-lg mb-3"
                     id="courseStatus"
                     aria-label="Default select example"
-                    value={courseObj.status === true ? "Closed" : "Open"}
+                    defaultValue={status}
+                    value={status}
                     onChange={(e) => {
-                      setCourseObj({
-                        ...courseObj,
-                        status: e.target.value === "Open" ? true : false,
-                      });
+                      setStatus(e.target.value);
                       console.log("e.target.value", e.target.value);
                     }}
                   >
                     <option value="Open">Open</option>
-                    <option value="Close">Close</option>
+                    <option value="Closed">Closed</option>
                   </select>
                 </div>
               </div>
@@ -154,8 +149,23 @@ const Course = () => {
                     id="courseLecturers"
                     aria-label="Default select example"
                     name="courseLecturerAdd"
+                    value="select"
+                    onChange={(e) => {
+                      handleAddLecturers(e.target.value);
+                      console.log("e.target.value", e.target.value);
+                    }}
                   >
-                    <option defaultValue="select">Add Lecturer...</option>
+                    <option>Select lecturer...</option>
+                    {lecturers.map((lecturer) => {
+                      console.log(typeof lecturers);
+                      console.log(lecturers);
+                      console.log("lecturer in map", lecturer);
+                      return (
+                        <option value={lecturer} key={lecturer.lecturerId}>
+                          {lecturer}{" "}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
