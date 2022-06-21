@@ -1,5 +1,8 @@
 package sg.edu.iss.caps.repotest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,6 +74,24 @@ public class StudentRepositoryTest {
 	
 	@Test
 	@Order(3)
+	public void testUpdateStudent() {
+		Student result = srepo.findFirstByUsername("johnteo");
+		System.out.println("Before update: " + result.getFirstName() + " " + result.getLastName() + " " + result.getEmail());
+		assertEquals(result.getFirstName(), "John", "Result first name does not match");
+		assertEquals(result.getLastName(), "Teo", "Result last name does not match");
+		assertEquals(result.getEmail(), "johnteo@issnusteamsa54.com", "Result email does not match");
+		result.setFirstName("updateFirstName");
+		result.setLastName("updateLastName");
+		result.setEmail("updateemail@issnusteamsa54.com");
+		srepo.saveAndFlush(result);
+		System.out.println("After update: " + result.getFirstName() + " " + result.getLastName() + " " + result.getEmail());
+		assertNotEquals(result.getFirstName(), "John", "Result first name does not match");
+		assertNotEquals(result.getLastName(), "Teo", "Result last name does not match");
+		assertNotEquals(result.getEmail(), "johnteo@issnusteamsa54.com", "Result email does not match");	
+	}
+	
+	@Test
+	@Order(4)
 	public void testDeleteStudent() {
 		long beforeCount = srepo.count();
 		Student s = srepo.findByUsername("johnteo").get(0);

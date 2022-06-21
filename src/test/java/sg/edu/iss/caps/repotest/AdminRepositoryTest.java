@@ -1,5 +1,8 @@
 package sg.edu.iss.caps.repotest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.util.Arrays;
 
 import org.jboss.logging.Logger;
@@ -16,6 +19,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import sg.edu.iss.caps.CapsApplication;
 import sg.edu.iss.caps.model.Administrator;
+import sg.edu.iss.caps.model.Lecturer;
+import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.repo.AdministratorRepository;
 import sg.edu.iss.caps.util.HashUtil;
 
@@ -31,10 +36,11 @@ public class AdminRepositoryTest {
 	
 	@Test
 	@Order(1)
-	public void testFindStudent() {
+	public void testFindAdmin() {
 		Administrator a = arepo.findFirstByUsername("capslbj");
 		
 		Assertions.assertTrue(Arrays.equals(HashUtil.getHash("capslbj","password-4"), a.getPasswordHash()));
 		
 	}
+	
 }
