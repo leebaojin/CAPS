@@ -18,4 +18,7 @@ public interface CourseStudentRepository extends JpaRepository<CourseStudent, In
 	
 	@Query("SELECT cs FROM CourseStudent cs WHERE course_course_code = :courseCode")
 	ArrayList<CourseStudent>findCSByCourse(@Param("courseCode") String courseCode);
+	
+	@Query("SELECT cs FROM CourseStudent cs WHERE cs.student = :s AND cs.courseStudentStatus IN ('COMPLETED','FAILED')")
+	public List<CourseStudent> findGrades(Student s);
 }

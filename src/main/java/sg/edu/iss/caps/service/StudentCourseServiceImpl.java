@@ -10,6 +10,7 @@ import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
+import sg.edu.iss.caps.repo.StudentRepository;
 
 @Service
 public class StudentCourseServiceImpl implements StudentCourseService {
@@ -19,6 +20,9 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 	
 	@Autowired
 	CourseRepository courseRepo;
+	
+	@Autowired
+	StudentRepository stuRepo;
 	
 	@Override
 	public CourseStudent CreateNewCourseStudent(Student student, String courseCode) {
@@ -57,9 +61,19 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 	
 	
 	@Override
-	public List<Course> findStudentGrades(Student s){
-		//List<Course> courseGrade = courseRepo.findGrades(s);
-		return null;
+	public List<CourseStudent> findStudentGrades(Student s){
+//		List<CourseStudent> courses = courseStudentRepo.findAll();
+		List<CourseStudent> courseGrades = courseStudentRepo.findGrades(s);
+		return courseGrades;
+	}
+	
+	@Override
+	public Student changeStudentProfile(Student student) {
+		Student s = stuRepo.findById(student.getStudentId()).get();
+		s.setFirstName(student.getFirstName());
+		s.setLastName(student.getLastName());
+		s.setEmail(student.getEmail());
+		return stuRepo.saveAndFlush(s);	
 	}
 	
 }

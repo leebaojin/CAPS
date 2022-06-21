@@ -10,6 +10,7 @@ public interface StudentCourseService {
 	
 	public CourseStudent CreateNewCourseStudent(Student student, String courseCode);
 	public List<Course> findEnrolledCourse(Student s);
-	public List<Course> findStudentGrades(Student s);
+	public List<CourseStudent> findStudentGrades(Student s);
+	public Student changeStudentProfile(Student s);
 	
 }

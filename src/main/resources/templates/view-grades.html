@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- For input stylesheet -->
+	<!-- Using bootstrap 4.3.1 -->
+	<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} " />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/home.css" />
+	<script type="text/javascript" th:src="@{/scripts/home.js}" src="../static/scripts/home.js"></script>
+	<title>Student List</title>
+</head>
+
+<body>
+	<header th:replace="fragments/layout.html :: headermenu"></header>
+	<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			<div class="col-10">
+				<h2 align="center">Your GPA is <span th:text="${overallGrade}"></span></h2>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			<div class="col-10">
+				<h2>Course Grades</h2>
+				<table class="table">
+					<tr>
+						<th scope="col">COURSE CODE</th>
+						<th scope="col">COURSE TITLE</th>
+						<th scope="col">SCORE</th>
+						<th scope="col">GRADE</th>
+					</tr>
+					<tr th:each="courseGrade:${courseGrades}" class="table-row">
+						<td th:text="${courseGrade.course.courseCode}"></td>
+						<td th:text="${courseGrade.course.courseTitle}"></td>
+						<td th:text="${courseGrade.score}"></td>
+						<td th:text="${courseGrade.grade}"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-1"></div>
+		</div>
+	</div>
+</body>
+<div th:replace="fragments/layout.html :: footersection"></div>
+
+</html>

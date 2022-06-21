@@ -17,8 +17,8 @@
 
 		<nav class="navbar navbar-expand-md navbar-light bg-light firstmenu">
 			<a class="navbar-brand" th:href="@{/home}">CAPS</a>
-			
-			<ul class="navbar-nav ml-auto" >
+
+			<ul class="navbar-nav ml-auto">
 				<li class="nav-item" th:if="${NavMenu != null}">
 					Welcome,&nbsp
 					<em th:utext="${NavMenu.name}"></em>&nbsp
@@ -26,22 +26,23 @@
 				</li>
 				<li>&nbsp</li>
 				<li class="nav-item">
-					
+
 					<a class="nav-link" th:href="@{/login}" th:if="${NavMenu == null}">Login</a>
 				</li>
 			</ul>
 		</nav>
-		
+
 		<div th:if="${NavMenu != null}">
 			<div th:if="${#strings.equals(NavMenu.role, 'ADMIN')}">
-			<!-- Menu for Admin -->
-			
+				<!-- Menu for Admin -->
+
 				<nav class="navbar navbar-expand-sm navbar-light bg-light">
-					
+
 					<div class="navbar-collapse collapse justify-content-center secondmenu">
 						<ul class="navbar-nav">
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" th:href="@{/manage/student/view}" >Manage&nbspStudents</a>
+								<a class="nav-link dropdown-toggle"
+									th:href="@{/manage/student/view}">Manage&nbspStudents</a>
 								<ul class="dropdown-menu">
 									<li>
 										<a class="dropdown-item" th:href="@{/manage/student/view}">View Students</a>
@@ -52,18 +53,21 @@
 								</ul>
 							</li>
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" th:href="@{/manage/lecturer/list}">Manage&nbspLecturers</a>
+								<a class="nav-link dropdown-toggle"
+									th:href="@{/manage/lecturer/list}">Manage&nbspLecturers</a>
 								<ul class="dropdown-menu">
 									<li>
 										<a class="dropdown-item" th:href="@{/manage/lecturer/list}">View Lecturers</a>
 									</li>
 									<li>
-										<a class="dropdown-item" th:href="@{/manage/lecturer/create}">Create Lecturer</a>
+										<a class="dropdown-item" th:href="@{/manage/lecturer/create}">Create
+											Lecturer</a>
 									</li>
 								</ul>
 							</li>
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" th:href="@{/manage/course/list}">Manage&nbspCourses</a>
+								<a class="nav-link dropdown-toggle"
+									th:href="@{/manage/course/list}">Manage&nbspCourses</a>
 								<ul class="dropdown-menu">
 									<li>
 										<a class="dropdown-item" th:href="@{/manage/course/list}">View Courses</a>
@@ -84,15 +88,18 @@
 							</li>
 						</ul>
 					</div>
-					
+
 				</nav>
-			
+
 			</div>
-			
+
 			<div th:if="${#strings.equals(NavMenu.role, 'STUDENT')}">
-			<!-- Menu for Student -->
+				<!-- Menu for Student -->
 				<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-center secondmenu">
 					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/student/profile}">Profile</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" th:href="@{/student/grades}">Grades and GPA</a>
 						</li>
@@ -108,9 +115,9 @@
 					</ul>
 				</nav>
 			</div>
-			
+
 			<div th:if="${#strings.equals(NavMenu.role, 'LECTURER')}">
-			<!-- Menu for Lecturer -->
+				<!-- Menu for Lecturer -->
 				<nav class="navbar navbar-expand-sm navbar-light bg-light">
 					<div class="navbar-collapse collapse justify-content-center secondmenu">
 						<ul class="navbar-nav">
