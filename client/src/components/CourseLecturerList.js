@@ -5,15 +5,22 @@ import CourseLecturerDataService from "../services/CourseLecturerDataService";
 export default class CourseLecturerList extends Component {
     constructor(props) {
         super(props);
+        //Retrieve all the courses
         this.retrieveCourse = this.retrieveCourse.bind(this);
-        this.retrieveLecturer = this.retrieveLecturer.bind(this);
-        this.setActiveCourse = this.setActiveCourse.bind(this);
-        this.setActiveAssignLecturer = this.setActiveAssignLecturer.bind(this);
-        this.retrieveAssignLecturer = this.retrieveAssignLecturer.bind(this);
-        this.setActiveAssignLecturer = this.setActiveAssignLecturer.bind(this);
-        this.assignLecturerToCourse = this.assignLecturerToCourse.bind(this);
+        //this.retrieveLecturer = this.retrieveLecturer.bind(this);
+
+        //Retrieve all the lectures assigned and not assigned
         this.retrieveAssignLecturer = this.retrieveAssignLecturer.bind(this);
         this.retrieveNotAssignLecturer = this.retrieveNotAssignLecturer.bind(this);
+
+        //SetActive (when click)
+        this.setActiveCourse = this.setActiveCourse.bind(this);
+        this.setActiveAssignLecturer = this.setActiveAssignLecturer.bind(this);
+        this.setActiveNotAssignedLecturer = this.setActiveNotAssignedLecturer.bind(this);
+
+        // Add or Remove lecturer from course
+        this.assignLecturerToCourse = this.assignLecturerToCourse.bind(this);
+        this.removeLecturerFromCourse = this.removeLecturerFromCourse.bind(this);
 
         this.state = {
             //Store the states to be used
@@ -24,7 +31,7 @@ export default class CourseLecturerList extends Component {
             notAssignedLecturers: [],
             currentNotAssignedLecturer: null,
             currentNotAssignedLecturerIndex: -1,
-            assignedLecturers:[],
+            assignedLecturers: [],
             currentLecturerAssigned: null,
             currentLecturerAssignedIndex: -1
         };
@@ -50,7 +57,7 @@ export default class CourseLecturerList extends Component {
             });
     }
 
-    //Methods that are required
+    /*
     retrieveLecturer() {
         CourseLecturerDataService.getLecturers()
             .then(response => {
@@ -63,38 +70,37 @@ export default class CourseLecturerList extends Component {
                 console.log(e);
             });
     }
+    */
 
     retrieveAssignLecturer(courseId) {
         //Retrieve assign lecturers (use for right table)
         CourseLecturerDataService.getLecturersByCourseId(courseId)
-        .then(response => {
-            this.setState({
-                assignedLecturers: response.data
+            .then(response => {
+                this.setState({
+                    assignedLecturers: response.data
+                });
+                console.log(response.data);
+                this.forceUpdate();
+            })
+            .catch(e => {
+                console.log(e);
             });
-            console.log(response.data);
-            this.forceUpdate();
-        })
-        .catch(e => {
-            console.log(e);
-        });
     }
 
     retrieveNotAssignLecturer(courseId) {
         //Retrieve not assign lecturers (use for middle table)
         CourseLecturerDataService.getAvailLecturersByCourseId(courseId)
-        .then(response => {
-            this.setState({
-                notAssignedLecturers: response.data
+            .then(response => {
+                this.setState({
+                    notAssignedLecturers: response.data
+                });
+                console.log(response.data);
+                this.forceUpdate();
+            })
+            .catch(e => {
+                console.log(e);
             });
-            console.log(response.data);
-            this.forceUpdate();
-        })
-        .catch(e => {
-            console.log(e);
-        });
     }
-
-
 
     setActiveCourse(course, index) {
         //Select course
@@ -104,34 +110,71 @@ export default class CourseLecturerList extends Component {
         });
         this.retrieveAssignLecturer(course.courseCode);
         this.retrieveNotAssignLecturer(course.courseCode);
-        
+
     }
 
     setActiveAssignLecturer(lecturer, index) {
+        //Select Assigned Lecturer
         this.setState({
             currentLecturerAssigned: lecturer,
             currentLecturerAssignedIndex: index
         });
     }
 
-    setActiveNotAssignedLecturer(lecturer, index){
+    setActiveNotAssignedLecturer(lecturer, index) {
+        //Select Not Assigned Lecturer
         this.setState({
-            currentNotAssignedLecturer : lecturer,
+            currentNotAssignedLecturer: lecturer,
             currentNotAssignedLecturerIndex: index
         });
     }
 
-    assignLecturerToCourse(lecturer, notassignlec, assignlec){
-        //Remove the state
+    assignLecturerToCourse(lecturer, notassignlec, assignlec) {
+        //Assign lecturer to course
         notassignlec = notassignlec.filter(x => x.lecturerId != lecturer.lecturerId)
         assignlec.push(lecturer)
         this.setState({
             currentNotAssignedLecturer: null,
             currentNotAssignedLecturerIndex: -1,
-            assignedLecturers : assignlec,
-            notAssignedLecturers : notassignlec
+            assignedLecturers: assignlec,
+            notAssignedLecturers: notassignlec
         });
-        
+
+    }
+
+    removeLecturerFromCourse(lecturer, notassignlec, assignlec) {
+        //Remove the lecturer assigned
+        assignlec = assignlec.filter(x => x.lecturerId != lecturer.lecturerId)
+        notassignlec.push(lecturer)
+        this.setState({
+            currentLecturerAssigned: null,
+            currentLecturerAssignedIndex: -1,
+            assignedLecturers: assignlec,
+            notAssignedLecturers: notassignlec
+        });
+
+    }
+
+    confirmLecturer(currentCourse, assignlec){
+        //To confirm the lecturers
+        CourseLecturerDataService.putLectuerToCourse(currentCourse.courseCode, assignlec)
+            .then(response => {
+                this.setState({
+                    notAssignedLecturers: [],
+                    currentNotAssignedLecturer: null,
+                    currentNotAssignedLecturerIndex: -1,
+                    assignedLecturers:[],
+                    currentLecturerAssigned: null,
+                    currentLecturerAssignedIndex: -1,
+                    currentCourse: null,
+                    currentCourseIndex: -1
+                });
+                console.log(response.data);
+                this.forceUpdate();
+            })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
 
@@ -161,8 +204,6 @@ export default class CourseLecturerList extends Component {
                                 </li>
                             ))}
                     </ul>
-
-
                 </div>
 
 
@@ -177,7 +218,7 @@ export default class CourseLecturerList extends Component {
                                         (index === currentNotAssignedLecturerIndex ? "active" : "")
                                     }
                                     onClick={() => this.setActiveNotAssignedLecturer(lecturerRmd, index)}
-                                    onDoubleClick={() => this.assignLecturerToCourse(lecturerRmd, notAssignedLecturers,assignedLecturers)}
+                                    onDoubleClick={() => this.assignLecturerToCourse(lecturerRmd, notAssignedLecturers, assignedLecturers)}
                                     key={index}
                                 >
                                     {lecturerRmd.firstName + " " + lecturerRmd.lastName}
@@ -209,22 +250,35 @@ export default class CourseLecturerList extends Component {
                                                 (index === currentLecturerAssignedIndex ? "active" : "")
                                             }
                                             onClick={() => this.setActiveAssignLecturer(lecturer, index)}
+                                            onDoubleClick={() => this.removeLecturerFromCourse(lecturer, notAssignedLecturers, assignedLecturers)}
                                             key={index}
                                         >
                                             {lecturer.firstName + " " + lecturer.lastName}
                                         </li>
-                                    ))) :(
-                                <div>
-                                    <br />
-                                    <p>No Lecturer assigned...</p>
-                                </div>
-                            ) : (
+                                    ))) : (
+                                    <div>
+                                        <br />
+                                        <p>No Lecturer assigned...</p>
+                                    </div>
+                                ) : (
                                 <div>
                                     <br />
                                     <p>Please Select a Course...</p>
                                 </div>
                             )}
                     </ul>
+                    
+                    
+                    {currentCourse ? <button
+                        className="m-3 btn btn-sm btn-danger"
+                        onClick={() => this.confirmLecturer(currentCourse, assignedLecturers)}
+                    >
+                        Confirm
+                    </button>:""}
+
+
+                    
+                    
                 </div>
             </div>
         );

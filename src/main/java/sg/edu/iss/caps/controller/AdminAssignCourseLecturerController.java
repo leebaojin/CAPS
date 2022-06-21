@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,25 +57,18 @@ public class AdminAssignCourseLecturerController {
 		return lecturerlist;
 	}
 	
-	
-	@PutMapping("/addLecturer/{lecturerId}")
-	public ResponseEntity<Course> addLecturerToCourse(@PathVariable("lecturerId") Integer lecturerId, @RequestBody Course course){
-		
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	@PostMapping("/addLecturersByCourseId/{courseId}")
+	public ResponseEntity<Course> addLecturerToCourse(@PathVariable("courseId") String courseCode, @RequestBody List<Lecturer> lecturers){
+		Course course = courseRepo.findById(courseCode).get();
+		if(course == null) {
+			//No such course
+			new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		course.getCourseLecturers().clear();
+		course.getCourseLecturers().addAll(lecturers);
+		courseRepo.save(course);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
-	@DeleteMapping("/removeLecturer/{lecturerId}")
-	public ResponseEntity<Course> removeLecturerFromCourse(@PathVariable("lecturerId") Integer lecturerId, @RequestBody Course course){
-		//Remove lecturer from course
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-	
-	@DeleteMapping("/removeAllLecturer")
-	public ResponseEntity<Course> removeAllLecturer(@RequestBody Course course){
-		//Removes all lecturers from course
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-	
 	
 
 }

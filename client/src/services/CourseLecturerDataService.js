@@ -16,6 +16,11 @@ class CourseLecturerDataService{
         return axios.get(COURSELECTURER_API_BASE_URL+"/listAvilLecturerByCourseId/"+courseId);
     }
 
+    putLectuerToCourse(courseId, lecturers){
+        //const postJSON = { lecturers: lecturers};
+        return axios.post(COURSELECTURER_API_BASE_URL+"/addLecturersByCourseId/"+courseId, lecturers);
+    }
+
 }
 
 export default new CourseLecturerDataService();
