@@ -12,7 +12,8 @@ public interface LecturerService {
 	public void deleteLecturer(Lecturer l);
 	public List<Lecturer> findAllLecturers();
 	public Lecturer findLecturerById(Integer lectId);
-	
+	public boolean checkIfEmailExist(Lecturer l);
+	public boolean checkIfUsernameExist(Lecturer l);
 //	public Lecturer findLecturerById(Integer lecturerId);
 //	public List<Lecturer> findAllLecturers();
 }

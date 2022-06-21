@@ -1,5 +1,7 @@
 package sg.edu.iss.caps.controller;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -41,8 +43,14 @@ public class AdminManageLecturerController {
     public String saveLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, HttpSession session, Model model) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
-    	
+
     	model.addAttribute("action","create");
+    	if(lecturerService.checkIfEmailExist(l)) {
+    		bindingResult.rejectValue("email","duplicate","Email already registered");
+    	}
+    	if(lecturerService.checkIfUsernameExist(l)) {
+    		bindingResult.rejectValue("username","duplicate","Username already registered");
+    	}
     	if(bindingResult.hasErrors()) {
 			return "lecturer-form";
 		}

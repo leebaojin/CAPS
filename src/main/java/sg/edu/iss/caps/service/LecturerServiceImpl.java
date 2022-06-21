@@ -73,6 +73,22 @@ public class LecturerServiceImpl implements LecturerService {
 		}
 	}
 
+	@Transactional
+	@Override
+	public boolean checkIfEmailExist(Lecturer l) {
+		if(lecturerRepo.findFirstByEmail(l.getEmail()) != null) {
+			return true;
+		} return false;
+	}
+	
+	@Transactional
+	@Override
+	public boolean checkIfUsernameExist(Lecturer l) {
+		if(lecturerRepo.findFirstByUsername(l.getUsername()) != null) {
+			return true;
+		} return false;
+	}
+	
 //	@Transactional
 //	@Override
 //	public Lecturer findLecturerById(Integer lecturerId) {
