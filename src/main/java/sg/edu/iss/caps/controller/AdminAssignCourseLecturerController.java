@@ -19,7 +19,7 @@ import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.LecturerRepository;
 
-@CrossOrigin
+@CrossOrigin(origins= "http://localhost:3000")
 @RestController
 @RequestMapping("/api/manage/courselecturer")
 public class AdminAssignCourseLecturerController {
@@ -33,14 +33,29 @@ public class AdminAssignCourseLecturerController {
 	@GetMapping("/listCourse")
 	public List<Course> getCourses(){
 		//To obtain full list of courses and send back
-		return null;
+		List<Course> courselist = courseRepo.findAll();
+		return courselist;
 	}
 	
 	@GetMapping("/listLecturer")
-	public List<Lecturer> getAvailableLecturers(@RequestBody Course course){
+	public List<Lecturer> getLecturers(){
 		//To obtain a list of lecturers that are not assigned to course
-		return null;
+		List<Lecturer> lecturerlist = lecturerRepo.findAll();
+		return lecturerlist;
 	}
+	
+	@GetMapping("/listLecturerByCourseId/{id}")
+	public List<Lecturer> getLecturerByCourseId(@PathVariable("id") String courseId){
+		List<Lecturer> lecturerlist = lecturerRepo.findLecturerByCourseId(courseId);
+		return lecturerlist;
+	}
+	
+	@GetMapping("/listAvilLecturerByCourseId/{id}")
+	public List<Lecturer> getAvailableLecturerByCourseId(@PathVariable("id") String courseId){
+		List<Lecturer> lecturerlist = lecturerRepo.findAvailLecturerByCourseId(courseId);
+		return lecturerlist;
+	}
+	
 	
 	@PutMapping("/addLecturer/{lecturerId}")
 	public ResponseEntity<Course> addLecturerToCourse(@PathVariable("lecturerId") Integer lecturerId, @RequestBody Course course){

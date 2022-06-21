@@ -11,6 +11,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +34,7 @@ public class Course {
 	private List<Lecturer> courseLecturers;
 	
 	@OneToMany(mappedBy="course")
+	@JsonIgnore
 	private List<CourseStudent> courseStudents;
 
 	public Course(String courseCode, String courseTitle, String courseDescription, String courseCredits, Integer courseCapacity,
