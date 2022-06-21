@@ -1,39 +1,57 @@
 import React from "react";
 
+const mainappaddress = "http://localhost:8080";
+
 export const Navbar = () => {
   return (
     <div>
-      <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <div class="navbar-collapse collapse justify-content-center secondmenu">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              {/* update href paths later */}
-              <a class="nav-link" href="/manage/student/view">
-                Manage&nbsp;Students
-              </a>
+      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+
+        <div className="navbar-collapse collapse justify-content-center secondmenu">
+          <ul className="navbar-nav">
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href={mainappaddress + "/manage/student/view"} >Manage Students</a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href={mainappaddress + "/manage/student/view"}>View Students</a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href={mainappaddress + "/manage/student/create"}>Enroll Student</a>
+                </li>
+              </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/manage/lecturer/list">
-                Manage&nbsp;Lecturers
-              </a>
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href={mainappaddress + "/manage/lecturer/list"}>Manage Lecturers</a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href={mainappaddress + "/manage/lecturer/list"}>View Lecturers</a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href={mainappaddress + "/manage/lecturer/create"}>Create Lecturer</a>
+                </li>
+              </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">
-                Manage&nbsp;Courses
-              </a>
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href={mainappaddress + "/manage/course/list"}>Manage Courses</a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href={mainappaddress + "/manage/course/list"}>View Courses</a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href={mainappaddress + "/manage/course/create"}>Create Courses</a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href={mainappaddress + "/manage/course/list"}>Assign Lecturers</a>
+                </li>
+              </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">
-                Manage&nbsp;Enrollment
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">
-                Log&nbsp;Out
-              </a>
+
+            <li className="nav-item">
+              <a className="nav-link" href={mainappaddress + "/logout"}>Log Out</a>
             </li>
           </ul>
         </div>
+
       </nav>
     </div>
   );
