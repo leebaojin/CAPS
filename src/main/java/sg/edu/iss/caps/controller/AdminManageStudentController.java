@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,9 +66,10 @@ public class AdminManageStudentController {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
-    	List<Student> studentActiveList = stuService.findAllActiveStudents();
-        model.addAttribute("studentList", studentActiveList);
-        return "list-students";
+//    	List<Student> studentActiveList = stuService.findAllActiveStudents();
+//        model.addAttribute("studentList", studentActiveList);
+//        return "list-students";
+    	return findPaginated(1, model);
     }
 
     @GetMapping("/view/{name}")
@@ -97,5 +99,21 @@ public class AdminManageStudentController {
     	
         stuService.deleteStudent(id);
         return "forward:/manage/student/view";
+    }
+    
+    @GetMapping("/page/{pageNo}")
+    public String findPaginated(@PathVariable (value = "pageNo") int pageNo, Model model) {
+    	int pageSize = 5;
+    	
+    	Page<Student> page = stuService.findPaginated(pageNo, pageSize);
+    	List<Student> studentList = page.getContent();
+    	
+    	model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		
+		model.addAttribute("studentList", studentList);
+		
+		return "list-students";
     }
 }

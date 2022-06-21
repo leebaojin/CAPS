@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.caps.model.Role;
@@ -81,6 +85,15 @@ public class StudentServiceImpl implements StudentService {
         }
 	}
 
-
-
+	@Override
+	public Page<Student> findPaginated(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		List<Student> allActiveStudent = studentRepo.findAllActiveStudents();
+		
+		int start = (int) pageable.getOffset();
+		int end = (int) ((start + pageable.getPageSize()) > allActiveStudent.size() ? allActiveStudent.size()
+				  : (start + pageable.getPageSize()));
+		Page<Student> page = new PageImpl<Student>(allActiveStudent.subList(start, end), pageable, allActiveStudent.size());
+		return page;
+	}
 }
