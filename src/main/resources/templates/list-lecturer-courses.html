@@ -18,8 +18,7 @@
 	  <thead>
 	    <tr>
 	      <th scope="col" th:text=#{lecturer.courses.list.courseCode}></th>
-	      <th scope="col" th:text=#{lecturer.courses.list.title}></th>
-	      <th scope="col" th:text=#{lecturer.courses.list.capacity}></th>
+	      <th scope="col" th:text=#{lecturer.courses.list.courseTitle}></th>
 	      <th scope="col" th:text=#{lecturer.courses.list.status}></th>
 	    </tr>
 	  </thead>
@@ -27,7 +26,6 @@
 	    <tr th:each="course:${teachCoursesList}">
 	      <td th:text=${course.courseCode}> </td>
 	      <td th:text=${course.courseTitle}></td>
-	      <td th:text=${course.courseCapacity}></td>
 	      <td th:text=${course.courseStatus}></td>
 	    </tr>
 	  </tbody>

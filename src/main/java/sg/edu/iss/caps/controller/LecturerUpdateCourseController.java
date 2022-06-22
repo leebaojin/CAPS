@@ -39,16 +39,6 @@ public class LecturerUpdateCourseController {
         return "list-lecturer-courses";
     }
     
-//    @RequestMapping("/list-course-students/{courseCode}")
-//    public String findStudentsInCourse(HttpSession session, Model model, @PathVariable("courseCode") String courseCode) {
-//    	User user = UserSessionService.findUser(session);
-//    	MenuNavBarUtil.generateNavBar(user, model);
-//        
-//        model.addAttribute("courseStudentList", lecturerCourseService.findStudentsInCourse(courseCode));
-//        model.addAttribute("c", courseService.findCourseByCourseCode(courseCode));
-//        return "list-courses-students";
-//    }
-    
     @RequestMapping("/grade-course")
     public String findAssignedCoursesToGrade(HttpSession session, Model model) {
     	Lecturer user = (Lecturer) UserSessionService.findUser(session);
@@ -90,7 +80,15 @@ public class LecturerUpdateCourseController {
         return "redirect:/lecturer/grade-course/" + cs2.getCourse().getCourseCode();
     }
     
-    
+//  @RequestMapping("/list-course-students/{courseCode}")
+//  public String findStudentsInCourse(HttpSession session, Model model, @PathVariable("courseCode") String courseCode) {
+//  	User user = UserSessionService.findUser(session);
+//  	MenuNavBarUtil.generateNavBar(user, model);
+//      
+//      model.addAttribute("courseStudentList", lecturerCourseService.findStudentsInCourse(courseCode));
+//      model.addAttribute("c", courseService.findCourseByCourseCode(courseCode));
+//      return "list-courses-students";
+//  }
     
 //    @PostMapping("/save")
 //    public String saveCourseStudentForm(@ModelAttribute("courseStudent")  CourseStudent cs, HttpSession session) {
