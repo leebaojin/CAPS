@@ -73,13 +73,6 @@ public class AdminManageCourseController {
         return "forward:/manage/course/list";
     }
 
-//    // clarify purpose of editCoursePage
-//    @GetMapping("/edit-page")
-//    public String editCoursePage(Model model) {
-//        return "edit-course";
-//    }
-
-    // clarify difference between this and editCoursePage
     @GetMapping("/edit/{courseId}")
     public String editCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
     	User user = UserSessionService.findUser(session);
@@ -104,14 +97,6 @@ public class AdminManageCourseController {
         return "forward:/manage/course/list";
     }
 */
-    // can add validation for the form
-//    @GetMapping("/{id}/lecturers")
-//    public String listCourseLecturers(Model model, @PathVariable("id") String id) {
-//        Course c = courseRepo.findById(id).get();
-//        List<Lecturer> lecturerList = courseRepo.findById(id).get().getCourseLecturers();
-//        model.addAttribute("lecturers", lecturerList);
-//        return "course-info";
-//    }
 
     @PostMapping("/{id}/add-lecturer")
     public String addCourseLecturer(Model model, @PathVariable("id") String id, @ModelAttribute("lecturer") Lecturer l, HttpSession session) {
