@@ -31,20 +31,7 @@ public class AdminManageCourseController {
     
     @Autowired
     LecturerService lecturerService;
-    /*
-    @GetMapping("/create")
-    public String createCoursePage(HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
-    	MenuNavBarUtil.generateNavBar(user, model);
-    	
-        Course c = new Course();
-        
-        List<Lecturer> lecturerList = lecturerService.findAllLecturers();
-        model.addAttribute("course", c);
-        model.addAttribute("lecturerList", lecturerList);
-        return "course-form";
-    }
-	*/
+    
     @RequestMapping("/list")
     public String listCourses(HttpSession session, Model model, @RequestParam(value="pageNo", required = false) Integer pageNo) {
     	User user = UserSessionUtil.findUser(session);
@@ -59,6 +46,31 @@ public class AdminManageCourseController {
         model.addAttribute("lecturerList", lecturerList);
         return "list-courses";
     }
+    
+    @GetMapping("/delete/{courseId}")
+    public String deleteCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
+    	User user = UserSessionUtil.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
+        courseService.deleteCourse(courseId);
+        return "redirect:/manage/course/list";
+    }
+    
+    /*
+    @GetMapping("/create")
+    public String createCoursePage(HttpSession session, Model model) {
+    	User user = UserSessionUtil.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
+        Course c = new Course();
+        
+        List<Lecturer> lecturerList = lecturerService.findAllLecturers();
+        model.addAttribute("course", c);
+        model.addAttribute("lecturerList", lecturerList);
+        return "course-form";
+    }
+	*/
+    
     /*
     @PostMapping("/save")
     // validation tbc: courseCode
@@ -98,25 +110,6 @@ public class AdminManageCourseController {
 */
     //Comment out as the course should not be deleted. Instead should be closed
     
-    @GetMapping("/delete/{courseId}")
-    public String deleteCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
-    	MenuNavBarUtil.generateNavBar(user, model);
-    	
-        courseService.deleteCourse(courseId);
-        return "redirect:/manage/course/list";
-    }
-
-
-    // can add validation for the form
-//    @GetMapping("/{id}/lecturers")
-//    public String listCourseLecturers(Model model, @PathVariable("id") String id) {
-//        Course c = courseRepo.findById(id).get();
-//        List<Lecturer> lecturerList = courseRepo.findById(id).get().getCourseLecturers();
-//        model.addAttribute("lecturers", lecturerList);
-//        return "course-info";
-//    }
-
-
+   
 
 }
