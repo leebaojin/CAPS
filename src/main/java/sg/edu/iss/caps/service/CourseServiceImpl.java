@@ -110,4 +110,19 @@ public class CourseServiceImpl implements CourseService {
 	public Course findCourseByCourseCode(String courseCode) {
 		return courseRepo.findCourseCode(courseCode);
 	}
+
+	@Override
+	public void deleteCourse(String courseCode) {
+		// To delete courses without students
+		Course course = courseRepo.findCourseCode(courseCode);
+		if(course == null) {
+			return;
+		}
+		if(course.getCourseStudents().isEmpty()) {
+			//Delete only if empty
+			courseRepo.delete(course);
+			
+		}
+		
+	}
 }

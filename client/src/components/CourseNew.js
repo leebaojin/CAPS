@@ -32,7 +32,8 @@ class CourseNew extends Component {
             courseDescription: "",
             courseCredits: 0,
             courseCapacity: 0,
-            courseStatus: "Open",
+            courseStatus: "OPEN",
+
             changeableId: null,
             notAssignedLecturers: [],
             currentNotAssignedLecturer: null,
@@ -47,7 +48,6 @@ class CourseNew extends Component {
         if (this.state.id == null) {
             this.setState({
                 changeableId: true,
-                courseCode: "",
             });
             this.retrieveLecturer();
         } else {
@@ -170,7 +170,9 @@ class CourseNew extends Component {
         //Select Assigned Lecturer
         this.setState({
             currentLecturerAssigned: lecturer,
-            currentLecturerAssignedIndex: index
+            currentLecturerAssignedIndex: index,
+            currentNotAssignedLecturer: null,
+            currentNotAssignedLecturerIndex: -1,
         });
     }
 
@@ -178,13 +180,15 @@ class CourseNew extends Component {
         //Select Not Assigned Lecturer
         this.setState({
             currentNotAssignedLecturer: lecturer,
-            currentNotAssignedLecturerIndex: index
+            currentNotAssignedLecturerIndex: index,
+            currentLecturerAssigned: null,
+            currentLecturerAssignedIndex: -1,
         });
     }
 
     assignLecturerToCourse(lecturer) {
         //Assign lecturer to course
-        var notassignlec = this.state.notAssignedLecturers.filter(x => x.lecturerId != lecturer.lecturerId)
+        var notassignlec = this.state.notAssignedLecturers.filter(x => x.lecturerId != lecturer.lecturerId);
         var assignlec = this.state.assignedLecturers;
         assignlec.push(lecturer)
         this.setState({
@@ -199,7 +203,7 @@ class CourseNew extends Component {
 
     removeLecturerFromCourse(lecturer) {
         //Remove the lecturer assigned
-        var assignlec = this.state.assignedLecturers.filter(x => x.lecturerId != lecturer.lecturerId)
+        var assignlec = this.state.assignedLecturers.filter(x => x.lecturerId != lecturer.lecturerId);
         var notassignlec = this.state.notAssignedLecturers;
         notassignlec.push(lecturer)
         this.setState({
@@ -213,24 +217,25 @@ class CourseNew extends Component {
     }
 
     submitForm() {
-        var data = {
+        var course = {
             courseCode: this.state.courseCode,
             courseTitle: this.state.courseTitle,
             courseDescription: this.state.courseDescription,
             courseCredits: this.state.courseCredits,
             courseCapacity: this.state.courseCapacity,
             courseStatus: this.state.courseStatus,
-            courseLecturers: this.state.assignedLecturers,
+            courseLecturers: this.state.assignedLecturers
         };
-        CourseLecturerDataService.putCourse(data).then(
+        console.log(course);
+        CourseLecturerDataService.putCourse(course).then(
             response => {
-
+                
                 console.log(response.data);
                 window.location.replace('http://localhost:8080/manage/course/list');
             })
             .catch(e => {
                 console.log(e);
-                window.alert("Failed to save.")
+                window.alert("Failed to save." + e);
             })
     }
 
@@ -349,8 +354,8 @@ class CourseNew extends Component {
                                             value={this.state.courseStatus}
                                             onChange={this.onChangeStatus}
                                         >
-                                            <option value="Open">Open</option>
-                                            <option value="Close">Close</option>
+                                            <option value="OPEN">Open</option>
+                                            <option value="CLOSE">Close</option>
                                         </select>
                                     </div>
                                 </div>
@@ -391,11 +396,15 @@ class CourseNew extends Component {
                                     <div className="col col-1 col-btn">
                                         <div className="buttonholder">
                                             {this.state.currentNotAssignedLecturer ?
-                                                <button
-                                                    onClick={() => this.assignLecturerToCourse(this.state.currentNotAssignedLecturer)}>
+                                                <button 
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.assignLecturerToCourse(this.state.currentNotAssignedLecturer);
+                                                        }}>
                                                     <div className="triangle-right"></div></button>
                                                 :
                                                 <button>
+                                                    
                                                     <div className="triangle-right notactiveright"></div></button>
                                             }
 
@@ -403,10 +412,14 @@ class CourseNew extends Component {
 
                                             {this.state.currentLecturerAssigned ?
                                                 <button
-                                                    onClick={() => this.removeLecturerFromCourse(this.state.currentLecturerAssigned)}>
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.removeLecturerFromCourse(this.state.currentLecturerAssigned);
+                                                        }}>
                                                     <div className="triangle-left"></div></button>
                                                 :
                                                 <button>
+                                                   
                                                     <div className="triangle-left notactiveleft"></div></button>
                                             }
                                         </div>
@@ -414,7 +427,7 @@ class CourseNew extends Component {
                                     <div className="linebr"><br></br></div>
                                     <div className="col col-5 list-col">
                                         <b>Assigned Lecturer</b>
-
+                                        <div className="linebr"><br></br></div>
                                         <ul className="list-group list-dys">
                                             {this.state.assignedLecturers.length > 0 ?
                                                 (this.state.assignedLecturers &&
@@ -444,13 +457,20 @@ class CourseNew extends Component {
                                     type="submit"
                                     value="Submit"
                                     className="btn btn-secondary"
-                                    onClick={this.submitForm}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        this.submitForm();
+                                    }}
                                 ></input>
                                 &nbsp; &nbsp;
                                 <input
                                     type="reset"
                                     value="Reset"
                                     className="btn btn-secondary"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        window.location.reload();
+                                    }}
                                 ></input>
                             </form>
                         </div>

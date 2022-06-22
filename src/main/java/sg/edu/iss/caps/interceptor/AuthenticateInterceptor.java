@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.User;
-import sg.edu.iss.caps.service.UserSessionService;
+import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Component
 public class AuthenticateInterceptor implements HandlerInterceptor {
@@ -44,7 +44,7 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
 		}
 		
 		//Check user with session
-		User user = UserSessionService.findUser(session);
+		User user = UserSessionUtil.findUser(session);
 		if(user == null) {
 			//Redirect if user is not found
 			response.sendRedirect("/home");

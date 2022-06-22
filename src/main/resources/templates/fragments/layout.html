@@ -73,10 +73,10 @@
 										<a class="dropdown-item" th:href="@{/manage/course/list}">View Courses</a>
 									</li>
 									<li>
-										<a class="dropdown-item" th:href="@{/manage/course/create}">Create Courses</a>
+										<a class="dropdown-item" th:href="@{${ReactLink} + '/manage/course/create'}">Create Courses</a>
 									</li>
 									<li>
-										<a class="dropdown-item" th:href="@{/manage/course/create}">Assign Lecturers</a>
+										<a class="dropdown-item" th:href="@{${ReactLink} + '/manage/course/courselecturer'}">Assign Lecturers</a>
 									</li>
 								</ul>
 							</li>

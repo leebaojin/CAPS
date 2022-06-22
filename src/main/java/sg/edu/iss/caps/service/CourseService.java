@@ -27,5 +27,7 @@ public interface CourseService {
 	public void AddLecturerToCourse(String courseId, Lecturer l);
 	
 	public Course findCourseByCourseCode(String courseCode); 
+	
+	public void deleteCourse(String courseId);
 
 }

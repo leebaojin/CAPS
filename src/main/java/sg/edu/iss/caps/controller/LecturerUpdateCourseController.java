@@ -15,8 +15,8 @@ import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.LecturerCourseService;
 import sg.edu.iss.caps.service.LecturerService;
-import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
+import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Controller
 @RequestMapping("/lecturer")
@@ -31,7 +31,7 @@ public class LecturerUpdateCourseController {
 
     @RequestMapping("/list-courses")
     public String findLecturerAssignedCourses(HttpSession session, Model model) {
-    	Lecturer user = (Lecturer) UserSessionService.findUser(session);
+    	Lecturer user = (Lecturer) UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
@@ -42,7 +42,7 @@ public class LecturerUpdateCourseController {
     
     @RequestMapping("/course-enrollment")
     public String findLecturerAssignedCoursesForEnrollment(HttpSession session, Model model) {
-    	Lecturer user = (Lecturer) UserSessionService.findUser(session);
+    	Lecturer user = (Lecturer) UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
@@ -53,7 +53,7 @@ public class LecturerUpdateCourseController {
     
     @RequestMapping("/grade-course")
     public String findAssignedCoursesToGrade(HttpSession session, Model model) {
-    	Lecturer user = (Lecturer) UserSessionService.findUser(session);
+    	Lecturer user = (Lecturer) UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
@@ -64,7 +64,7 @@ public class LecturerUpdateCourseController {
     
     @RequestMapping("/grade-course/{courseCode}")
     public String findStudentsInCourse(HttpSession session, Model model, @PathVariable("courseCode") String courseCode) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
         
         model.addAttribute("courseStudentList", lecturerCourseService.findStudentsInCourse(courseCode));
@@ -75,7 +75,7 @@ public class LecturerUpdateCourseController {
     
     @RequestMapping("/student-performance")
     public String viewStudentPerformance(HttpSession session, Model model) {
-    	Lecturer user = (Lecturer) UserSessionService.findUser(session);
+    	Lecturer user = (Lecturer) UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
@@ -86,7 +86,7 @@ public class LecturerUpdateCourseController {
     
     @RequestMapping("/student-performance/{courseCode}")
     public String viewStudentPerformanceInCourse(HttpSession session, Model model, @PathVariable("courseCode") String courseCode) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
         
         model.addAttribute("courseStudentList", lecturerCourseService.findStudentsInCourse(courseCode));
@@ -97,7 +97,7 @@ public class LecturerUpdateCourseController {
     
     @GetMapping("/add-score/{courseStudentId}")
     public String loadAddScoreForm(HttpSession session, Model model, @PathVariable("courseStudentId") Integer courseStudentId) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	model.addAttribute("courseStudent", lecturerCourseService.findStudentGrade(courseStudentId));
@@ -106,7 +106,7 @@ public class LecturerUpdateCourseController {
     
     @PostMapping("/add-score/{courseStudentId}")
     public String saveAddScoreForm(HttpSession session, Model model, @ModelAttribute("courseStudent") @Valid CourseStudent cs, BindingResult bindingResult, int score) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	if(bindingResult.hasErrors()) {
 			return "studentGrade-form";

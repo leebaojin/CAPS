@@ -19,8 +19,8 @@ import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.LecturerService;
-import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
+import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Controller
 @RequestMapping("/manage/course")
@@ -31,10 +31,10 @@ public class AdminManageCourseController {
     
     @Autowired
     LecturerService lecturerService;
-
+    /*
     @GetMapping("/create")
     public String createCoursePage(HttpSession session, Model model) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         Course c = new Course();
@@ -44,10 +44,10 @@ public class AdminManageCourseController {
         model.addAttribute("lecturerList", lecturerList);
         return "course-form";
     }
-
+	*/
     @RequestMapping("/list")
     public String listCourses(HttpSession session, Model model, @RequestParam(value="pageNo", required = false) Integer pageNo) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	//Page<Course> pageCourse = courseService.findAllCoursesSortPage(0, 5);
@@ -59,20 +59,20 @@ public class AdminManageCourseController {
         model.addAttribute("lecturerList", lecturerList);
         return "list-courses";
     }
-
+    /*
     @PostMapping("/save")
     // validation tbc: courseCode
     public String saveCourse(@ModelAttribute("course") Course c, @RequestParam(value="courseLecturerAdd", required = false) Integer lecturerId, HttpSession session) {
         // if course present, get course object, otherwise create new course
     	
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	
     	Lecturer l = lecturerService.findLecturerById(lecturerId);
     	courseService.SaveCourseAddLecturer(c, l);
 
         return "forward:/manage/course/list";
     }
-
+	*/
 //    // clarify purpose of editCoursePage
 //    @GetMapping("/edit-page")
 //    public String editCoursePage(Model model) {
@@ -80,9 +80,10 @@ public class AdminManageCourseController {
 //    }
 
     // clarify difference between this and editCoursePage
+    /*
     @GetMapping("/edit/{courseId}")
     public String editCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         Course c = courseService.findCourseById(courseId);
@@ -91,19 +92,18 @@ public class AdminManageCourseController {
         model.addAttribute("lecturerList", lecturerList);
         return "course-form";
     }
-
+*/
     //Comment out as the course should not be deleted. Instead should be closed
-    /*
+    
     @GetMapping("/delete/{courseId}")
     public String deleteCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
-        Course c = courseRepo.findById(courseId).get();
-        courseRepo.delete(c);
-        return "forward:/manage/course/list";
+        courseService.deleteCourse(courseId);
+        return "redirect:/manage/course/list";
     }
-*/
+
     // can add validation for the form
 //    @GetMapping("/{id}/lecturers")
 //    public String listCourseLecturers(Model model, @PathVariable("id") String id) {
@@ -112,10 +112,10 @@ public class AdminManageCourseController {
 //        model.addAttribute("lecturers", lecturerList);
 //        return "course-info";
 //    }
-
+    /*
     @PostMapping("/{id}/add-lecturer")
     public String addCourseLecturer(Model model, @PathVariable("id") String id, @ModelAttribute("lecturer") Lecturer l, HttpSession session) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         courseService.AddLecturerToCourse(id, l);
@@ -125,9 +125,9 @@ public class AdminManageCourseController {
 
     @GetMapping("/{id}/remove-lecturer")
     public String removeCourseLecturer(Model model, @PathVariable("id") Integer id, HttpSession session) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
         return "forward:/manage/course/{id}/lecturer";
     }
-
+	*/
 }

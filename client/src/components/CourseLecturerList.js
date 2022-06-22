@@ -130,7 +130,9 @@ export default class CourseLecturerList extends Component {
         //Select Assigned Lecturer
         this.setState({
             currentLecturerAssigned: lecturer,
-            currentLecturerAssignedIndex: index
+            currentLecturerAssignedIndex: index,
+            currentNotAssignedLecturer: null,
+            currentNotAssignedLecturerIndex: -1,
         });
     }
 
@@ -138,7 +140,9 @@ export default class CourseLecturerList extends Component {
         //Select Not Assigned Lecturer
         this.setState({
             currentNotAssignedLecturer: lecturer,
-            currentNotAssignedLecturerIndex: index
+            currentNotAssignedLecturerIndex: index,
+            currentLecturerAssigned: null,
+            currentLecturerAssignedIndex: -1,
         });
     }
 
@@ -283,7 +287,10 @@ export default class CourseLecturerList extends Component {
                         <div className="buttonholder">
                             {currentNotAssignedLecturer ?
                                 <button
-                                    onClick={() => this.assignLecturerToCourse(currentNotAssignedLecturer, notAssignedLecturers, assignedLecturers)}>
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        this.assignLecturerToCourse(currentNotAssignedLecturer, notAssignedLecturers, assignedLecturers);
+                                        }}>
                                     <div className="triangle-right"></div></button>
                                 :
                                 <button>
@@ -294,7 +301,10 @@ export default class CourseLecturerList extends Component {
 
                             {currentLecturerAssigned ?
                                 <button
-                                    onClick={()=>this.removeLecturerFromCourse(currentLecturerAssigned, notAssignedLecturers, assignedLecturers)}>
+                                    onClick={(e)=>{
+                                        e.preventDefault();
+                                        this.removeLecturerFromCourse(currentLecturerAssigned, notAssignedLecturers, assignedLecturers);
+                                        }}>
                                     <div className="triangle-left"></div></button>
                                 :
                                 <button>

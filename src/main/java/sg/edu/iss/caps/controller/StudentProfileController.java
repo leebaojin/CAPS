@@ -18,8 +18,8 @@ import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.StudentCourseServiceImpl;
-import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
+import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Controller
 @RequestMapping("/student")
@@ -30,7 +30,7 @@ public class StudentProfileController {
 
 	@GetMapping("/courses")
 	public String listCourses(HttpSession session, Model model) {
-		User user = UserSessionService.findUser(session);
+		User user = UserSessionUtil.findUser(session);
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}
@@ -47,7 +47,7 @@ public class StudentProfileController {
 
 	@GetMapping("/grades")
 	public String listGrades(Model model, HttpSession session) {
-		User user = UserSessionService.findUser(session);
+		User user = UserSessionUtil.findUser(session);
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}
@@ -76,7 +76,7 @@ public class StudentProfileController {
 
 	@GetMapping("/profile")
 	public String viewStudentProfile(Model model, HttpSession session) {
-		User user = UserSessionService.findUser(session);
+		User user = UserSessionUtil.findUser(session);
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}
@@ -90,7 +90,7 @@ public class StudentProfileController {
 	
 	@RequestMapping("/profile-edit")
 	public String editStudentProfile(Model model, HttpSession session) {
-		User user = UserSessionService.findUser(session);
+		User user = UserSessionUtil.findUser(session);
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}

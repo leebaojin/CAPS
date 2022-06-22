@@ -39,13 +39,18 @@ export const Navbar = () => {
                   <a className="dropdown-item" href={mainappaddress + "/manage/course/list"}>View Courses</a>
                 </li>
                 <li>
-                <Link className="dropdown-item" to="/manage/course/create">Create Courses</Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/manage/course/courselecturer">Assign Lecturers</Link>
+                <a className="dropdown-item" href={"/manage/course/create"}>Create Courses</a>
                   
                 </li>
+                <li>
+                <a className="dropdown-item" href={"/manage/course/courselecturer"}>Assign Lecturers</a>
+                  
+
+                </li>
               </ul>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href={mainappaddress + "/manage/student/create"}>Manage Enrollment</a>
             </li>
 
             <li className="nav-item">

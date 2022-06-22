@@ -20,7 +20,7 @@ import sg.edu.iss.caps.model.ChangePWRequest;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.model.UserStatus;
 import sg.edu.iss.caps.service.AccountAuthenticationService;
-import sg.edu.iss.caps.service.UserSessionService;
+import sg.edu.iss.caps.util.UserSessionUtil;
 import sg.edu.iss.caps.validator.AccountValidator;
 
 @Controller
@@ -67,13 +67,13 @@ public class AuthController {
     		return "login";
     	}
     	//Set the user into the session data
-    	UserSessionService.setUser(session, user);
+    	UserSessionUtil.setUser(session, user);
         return "redirect:/home";
     }
 
     @GetMapping("/logout")
     public String logout (HttpSession session, Model model) {
-    	UserSessionService.removeSession(session);
+    	UserSessionUtil.removeSession(session);
         return "redirect:/home";
     }
     

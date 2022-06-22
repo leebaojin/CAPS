@@ -20,8 +20,8 @@ import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.EmailService;
 import sg.edu.iss.caps.service.StudentCourseService;
-import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
+import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Controller
 @RequestMapping("/student/course-registration")
@@ -41,7 +41,7 @@ public class StudentCourseRegistrationController {
     public String listAvailableCourse(HttpSession session, HttpServletRequest request, 
     		Model model) {
     	
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}
@@ -74,7 +74,7 @@ public class StudentCourseRegistrationController {
     		return "redirect:/student/course-registration";
     	}
     	
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}
@@ -92,7 +92,7 @@ public class StudentCourseRegistrationController {
     public String addCourseStudent(@PathVariable("id") String courseCode, HttpSession session, 
     		HttpServletRequest request, Model model) {
     	
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}

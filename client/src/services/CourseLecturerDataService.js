@@ -23,13 +23,13 @@ class CourseLecturerDataService{
     }
     putLectuerToCourse(courseId, lecturers){
         //const postJSON = { lecturers: lecturers};
-        return axios.post(COURSELECTURER_API_BASE_URL+"/addLecturersByCourseId/"+courseId, lecturers,{withCredentials: true});
+        return axios.put(COURSELECTURER_API_BASE_URL+"/addLecturersByCourseId/"+courseId, lecturers,{withCredentials: true});
     }
     getCourseById(courseId){
         return axios.get(COURSELECTURER_API_BASE_URL+"/getCourse/"+courseId, {withCredentials: true});
     }
     putCourse(course){
-        return axios.post(COURSELECTURER_API_BASE_URL+"/saveCourse", course,{withCredentials: true});
+        return axios.post(COURSELECTURER_API_BASE_URL+"/saveCourse", course, {withCredentials: true});
     }
 
 }

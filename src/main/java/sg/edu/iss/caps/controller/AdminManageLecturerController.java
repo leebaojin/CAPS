@@ -21,8 +21,8 @@ import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.LecturerService;
-import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
+import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Controller
 @RequestMapping("/manage/lecturer") 
@@ -33,7 +33,7 @@ public class AdminManageLecturerController {
     
     @GetMapping("/create")
     public String loadLecturerForm(HttpSession session, Model model) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         Lecturer l = new Lecturer();
@@ -44,7 +44,7 @@ public class AdminManageLecturerController {
     
     @PostMapping("/create")
     public String saveLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, HttpSession session, Model model) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	model.addAttribute("action","create");
@@ -63,7 +63,7 @@ public class AdminManageLecturerController {
     
     @GetMapping("/edit/{lecturerId}")
     public String loadEditLecturerForm(Model model, @PathVariable("lecturerId") Integer lecturerId, HttpSession session) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	model.addAttribute("lecturer", lecturerService.findLecturerById(lecturerId));
@@ -73,7 +73,7 @@ public class AdminManageLecturerController {
     
     @PostMapping("/edit/{lecturerId}")
     public String saveEditLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult,HttpSession session, Model model) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	model.addAttribute("action","edit");
@@ -87,7 +87,7 @@ public class AdminManageLecturerController {
 
     @RequestMapping("/list")
     public String listLecturers(HttpSession session, Model model) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
         
 //        model.addAttribute("lecturerList", lecturerService.findAllActiveLecturers());
@@ -97,7 +97,7 @@ public class AdminManageLecturerController {
 
     @GetMapping("/delete/{lecturerId}")
     public String deleteLecturer(Model model, @PathVariable("lecturerId") Integer lecturerId, HttpSession session) {
-    	User user = UserSessionService.findUser(session);
+    	User user = UserSessionUtil.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	Lecturer l2 = lecturerService.findLecturerById(lecturerId);

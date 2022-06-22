@@ -11,6 +11,7 @@ import javax.persistence.Id;
 
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,8 +27,9 @@ public class Lecturer extends User{
 	private Integer lecturerId;
 	
 	@ManyToMany(mappedBy="courseLecturers", fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<Course> teachCourses;
-
+	
 	public Lecturer(String username,  byte[] passwordHash, String firstName, String lastName, String email,  Role role) {
 		super(username, firstName, lastName, email, passwordHash, role);
 	}

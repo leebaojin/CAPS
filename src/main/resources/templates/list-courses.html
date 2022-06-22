@@ -28,9 +28,9 @@
 						<th scope="col" th:text=#{course.list.courseStatus}></th>
 						<th class="col-2" scope="col" th:text=#{course.list.Lecturers}></th>
 						<th scope="col" th:text=#{course.list.Edit}></th>
-						<!--
+						
 						<th scope="col">Delete</th>
-						-->
+						
 					</tr>
 					<tr th:each="course:${courseList}" class="table-row">
 						<td th:text="${course.courseCode}"></td>
@@ -43,12 +43,12 @@
 							<span th:each="lecturer:${course.courseLecturers}" th:text="${lecturer.firstName}+' '+${lecturer.lastName}+';&#10;&#13;'">ID</span>
 						</td>
 						
-						<td><a href="EditCourse.html" th:href="@{/manage/course/edit/}+${course.courseCode}"
+						<td><a href="EditCourse.html" th:href="@{${ReactLink} + '/manage/course/edit/'+${course.courseCode}}"
 								th:utext="#{course.page.edit}"> Edit Course Details</a></td>
-						<!--
-						<td><a href="DeleteCourse.html" th:href="@{/manage/course/delete/}+${course.courseCode}"
+						
+						<td><a th:if="${#lists.isEmpty(course.courseStudents)}" href="DeleteCourse.html" th:href="@{/manage/course/delete/}+${course.courseCode}"
 								th:utext="#{course.page.delete}"> Delete Course </a></td>
-								-->
+								
 					</tr>
 				</table>
 			</div>
