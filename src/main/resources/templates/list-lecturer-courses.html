@@ -12,7 +12,9 @@
 			<div class="col-1"></div>
 			<div class="col-10">
 			<br/>
-			<h2 th:utext="#{lecturer.courses.list.title}"></h2>
+			<h2 th:if="${!showEnrollment}" th:utext="#{lecturer.courses.list.title}"></h2>
+			<h2 th:if="${showEnrollment}" th:utext="#{lecturer.courses.list.enrollment}"></h2>
+
 			<br/>
 	<table class="table">
 	  <thead>
@@ -20,6 +22,8 @@
 	      <th scope="col" th:text=#{lecturer.courses.list.courseCode}></th>
 	      <th scope="col" th:text=#{lecturer.courses.list.courseTitle}></th>
 	      <th scope="col" th:text=#{lecturer.courses.list.status}></th>
+  	      <th th:if="${showEnrollment}" scope="col" th:text=#{course.enrollment.list.enrollment}></th>
+	      <th th:if="${showEnrollment}" scope="col" th:text=#{course.enrollment.list.capacity}></th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -27,6 +31,8 @@
 	      <td th:text=${course.courseCode}> </td>
 	      <td th:text=${course.courseTitle}></td>
 	      <td th:text=${course.courseStatus}></td>
+	      <td th:if="${showEnrollment}" th:text=${course.courseStudents.size()}></td>
+	      <td th:if="${showEnrollment}" th:text=${course.courseCapacity}></td>
 	    </tr>
 	  </tbody>
 </table>

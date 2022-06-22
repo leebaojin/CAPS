@@ -36,6 +36,18 @@ public class LecturerUpdateCourseController {
 
     	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
         model.addAttribute("teachCoursesList", lecturerCourseService.findLecturerAssignedCourses(l));
+        model.addAttribute("showEnrollment",false);
+        return "list-lecturer-courses";
+    }
+    
+    @RequestMapping("/course-enrollment")
+    public String findLecturerAssignedCoursesForEnrollment(HttpSession session, Model model) {
+    	Lecturer user = (Lecturer) UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+
+    	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
+        model.addAttribute("teachCoursesList", lecturerCourseService.findLecturerAssignedCourses(l));
+        model.addAttribute("showEnrollment",true);
         return "list-lecturer-courses";
     }
     
@@ -46,6 +58,7 @@ public class LecturerUpdateCourseController {
 
     	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
         model.addAttribute("teachCoursesList", lecturerCourseService.findLecturerAssignedCourses(l));
+        model.addAttribute("studentPerformance",false);
         return "list-grade-course";
     }
     
@@ -56,6 +69,29 @@ public class LecturerUpdateCourseController {
         
         model.addAttribute("courseStudentList", lecturerCourseService.findStudentsInCourse(courseCode));
         model.addAttribute("c", courseService.findCourseByCourseCode(courseCode));
+        model.addAttribute("studentPerformance",false);
+        return "list-courses-students";
+    }
+    
+    @RequestMapping("/student-performance")
+    public String viewStudentPerformance(HttpSession session, Model model) {
+    	Lecturer user = (Lecturer) UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+
+    	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
+        model.addAttribute("teachCoursesList", lecturerCourseService.findLecturerAssignedCourses(l));
+        model.addAttribute("studentPerformance",true);
+        return "list-grade-course";
+    }
+    
+    @RequestMapping("/student-performance/{courseCode}")
+    public String viewStudentPerformanceInCourse(HttpSession session, Model model, @PathVariable("courseCode") String courseCode) {
+    	User user = UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+        
+        model.addAttribute("courseStudentList", lecturerCourseService.findStudentsInCourse(courseCode));
+        model.addAttribute("c", courseService.findCourseByCourseCode(courseCode));
+        model.addAttribute("studentPerformance",true);
         return "list-courses-students";
     }
     

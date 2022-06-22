@@ -12,7 +12,8 @@
 			<div class="col-1"></div>
 			<div class="col-10">
 			<br/>
-			<h2 th:utext="#{course.student.list.title}"></h2>
+			<h2 th:if="${!studentPerformance}"  th:utext="#{course.student.list.title}"></h2>
+			<h2 th:if="${studentPerformance}"  th:utext="#{course.student.perfomance.title}"></h2>
 			</br>
 			<h4 th:text=${c.courseCode}></h4> 
 	<table class="table">
@@ -24,7 +25,7 @@
 	      <th scope="col" th:text=#{course.student.list.score}></th>
 	      <th scope="col" th:text=#{course.student.list.grade}></th>
 	      <th scope="col" th:text=#{course.student.list.status}></th>
-	      <th scope="col" th:text=#{course.student.list.action}></th>
+	      <th th:if="${!studentPerformance}" scope="col" th:text=#{course.student.list.action}></th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -35,8 +36,8 @@
 	      <td th:text=${courseStudent.score}></td>
 	      <td th:text=${courseStudent.grade}></td>
 	      <td th:text=${courseStudent.courseStudentStatus}></td>
-	      <td th:if="*{courseStudent.grade} != null"><a href="courseStudent-form.html" th:href="@{/lecturer/add-score/}+${courseStudent.courseStudentId}">Edit Score</a></td>
-	      <td th:if="*{courseStudent.grade} == null"><a href="courseStudent-form.html" th:href="@{/lecturer/add-score/}+${courseStudent.courseStudentId}">Add Score</a></td>
+	      <td th:if="*{courseStudent.grade} != null and ${!studentPerformance}"><a href="courseStudent-form.html" th:href="@{/lecturer/add-score/}+${courseStudent.courseStudentId}">Edit Score</a></td>
+	      <td th:if="*{courseStudent.grade} == null and ${!studentPerformance}"><a href="courseStudent-form.html" th:href="@{/lecturer/add-score/}+${courseStudent.courseStudentId}">Add Score</a></td>
 	    </tr>
 	  </tbody>
 </table>
