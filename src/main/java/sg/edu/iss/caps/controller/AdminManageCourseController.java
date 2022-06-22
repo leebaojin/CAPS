@@ -81,10 +81,9 @@ public class AdminManageCourseController {
 //    }
 
     // clarify difference between this and editCoursePage
-    /*
+    
 
-
-
+/*
     @GetMapping("/edit/{courseId}")
     public String editCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
     	User user = UserSessionUtil.findUser(session);
@@ -96,7 +95,7 @@ public class AdminManageCourseController {
         model.addAttribute("lecturerList", lecturerList);
         return "course-form";
     }
-
+*/
     //Comment out as the course should not be deleted. Instead should be closed
     
     @GetMapping("/delete/{courseId}")
