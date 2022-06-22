@@ -56,7 +56,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<Lecturer> findLecturersByCourseId(String courseId) {
 		// Find all lecturers assigned to course
-		return courseRepo.findById(courseId).get().getCourseLecturers();
+		return courseRepo.findCourseLecturers(courseId);
 	}
 
 	@Override

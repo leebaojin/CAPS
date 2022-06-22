@@ -115,8 +115,8 @@ public class CourseRepositoryTest {
 	@Test
 	@Order(9)
 	public void findCourseLecturer() {
-		List<Lecturer> result = courseRepo.findLecturersByCourseId("SA4002");
+		List<Lecturer> result = courseRepo.findCourseLecturers("SA4002");
 		Assertions.assertEquals(result.size(),3);
 	}
-	
+
 }
