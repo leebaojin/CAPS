@@ -19,9 +19,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import sg.edu.iss.caps.CapsApplication;
 import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.CourseStatus;
+import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.StudentRepository;
+import sg.edu.iss.caps.service.LecturerCourseService;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = CapsApplication.class)
@@ -107,7 +109,14 @@ public class CourseRepositoryTest {
 	@Order(8)
 	public void findCourseCode() {
 		Course result = courseRepo.findCourseCode("SA4003");
-		assertEquals(result.getCourseTitle(), "Become a Professional Web Developer - Version 3.0", "Result title does not match");
+		Assertions.assertEquals(result.getCourseTitle(), "Become a Professional Web Developer - Version 3.0", "Result title does not match");
+	}
+
+	@Test
+	@Order(9)
+	public void findCourseLecturer() {
+		List<Lecturer> result = courseRepo.findLecturersByCourseId("SA4002");
+		Assertions.assertEquals(result.size(),3);
 	}
 	
 }
