@@ -72,6 +72,7 @@ public class AdminManageCourseController {
 
         return "forward:/manage/course/list";
     }
+
 	*/
 //    // clarify purpose of editCoursePage
 //    @GetMapping("/edit-page")
@@ -81,6 +82,9 @@ public class AdminManageCourseController {
 
     // clarify difference between this and editCoursePage
     /*
+
+
+
     @GetMapping("/edit/{courseId}")
     public String editCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
     	User user = UserSessionUtil.findUser(session);
@@ -92,7 +96,7 @@ public class AdminManageCourseController {
         model.addAttribute("lecturerList", lecturerList);
         return "course-form";
     }
-*/
+
     //Comment out as the course should not be deleted. Instead should be closed
     
     @GetMapping("/delete/{courseId}")
@@ -104,6 +108,7 @@ public class AdminManageCourseController {
         return "redirect:/manage/course/list";
     }
 
+
     // can add validation for the form
 //    @GetMapping("/{id}/lecturers")
 //    public String listCourseLecturers(Model model, @PathVariable("id") String id) {
@@ -112,22 +117,7 @@ public class AdminManageCourseController {
 //        model.addAttribute("lecturers", lecturerList);
 //        return "course-info";
 //    }
-    /*
-    @PostMapping("/{id}/add-lecturer")
-    public String addCourseLecturer(Model model, @PathVariable("id") String id, @ModelAttribute("lecturer") Lecturer l, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
-    	MenuNavBarUtil.generateNavBar(user, model);
-    	
-        courseService.AddLecturerToCourse(id, l);
-        
-        return "forward:/manage/course/{id}/lecturer";
-    }
 
-    @GetMapping("/{id}/remove-lecturer")
-    public String removeCourseLecturer(Model model, @PathVariable("id") Integer id, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
-    	MenuNavBarUtil.generateNavBar(user, model);
-        return "forward:/manage/course/{id}/lecturer";
-    }
-	*/
+
+
 }

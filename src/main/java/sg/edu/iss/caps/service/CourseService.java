@@ -19,6 +19,8 @@ public interface CourseService {
 	public Page<Course> findAllCoursesSortPage(int page, int view);
 	
 	public Course findCourseById(String courseId);
+
+	public List<Lecturer> findLecturersByCourseId(String courseId);
 	
 	public void SaveCourse(Course c);
 	
