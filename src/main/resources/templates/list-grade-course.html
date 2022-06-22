@@ -12,22 +12,20 @@
 			<div class="col-1"></div>
 			<div class="col-10">
 			<br/>
-			<h2 th:utext="#{lecturer.courses.list.title}"></h2>
+			<h2 th:utext="#{grade.courses.list.title}"></h2>
 			<br/>
 	<table class="table">
 	  <thead>
 	    <tr>
 	      <th scope="col" th:text=#{lecturer.courses.list.courseCode}></th>
 	      <th scope="col" th:text=#{lecturer.courses.list.title}></th>
-	      <th scope="col" th:text=#{lecturer.courses.list.capacity}></th>
 	      <th scope="col" th:text=#{lecturer.courses.list.status}></th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <tr th:each="course:${teachCoursesList}">
-	      <td th:text=${course.courseCode}> </td>
+	      <td><a href="list-grade-course.html" th:href="@{/lecturer/grade-course/}+${course.courseCode}" th:text=${course.courseCode}> </a></td>
 	      <td th:text=${course.courseTitle}></td>
-	      <td th:text=${course.courseCapacity}></td>
 	      <td th:text=${course.courseStatus}></td>
 	    </tr>
 	  </tbody>
