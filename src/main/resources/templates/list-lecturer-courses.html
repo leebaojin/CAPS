@@ -11,14 +11,16 @@
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col-10">
-			<h2>Course Assignment</h2>
+			<br/>
+			<h2 th:utext="#{lecturer.courses.list.title}"></h2>
+			<br/>
 	<table class="table">
 	  <thead>
 	    <tr>
-	      <th scope="col">Course Code</th>
-	      <th scope="col">Title</th>
-	      <th scope="col">Capacity</th>
-	      <th scope="col">Status</th>
+	      <th scope="col" th:text=#{lecturer.courses.list.courseCode}></th>
+	      <th scope="col" th:text=#{lecturer.courses.list.title}></th>
+	      <th scope="col" th:text=#{lecturer.courses.list.capacity}></th>
+	      <th scope="col" th:text=#{lecturer.courses.list.status}></th>
 	    </tr>
 	  </thead>
 	  <tbody>

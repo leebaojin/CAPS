@@ -15,18 +15,20 @@
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col-10">
-				<h2>Profile</h2>
+				<br/>
+				<h2 th:utext="#{student.profile.title}"></h2>
+				<br/>
 				<table class="table">
 					<tr>
-						<td scope="col">First Name</td>
+						<td scope="col" th:text=#{student.profile.firstName}></td>
 						<td th:text="${student.firstName}"></td>
 					</tr>
 					<tr>
-						<td scope="col">Last Name</td>
+						<td scope="col" th:text=#{student.profile.lastName}></td>
 						<td th:text="${student.lastName}"></td>
 					</tr>
 					<tr>
-						<td scope="col">Email</td>
+						<td scope="col" th:text=#{student.profile.email}></td>
 						<td th:text="${student.email}"></td>
 					</tr>
 					<tr>

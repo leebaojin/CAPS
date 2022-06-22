@@ -15,7 +15,9 @@
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col-10">
+			<br/>
 				<h2 align="center">Your GPA is <span th:text="${overallGrade}"></span></h2>
+				<br/>
 			</div>
 		</div>
 	</div>
@@ -24,13 +26,15 @@
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col-10">
-				<h2>Course Grades</h2>
+			<br/>
+				<h2 th:utext="#{student.view.grades.title}"></h2>
+				<br/>
 				<table class="table">
 					<tr>
-						<th scope="col">COURSE CODE</th>
-						<th scope="col">COURSE TITLE</th>
-						<th scope="col">SCORE</th>
-						<th scope="col">GRADE</th>
+						<th scope="col" th:text=#{student.view.grades.courseCode}></th>
+						<th scope="col" th:text=#{student.view.grades.courseTitle}></th>
+						<th scope="col" th:text=#{student.view.grades.courseScore}></th>
+						<th scope="col" th:text=#{student.view.grades.courseGrade}></th>
 					</tr>
 					<tr th:each="courseGrade:${courseGrades}" class="table-row">
 						<td th:text="${courseGrade.course.courseCode}"></td>

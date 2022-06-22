@@ -14,12 +14,14 @@
 		<div class="row">
 			<div class="col-3"></div>
 			<div class="col-6">
-				<h2>Student Form</h2>
+				<br/>
+				<h2 th:utext="#{student.create.title}"></h2>
+				<br/>
 				<form method="get" th:action="@{/manage/student/save}" th:object="${student}">
 					<input type="hidden" th:field="*{studentId}"/>
 					
 	  				<div class="row mb-3">
-    					<label for="inputFirstName3" class="col-sm-3 col-form-label">First Name</label>
+    					<label for="inputFirstName3" class="col-sm-3 col-form-label" th:text=#{student.create.firstName}></label>
     					<div class="col-sm-9">
       						<input type="text" class="form-control" id="inputFirstName3" th:field="*{firstName}">
       						<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
@@ -27,7 +29,7 @@
   					</div>
   					
   					<div class="row mb-3">
-    					<label for="inputLastName3" class="col-sm-3 col-form-label">Last Name</label>
+    					<label for="inputLastName3" class="col-sm-3 col-form-label" th:text=#{student.create.lastName}></label>
     					<div class="col-sm-9">
       						<input type="text" class="form-control" id="inputLastName3" th:field="*{lastName}">
       						<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
@@ -35,7 +37,7 @@
   					</div>
   					
   					<div class="row mb-3">
-    					<label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
+    					<label for="inputEmail3" class="col-sm-3 col-form-label" th:text=#{student.create.email}></label>
     					<div class="col-sm-9">
       						<input type="email" class="form-control" id="inputEmail3" th:field="*{email}">
       						<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
@@ -43,7 +45,7 @@
   					</div>
   					
   					<div class="row mb-3">
-    					<label for="inputUsername3" class="col-sm-3 col-form-label">Username</label>
+    					<label for="inputUsername3" class="col-sm-3 col-form-label" th:text=#{student.create.username}></label>
     					<div class="col-sm-9">
       						<input th:if="*{username} == null" type="text" class="form-control" id="inputUsername3" th:field="*{username}">
       						<input th:if="*{username} != null" type="text" class="form-control" id="inputUsername3" th:field="*{username}" readonly>

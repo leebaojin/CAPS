@@ -14,12 +14,14 @@
 		<div class="row">
 			<div class="col-1"></div>
 				<div class="col-10">
-				<h2>Enrolled Courses</h2>
+				<br/>
+				<h2 th:utext="#{student.view.course.title}"></h2>
+				<br/>
 					<table class="table">
 						 <tr>
-						   	<th scope="col">COURSE CODE</th>
-							<th scope="col">COURSE TITLE</th>
-							<th scope="col">DESCRIPTION</th>
+						   	<th scope="col" th:text=#{student.view.course.courseCode}></th>
+							<th scope="col" th:text=#{student.view.course.courseTitle}></th>
+							<th scope="col" th:text=#{student.view.course.courseDescription}></th>
 						 </tr>
 						 <tr th:each="course:${enrolledCourses}" class="table-row">
 						 	<td th:text="${course.courseCode}"></td>
