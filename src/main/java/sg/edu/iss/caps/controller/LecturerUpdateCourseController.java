@@ -39,7 +39,27 @@ public class LecturerUpdateCourseController {
         return "list-lecturer-courses";
     }
     
-    @RequestMapping("/list-course-students/{courseCode}")
+//    @RequestMapping("/list-course-students/{courseCode}")
+//    public String findStudentsInCourse(HttpSession session, Model model, @PathVariable("courseCode") String courseCode) {
+//    	User user = UserSessionService.findUser(session);
+//    	MenuNavBarUtil.generateNavBar(user, model);
+//        
+//        model.addAttribute("courseStudentList", lecturerCourseService.findStudentsInCourse(courseCode));
+//        model.addAttribute("c", courseService.findCourseByCourseCode(courseCode));
+//        return "list-courses-students";
+//    }
+    
+    @RequestMapping("/grade-course")
+    public String findAssignedCoursesToGrade(HttpSession session, Model model) {
+    	Lecturer user = (Lecturer) UserSessionService.findUser(session);
+    	MenuNavBarUtil.generateNavBar(user, model);
+
+    	Lecturer l = lecturerService.findLecturerById(user.getLecturerId());
+        model.addAttribute("teachCoursesList", lecturerCourseService.findLecturerAssignedCourses(l));
+        return "list-grade-course";
+    }
+    
+    @RequestMapping("/grade-course/{courseCode}")
     public String findStudentsInCourse(HttpSession session, Model model, @PathVariable("courseCode") String courseCode) {
     	User user = UserSessionService.findUser(session);
     	MenuNavBarUtil.generateNavBar(user, model);
@@ -67,7 +87,7 @@ public class LecturerUpdateCourseController {
 		}
     	CourseStudent cs2 = lecturerCourseService.findStudentGrade(cs.getCourseStudentId());
     	lecturerCourseService.saveStudentGrade(cs2, score);
-        return "redirect:/lecturer/list-course-students/" + cs2.getCourse().getCourseCode();
+        return "redirect:/lecturer/grade-course/" + cs2.getCourse().getCourseCode();
     }
     
     
