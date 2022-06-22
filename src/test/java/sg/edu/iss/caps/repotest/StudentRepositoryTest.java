@@ -104,4 +104,42 @@ public class StudentRepositoryTest {
 		Assertions.assertEquals(slist.size(),0);
 	}
 	
+	@Test
+	@Order(5)
+	public void testFindStudentByUsername() {
+		List<Student> rlist = srepo.findByUsername("jasvinder");
+		Assertions.assertEquals(rlist.size(),1);
+	}
+	
+	@Test
+	@Order(6)
+	public void testFindStudentByFirstName() {
+		List<Student> rlist = srepo.findStudentByFirstName("Ling");
+		Assertions.assertEquals(rlist.size(),1);
+	}
+	
+	@Test
+	@Order(7)
+	public void testFindStudentFirstByUsername() {
+		Student result = srepo.findFirstByUsername("ling");
+		assertEquals(result.getFirstName(), "Ling", "Result first name does not match");
+		assertEquals(result.getLastName(), "Lu", "Result last name does not match");
+		System.out.println("Existing student found: " + result.getFirstName() + " " + result.getLastName());
+	}
+	
+	@Test
+	@Order(8)
+	public void testFindStudentByEmail() {
+		Student result = srepo.findFirstByEmail("troybarn4@gmail.com");
+		assertEquals(result.getFirstName(), "Troy", "Result first name does not match");
+		assertEquals(result.getLastName(), "Barnes", "Result last name does not match");
+		System.out.println("Existing student found: " + result.getFirstName() + " " + result.getLastName());
+	}
+	
+	@Test
+	@Order(9)
+	public void testFindAllActiveStudent() {
+		List<Student> rlist = srepo.findAllActiveStudents();
+		Assertions.assertEquals(rlist.size(),13);
+	}
 }

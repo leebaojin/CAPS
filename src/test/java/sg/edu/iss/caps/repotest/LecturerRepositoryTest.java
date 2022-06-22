@@ -7,6 +7,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,5 +80,28 @@ public class LecturerRepositoryTest {
 		assertEquals(result.getFirstName(), "Tri Tin", "Result first name does not match");
 		assertEquals(result.getLastName(), "Nguyen", "Result last name does not match");
 		assertEquals(result.getUsername(), "tritin", "Result username does not match");
+	}
+	
+	@Test
+	@Order(5)
+	public void testFindLecturerFirstByUsername() {
+		Lecturer result = lecturerRepo.findFirstByUsername("esthertan");
+		assertEquals(result.getFirstName(), "Esther", "Result first name does not match");
+		assertEquals(result.getLastName(), "Tan", "Result last name does not match");
+	}
+	
+	@Test
+	@Order(6)
+	public void testFindLecturerFirstByEmail() {
+		Lecturer result = lecturerRepo.findFirstByEmail("capset@sa54team4.com");
+		assertEquals(result.getFirstName(), "Esther", "Result first name does not match");
+		assertEquals(result.getLastName(), "Tan", "Result last name does not match");
+	}
+	
+	@Test
+	@Order(7)
+	public void testFindAllActiveLecturers() {
+		ArrayList<Lecturer> rlist = lecturerRepo.findAllActiveLecturers();
+		Assertions.assertEquals(rlist.size(),13);
 	}
 }
