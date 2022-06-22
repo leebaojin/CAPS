@@ -99,8 +99,7 @@ public class StudentServiceImpl implements StudentService {
 		List<Student> allActiveStudent = studentRepo.findAllActiveStudents();
 		
 		int start = (int) pageable.getOffset();
-		int end = (int) ((start + pageable.getPageSize()) > allActiveStudent.size() ? allActiveStudent.size()
-				  : (start + pageable.getPageSize()));
+		int end = (int) ((start + pageable.getPageSize()) > allActiveStudent.size() ? allActiveStudent.size() : (start + pageable.getPageSize()));
 		Page<Student> page = new PageImpl<Student>(allActiveStudent.subList(start, end), pageable, allActiveStudent.size());
 		return page;
 	}

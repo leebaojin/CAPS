@@ -5,6 +5,10 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.caps.model.Lecturer;
@@ -87,6 +91,17 @@ public class LecturerServiceImpl implements LecturerService {
 		if(lecturerRepo.findFirstByUsername(l.getUsername()) != null) {
 			return true;
 		} return false;
+	}
+
+	@Override
+	public Page<Lecturer> findPaginated(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		List<Lecturer> allActiveStudent = lecturerRepo.findAllActiveLecturers();
+		
+		int start = (int) pageable.getOffset();
+		int end = (int) ((start + pageable.getPageSize()) > allActiveStudent.size() ? allActiveStudent.size() : (start + pageable.getPageSize()));
+		Page<Lecturer> page = new PageImpl<Lecturer>(allActiveStudent.subList(start, end), pageable, allActiveStudent.size());
+		return page;
 	}
 	
 //	@Transactional
