@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Lecturer;
+import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.LecturerCourseService;
 import sg.edu.iss.caps.service.LecturerService;
+import sg.edu.iss.caps.service.StudentService;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 import sg.edu.iss.caps.util.UserSessionUtil;
@@ -29,6 +31,8 @@ public class LecturerUpdateCourseController {
     LecturerService lecturerService;
     @Autowired
     CourseService courseService;
+    @Autowired
+    StudentService studentService;
     
     @Autowired
     UserSessionService userSessionService;
@@ -97,6 +101,18 @@ public class LecturerUpdateCourseController {
         model.addAttribute("c", courseService.findCourseByCourseCode(courseCode));
         model.addAttribute("studentPerformance",true);
         return "list-courses-students";
+    }
+    
+    @RequestMapping("/student-profile/{studentId}")
+    public String viewStudentProfile(Model model, @PathVariable("studentId") int studentId) {
+    	Lecturer user = userSessionService.findLecturerSession();
+    	MenuNavBarUtil.generateNavBar(user, model);
+
+    	Student s = studentService.findStudentById(studentId);
+   
+        model.addAttribute("student", s);
+ 
+        return "lecturer-view-student-profile";
     }
     
     @GetMapping("/add-score/{courseStudentId}")
