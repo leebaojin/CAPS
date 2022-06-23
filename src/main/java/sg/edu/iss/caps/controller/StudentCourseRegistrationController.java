@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class StudentCourseRegistrationController {
 
     @GetMapping("")
     public String listAvailableCourse(HttpServletRequest request, 
-    		Model model) {
+    		Model model,  @RequestParam(value="pageNo", required = false) Integer pageNo) {
     	
     	User user = userSessionService.findUserSession();
     	if(user == null || !(user instanceof Student)) {
@@ -55,9 +56,13 @@ public class StudentCourseRegistrationController {
     	//Generate navigation bar
     	MenuNavBarUtil.generateNavBar(student, model);
     	
+    	if(pageNo == null) {
+    		pageNo = 1;
+    	}
+    	
     	//Find available courses
-    	List<Course> courseAvailable = courseService.findAvailableCourseForStudent(student);
-    	model.addAttribute("courseAvailable",courseAvailable);
+    	//List<Course> courseAvailable = courseService.findAvailableCourseForStudent(student);
+    	//model.addAttribute("courseAvailable",courseAvailable);
     	
     	//For successful course registration
     	if(request.getAttribute("successfulRegistration") != null){
@@ -65,33 +70,37 @@ public class StudentCourseRegistrationController {
         	model.addAttribute("successfulCourse",request.getAttribute("successfulCourse"));
     	}
     	
-        return "studentCourseRegistrationForm";
+        return findPaginated(student, pageNo, model, null);
     }
     
     
     @GetMapping("/find")
     public String listAvailableCourseBySearch(@RequestParam("findCourse") String searchStr,
-    		Model model) {
+    		 @RequestParam(value="pageNo", required = false) Integer pageNo, Model model) {
     	
     	if(searchStr == null || searchStr.equals("")) {
     		//Redirect if search is empty
     		return "redirect:/student/course-registration";
     	}
     	
-    	User user = userSessionService.findUserSession();
-    	if(user == null || !(user instanceof Student)) {
+    	Student student = userSessionService.findStudentSession();
+    	
+    	if(student == null) {
     		return "redirect:/home";
     	}
     	
-    	Student student = (Student) user;
+    	if(pageNo == null) {
+    		pageNo = 1;
+    	}
     	
     	MenuNavBarUtil.generateNavBar(student, model);
-    	List<Course> courseAvailable = courseService.findSearchCourseForStudent(student, searchStr);
-    	model.addAttribute("courseAvailable",courseAvailable);
+    	
+    	//List<Course> courseAvailable = courseService.findSearchCourseForStudent(student, searchStr);
+    	//model.addAttribute("courseAvailable",courseAvailable);
     	model.addAttribute("searchStr",searchStr);
-    	return "studentCourseRegistrationForm";
+    	return findPaginated(student, pageNo, model, searchStr);
     }
-
+	
     @GetMapping("/register/{id}")
     public String addCourseStudent(@PathVariable("id") String courseCode, HttpServletRequest request, 
     		Model model) {
@@ -115,6 +124,25 @@ public class StudentCourseRegistrationController {
     	request.setAttribute("successfulRegistration",true);
     	request.setAttribute("successfulCourse",courseCode);
         return "forward:/student/course-registration"; //Forward and pass new data
+    }
+    
+    private String findPaginated(Student student, int pageNo, Model model, String searchStr) {
+    	int pageSize = 5;
+    	
+    	//Page<Course> page = courseService.findPaginated(pageNo, pageSize);
+    	//List<Course> courseList = page.getContent();
+    	
+    	//Find available courses
+    	Page<Course> coursespage = courseService.findAvailableCourseForStudentPage(student, pageNo, pageSize, searchStr);
+    	model.addAttribute("courseAvailable",coursespage.getContent());
+    	
+    	if(coursespage != null) {
+    		model.addAttribute("currentPage", pageNo);
+    		model.addAttribute("totalPages", coursespage.getTotalPages());
+    		model.addAttribute("totalItems", coursespage.getTotalElements());
+    	}
+    	
+		return "studentCourseRegistrationForm";
     }
     
 }

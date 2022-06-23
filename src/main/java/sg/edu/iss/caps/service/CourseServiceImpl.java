@@ -3,13 +3,13 @@ package sg.edu.iss.caps.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.CourseStatus;
@@ -22,8 +22,10 @@ public class CourseServiceImpl implements CourseService {
 
 	@Autowired
 	CourseRepository courseRepo;
-
+	
+	
 	@Override
+	@Transactional(readOnly = true) 
 	public List<Course> findAvailableCourseForStudent(Student s) {
 		// Find the courses that the student have not taken
 		List<Course> courseNotTaken = courseRepo.findCourseNotTaken(s);
@@ -40,6 +42,7 @@ public class CourseServiceImpl implements CourseService {
 		List<Course> courseAvailable = getCourseAvailable(courseNotTaken);
 		return courseAvailable;
 	}
+	
 
 	@Override
 	public List<Course> findAllCourses() {
@@ -110,6 +113,17 @@ public class CourseServiceImpl implements CourseService {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		
 		return this.courseRepo.findAll(pageable);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public Page<Course> findAvailableCourseForStudentPage(Student s,int pageNo, int pageSize, String searchStr){
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		Page<Course> coursepage = (searchStr == null)?
+				courseRepo.findCourseNotTakenPage(s, pageable) :
+					courseRepo.findCourseNotTakenSearchPage(s,searchStr, pageable);
+		
+		return coursepage;
 	}
 
 	@Transactional

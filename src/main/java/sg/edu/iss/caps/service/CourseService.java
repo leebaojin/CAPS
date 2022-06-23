@@ -31,5 +31,7 @@ public interface CourseService {
 	public Course findCourseByCourseCode(String courseCode); 
 	
 	public void deleteCourse(String courseId);
+	
+	Page<Course> findAvailableCourseForStudentPage(Student s,int pageNo, int pageSize, String searchStr);
 
 }
