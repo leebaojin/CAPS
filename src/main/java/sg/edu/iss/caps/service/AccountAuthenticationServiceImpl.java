@@ -98,7 +98,7 @@ public class AccountAuthenticationServiceImpl implements AccountAuthenticationSe
 		String resetAddress = hostUrl + "login/passwordreset?resetId=" + uuid.toString();
 		
 		//Use the emailservice to send the reset password message to the user
-		emailService.sendResetPWMessage(user.getEmail(), user.getFirstName() + user.getLastName(), resetAddress);
+		emailService.sendResetPWMessage(user.getEmail(), user.getFirstName() + " " + user.getLastName(), resetAddress);
 	}
 	
 	@Override

@@ -44,21 +44,17 @@ public class StudentCourseRegistrationController {
 
     @GetMapping("")
     public String listAvailableCourse(HttpServletRequest request, 
-    		Model model,  @RequestParam(value="pageNo", required = false) Integer pageNo) {
+    		Model model,  @RequestParam(value="pageNo", required = false, defaultValue="1") Integer pageNo) {
     	
-    	User user = userSessionService.findUserSession();
-    	if(user == null || !(user instanceof Student)) {
+    	Student student = userSessionService.findStudentSession();
+    	/*
+    	if(student == null) {
     		return "redirect:/home";
     	}
-    	
-    	Student student = (Student) user;
+    	*/
     	
     	//Generate navigation bar
     	MenuNavBarUtil.generateNavBar(student, model);
-    	
-    	if(pageNo == null) {
-    		pageNo = 1;
-    	}
     	
     	//Find available courses
     	//List<Course> courseAvailable = courseService.findAvailableCourseForStudent(student);
@@ -76,7 +72,7 @@ public class StudentCourseRegistrationController {
     
     @GetMapping("/find")
     public String listAvailableCourseBySearch(@RequestParam("findCourse") String searchStr,
-    		 @RequestParam(value="pageNo", required = false) Integer pageNo, Model model) {
+    		 @RequestParam(value="pageNo", required = false, defaultValue="1") Integer pageNo, Model model) {
     	
     	if(searchStr == null || searchStr.equals("")) {
     		//Redirect if search is empty
@@ -84,15 +80,11 @@ public class StudentCourseRegistrationController {
     	}
     	
     	Student student = userSessionService.findStudentSession();
-    	
+    	/*
     	if(student == null) {
     		return "redirect:/home";
     	}
-    	
-    	if(pageNo == null) {
-    		pageNo = 1;
-    	}
-    	
+    	*/
     	MenuNavBarUtil.generateNavBar(student, model);
     	
     	//List<Course> courseAvailable = courseService.findSearchCourseForStudent(student, searchStr);

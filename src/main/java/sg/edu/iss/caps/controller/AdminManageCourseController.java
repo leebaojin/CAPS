@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import sg.edu.iss.caps.model.Administrator;
 import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.User;
@@ -34,7 +35,10 @@ public class AdminManageCourseController {
     
     @RequestMapping("/list")
     public String listCourses(Model model, @RequestParam(value="pageNo", required = false) Integer pageNo) {
-    	User user = userSessionService.findUserSession();
+    	Administrator user = userSessionService.findAdminSession();
+    	if(user == null) {
+    		return "redirect:/home";
+    	}
     	MenuNavBarUtil.generateNavBar(user, model);
 
         List<Lecturer> lecturerList = lecturerService.findAllLecturers();
@@ -45,7 +49,10 @@ public class AdminManageCourseController {
     
     @GetMapping("/delete/{courseId}")
     public String deleteCourse(Model model, @PathVariable("courseId") String courseId) {
-    	User user = userSessionService.findUserSession();
+    	Administrator user = userSessionService.findAdminSession();
+    	if(user == null) {
+    		return "redirect:/home";
+    	}
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         courseService.deleteCourse(courseId);
@@ -54,7 +61,10 @@ public class AdminManageCourseController {
     
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo, Model model) {
-    	User user = userSessionService.findUserSession();
+    	Administrator user = userSessionService.findAdminSession();
+    	if(user == null) {
+    		return "redirect:/home";
+    	}
     	MenuNavBarUtil.generateNavBar(user, model);
     	int pageSize = 5;
     	

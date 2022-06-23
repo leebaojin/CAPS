@@ -86,17 +86,17 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 		for(CourseStudent courseGrade:courseGrades) {
 			Course course = courseGrade.getCourse();
 			if (courseGrade.getGrade() == Grade.A) {
-				gradePoint = 6.0;
-			}else if (courseGrade.getGrade() == Grade.B) {
 				gradePoint = 5.0;
-			}else if (courseGrade.getGrade() == Grade.C) {
+			}else if (courseGrade.getGrade() == Grade.B) {
 				gradePoint = 4.0;
-			}else if (courseGrade.getGrade() == Grade.D) {
+			}else if (courseGrade.getGrade() == Grade.C) {
 				gradePoint = 3.0;
-			}else if (courseGrade.getGrade() == Grade.E) {
+			}else if (courseGrade.getGrade() == Grade.D) {
 				gradePoint = 2.0;
-			}else {
+			}else if (courseGrade.getGrade() == Grade.E) {
 				gradePoint = 1.0;
+			}else {
+				gradePoint = 0.0;
 			}
 			numerator += gradePoint * Integer.parseInt(course.getCourseCredits());
 			denominator += Integer.parseInt(course.getCourseCredits());			

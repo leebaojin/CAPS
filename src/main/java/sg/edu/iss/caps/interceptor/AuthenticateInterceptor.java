@@ -19,65 +19,88 @@ import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Component
 public class AuthenticateInterceptor implements HandlerInterceptor {
-	
+
 	@Autowired
 	HttpSession session;
-	
-	private List<String> noblocklist = Arrays.asList("/home","/login","/logout");
-	private List<String> adminlist = Arrays.asList("/manage");
-	private List<String> studentlist = Arrays.asList("/student");
-	private List<String> lecturerlist = Arrays.asList("/lecturer");
-	
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        //Get path
+
+	private List<String> noblocklist = Arrays.asList("/home", "/login", "/logout");
+	private List<String> adminlist = Arrays.asList("/manage/");
+	private List<String> studentlist = Arrays.asList("/student/");
+	private List<String> lecturerlist = Arrays.asList("/lecturer/");
+
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws IOException {
+		// Get path
 		String path = request.getRequestURI();
-		
-		//Allow all request for css and js to pass
-		if(path.endsWith(".css")||path.endsWith(".js")) {
+
+		// Allow all request for css and js to pass
+		if(path.contains("/external/bootstrap/css/") || path.contains("/css/") || path.contains("/external/fontawesome/") || path.contains("/scripts/")) {
 			return true;
 		}
 		
-		for(String p : noblocklist) {
-			if(path.startsWith(p)) {
+		// Allow common pages to pass
+		for (String p : noblocklist) {
+			if (path.startsWith(p)) {
 				return true;
 			}
 		}
-		
-		//Check user with session
+
+		// Check user with session
 		User user = UserSessionUtil.findUser(session);
-		if(user == null) {
-			//Redirect if user is not found
+
+		if (user == null) {
+			// Redirect if user is not found
 			response.sendRedirect("/home");
-	        return false;
+			return false;
 		}
 		
-		if(user.getRole() == Role.ADMIN) {
-			for(String p : adminlist) {
-				if(path.startsWith(p)) {
+		if (path.startsWith("/api/manage/")) {
+			//Check that only admin can access this api
+			if(user.getRole() == Role.ADMIN) {
+				return true;
+			}
+			response.sendRedirect("/home");
+			return false;
+		}
+
+		if (user.getRole() == Role.ADMIN) {
+			//Check if path is for admin
+			for (String p : adminlist) {
+				if (path.startsWith(p)) {
+					return true;
+				}
+			}
+		} else if (user.getRole() == Role.STUDENT) {
+			//Check if path is for student
+			for (String p : studentlist) {
+				if (path.startsWith(p)) {
+					return true;
+				}
+			}
+		} else if (user.getRole() == Role.LECTURER) {
+			//Check if path is for lecturer
+			for (String p : lecturerlist) {
+				if (path.startsWith(p)) {
 					return true;
 				}
 			}
 		}
-		else if(user.getRole() == Role.STUDENT) {
-			return true;
-		}
-		else if(user.getRole() == Role.LECTURER) {
-			return true;
-		}
-		
-		//Redirect home for all other web
+
+		// Redirect home for all other web
 		response.sendRedirect("/home");
-		
-		//response.sendRedirect(request.getContextPath() + "/" + redirection);
-        return false;
-    }
- 
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-      
-    }
- 
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exceptionIfAny){
-       // NO operation. 
-    }
+
+		// response.sendRedirect(request.getContextPath() + "/" + redirection);
+		return false;
+	}
+
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) {
+
+	}
+
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+			Exception exceptionIfAny) {
+		// NO operation.
+	}
 
 }
