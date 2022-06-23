@@ -18,7 +18,7 @@
 				<br/>
 				<h2 th:utext="#{profile.edit.title}"></h2>
 				<br/>
-				<form th:action="@{/student/profile-update}" th:object="${student}" method="get">
+				<form th:action="@{/student/profile-update}" th:object="${student}" method="post">
 					<table class="table">
 						<tr>
 							<td scope="col" th:text=#{profile.edit.firstName}></td>
@@ -27,7 +27,7 @@
 									<input type="text" th:field="*{firstName}" />
 								</fieldset>
 							</td>
-							<td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></td>
+							<td class="form-err" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></td>
 						</tr>
 						<tr>
 							<td scope="col" th:text=#{profile.edit.lastName}></td>
@@ -36,7 +36,7 @@
 									<input type="text" th:field="*{lastName}" />
 								</fieldset>
 							</td>
-							<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></td>
+							<td  class="form-err" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></td>
 						</tr>
 						<tr>
 							<td scope="col" th:text=#{profile.edit.email}></td>
@@ -45,7 +45,7 @@
 									<input type="text" th:field="*{email}" />
 								</fieldset>
 							</td>
-							<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
+							<td class="form-err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
 						</tr>
 						<!--<tr>
 							<td scope="col">Username</td>

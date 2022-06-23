@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.caps.model.Course;
@@ -99,11 +100,14 @@ public class StudentProfileController {
 		return "profile-edit";
 	}
 	
-	@GetMapping("/profile-update")
-	public String saveStudentProfile(@ModelAttribute @Valid Student student, Model model, BindingResult bindingResult) {
-		if(bindingResult.hasErrors())
-			return "forward:/student/profile-edit";
+	@PostMapping("/profile-update")
+	public String saveStudentProfile(@ModelAttribute @Valid Student student, BindingResult bindingResult, Model model) {
 		Student s1 = userSessionService.findStudentSession();
+		
+		if(bindingResult.hasErrors()) {
+			MenuNavBarUtil.generateNavBar(s1, model);
+			return "profile-edit";
+		}
 		if(s1 == null || s1.getStudentId() != student.getStudentId()) {
 			return "redirect:/home";
 		}
@@ -111,6 +115,6 @@ public class StudentProfileController {
 		Student s = studentService.changeStudentProfile(student);
 		userSessionService.setUserSession(s);
 		
-		return "forward:/student/profile";
+		return "redirect:/student/profile";
 	}
 }
