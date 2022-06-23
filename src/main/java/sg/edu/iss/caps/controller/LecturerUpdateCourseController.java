@@ -1,5 +1,7 @@
 package sg.edu.iss.caps.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -16,6 +18,7 @@ import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.LecturerCourseService;
 import sg.edu.iss.caps.service.LecturerService;
+import sg.edu.iss.caps.service.StudentCourseService;
 import sg.edu.iss.caps.service.StudentService;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
@@ -33,6 +36,8 @@ public class LecturerUpdateCourseController {
     CourseService courseService;
     @Autowired
     StudentService studentService;
+    @Autowired
+    StudentCourseService studentCourseService;
     
     @Autowired
     UserSessionService userSessionService;
@@ -109,9 +114,15 @@ public class LecturerUpdateCourseController {
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	Student s = studentService.findStudentById(studentId);
-   
         model.addAttribute("student", s);
- 
+        List<CourseStudent> courseGrades = studentCourseService.findStudentGrades(s);
+        double gpa = studentCourseService.getGPA(courseGrades, s);
+        if(Double.isNaN(gpa)) {
+        	model.addAttribute("gpa", "Not Applicable");
+        } else {
+        	model.addAttribute("gpa", gpa);
+        }
+        
         return "lecturer-view-student-profile";
     }
     
