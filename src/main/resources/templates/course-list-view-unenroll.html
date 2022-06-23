@@ -22,11 +22,11 @@
 							<th scope="col">DESCRIPTION</th>
 							<th scope="col">ACTION</th>
 						 </tr>
-						 <tr th:each="course:${enrolledCourses}" class="table-row">
-						 	<td th:text="${course.courseCode}"></td>
-						   	<td th:text="${course.courseTitle}"></td>
-						   	<td th:text="${course.courseDescription}"></td>
-						   	<td><a th:href="@{/manage/studentcourse/unenroll/}+${studentId}+'/'+${course.courseCode}">Unenroll</a></td>
+						 <tr th:each="courseStu:${enrolledCourseStu}" class="table-row">
+						 	<td th:text="${courseStu.course.courseCode}"></td>
+						   	<td th:text="${courseStu.course.courseTitle}"></td>
+						   	<td th:text="${courseStu.course.courseDescription}"></td>
+						   	<td><a th:if="${#strings.toString(courseStu.courseStudentStatus) == 'ENROLLED'}" th:href="@{/manage/studentcourse/unenroll/}+${studentId}+'/'+${courseStu.course.courseCode}">Unenroll</a></td>
 						 </tr>
 					</table>
 				</div>

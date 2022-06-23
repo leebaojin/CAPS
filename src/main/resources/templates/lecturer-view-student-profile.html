@@ -27,7 +27,7 @@
 					</tr>
 					<tr>
 						<td scope="col" th:text=#{student.profile.gpa}></td>
-						<td th:text="${gpa} + ' / 5.0'"></td>
+						<td th:text="${#numbers.formatDecimal(gpa,1,2)} + ' / 5.0'"></td>
 					</tr>
 				</table>
 			</div>

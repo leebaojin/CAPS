@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 
 import sg.edu.iss.caps.model.Course;
 import sg.edu.iss.caps.model.CourseStudent;
+import sg.edu.iss.caps.model.CourseStudentStatus;
 import sg.edu.iss.caps.model.Grade;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.repo.CourseRepository;
 import sg.edu.iss.caps.repo.CourseStudentRepository;
 import sg.edu.iss.caps.repo.StudentRepository;
+import sg.edu.iss.caps.util.GradeUtil;
 
 @Service
 public class StudentCourseServiceImpl implements StudentCourseService {
@@ -60,6 +62,13 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 		return courseTaken;
 	}
 	
+	@Override
+	public List<CourseStudent> findCourseStudent(Student s){
+		//Find List of CourseStudent
+		List<CourseStudent> courseStudentList = courseStudentRepo.findCourseStudentByStudent(s);
+		return courseStudentList;
+	}
+	
 	
 	@Override
 	public List<CourseStudent> findStudentGrades(Student s){
@@ -73,8 +82,12 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 		// TODO Auto-generated method stub
 		Student student = stuRepo.findById(studentId).get();
 		Course course = courseRepo.findCourseCode(courseCode);
-		CourseStudent courseStudent =  courseStudentRepo.findCourseStudent(student, course);		
-		courseStudentRepo.delete(courseStudent);
+		CourseStudent courseStudent =  courseStudentRepo.findCourseStudent(student, course);
+		if(courseStudent.getCourseStudentStatus() == CourseStudentStatus.ENROLLED) {
+			//Only delete if status is enrolled
+			courseStudentRepo.delete(courseStudent);
+		}
+		
 	}
 	
 	@Override
@@ -83,21 +96,14 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 		double gpa = 0.0;
 		double numerator = 0.0;
 		double denominator = 0.0;
+		if(courseGrades.isEmpty()) {
+			//No courses taken, no GPA
+			return 0;
+		}
 		for(CourseStudent courseGrade:courseGrades) {
 			Course course = courseGrade.getCourse();
-			if (courseGrade.getGrade() == Grade.A) {
-				gradePoint = 5.0;
-			}else if (courseGrade.getGrade() == Grade.B) {
-				gradePoint = 4.0;
-			}else if (courseGrade.getGrade() == Grade.C) {
-				gradePoint = 3.0;
-			}else if (courseGrade.getGrade() == Grade.D) {
-				gradePoint = 2.0;
-			}else if (courseGrade.getGrade() == Grade.E) {
-				gradePoint = 1.0;
-			}else {
-				gradePoint = 0.0;
-			}
+			gradePoint = GradeUtil.getGPAValue(courseGrade.getGrade());
+			
 			numerator += gradePoint * Integer.parseInt(course.getCourseCredits());
 			denominator += Integer.parseInt(course.getCourseCredits());			
 		}

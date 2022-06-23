@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import sg.edu.iss.caps.model.Administrator;
 import sg.edu.iss.caps.model.Course;
+import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
@@ -48,7 +49,7 @@ public class AdminManageStudentCourseController {
 	
 	@GetMapping("/view")
     public String studentUnenrollView(Model model, @RequestParam(value="pageNo", required = false, defaultValue="1") Integer pageNo) {
-		
+		//View students list
 		User user = userSessionService.findUserSession();
 		if (user == null || !(user instanceof Administrator)) {
 			return "redirect:/home";
@@ -77,6 +78,7 @@ public class AdminManageStudentCourseController {
 	
 	@GetMapping("/enrolled-course-list/{id}")
     public String studentEnrolledCourses(Model model, @PathVariable("id") Integer id) {
+		//View enrolled courses
 		User user = userSessionService.findUserSession();
 		if (user == null || !(user instanceof Administrator)) {
 			return "redirect:/home";
@@ -84,9 +86,10 @@ public class AdminManageStudentCourseController {
 		MenuNavBarUtil.generateNavBar(user, model);
     	
         Student student = stuService.findStudentById(id);
-        List<Course> enrolledCourses = scsImpl.findEnrolledCourse(student);
+        //List<Course> enrolledCourses = scsImpl.findEnrolledCourse(student);
+        List<CourseStudent> enrolledCourseStuList = scsImpl.findCourseStudent(student);
         model.addAttribute("studentId", id);
-		model.addAttribute("enrolledCourses", enrolledCourses);
+		model.addAttribute("enrolledCourseStu", enrolledCourseStuList);
         return "course-list-view-unenroll";
     }
 	
@@ -99,7 +102,11 @@ public class AdminManageStudentCourseController {
 		MenuNavBarUtil.generateNavBar(user, model);
     	
     	scsImpl.unenrollStudentFromCourse(id, courseCode);
-        return "redirect:/manage/studentcourse/course-list/{id}";
+    	if(id != null)
+    	{
+    		return "redirect:/manage/studentcourse/enrolled-course-list/{id}";
+    	}
+    	return "redirect:/manage/studentcourse/view";
     }
 	
 	@GetMapping("/available-course-list/{id}")

@@ -73,6 +73,9 @@ INSERT INTO capsdata.course_student(course_student_id,course_student_status,grad
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4006',11);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4006',12);
 INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4006',13);
+INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4005',2);
+INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4004',1);
+INSERT INTO capsdata.course_student(course_student_id,course_student_status,grade,score,course_course_code,student_student_id) VALUES (default,'ENROLLED',NULL,NULL,'SA4003',4);
 
 INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4001',1);
 INSERT INTO capsdata.course_lecturer(teach_courses_course_code,course_lecturers_lecturer_id) VALUES ('SA4001',2);
