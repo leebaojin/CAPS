@@ -103,4 +103,14 @@ public class StudentServiceImpl implements StudentService {
 		Page<Student> page = new PageImpl<Student>(allActiveStudent.subList(start, end), pageable, allActiveStudent.size());
 		return page;
 	}
+	
+	@Transactional
+	@Override
+	public Student changeStudentProfile(Student student) {
+		Student s = studentRepo.findById(student.getStudentId()).get();
+		s.setFirstName(student.getFirstName());
+		s.setLastName(student.getLastName());
+		s.setEmail(student.getEmail());
+		return studentRepo.saveAndFlush(s);	
+	}
 }

@@ -50,7 +50,7 @@ export const Navbar = () => {
               </ul>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href={mainappaddress + "/manage/student/create"}>Manage Enrollment</a>
+              <a className="nav-link" href={mainappaddress + "/manage/studentcourse/view"}>Manage Course Enrollment</a>
             </li>
 
             <li className="nav-item">

@@ -108,11 +108,12 @@ class CourseNew extends Component {
                     courseCredits: parseInt(response.data.courseCredits),
                     courseCapacity: parseInt(response.data.courseCapacity),
                     courseStatus: response.data.courseStatus,
-                    courseLecturers: response.data.courseLecturers,
+                    assignedLecturers: response.data.courseLecturers,
+                    
                     changeableId: null,
                 });
                 console.log(response.data);
-                this.retrieveAssignLecturer(this.state.courseCode);
+                //this.retrieveAssignLecturer(this.state.courseCode);
                 this.retrieveNotAssignLecturer(this.state.courseCode);
             })
             .catch(e => {
@@ -138,7 +139,7 @@ class CourseNew extends Component {
     }
 
     retrieveNotAssignLecturer(courseId) {
-        //Retrieve not assign lecturers (use for middle table)
+        //Retrieve not assign lecturers (use forleft table)
         CourseLecturerDataService.getAvailLecturersByCourseId(courseId)
             .then(response => {
                 this.setState({

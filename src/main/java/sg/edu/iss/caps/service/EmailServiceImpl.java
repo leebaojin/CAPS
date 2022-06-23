@@ -11,6 +11,7 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
     private JavaMailSender emailSender;
 	
+	@Override
 	public void sendResetPWMessage(String sendTo, String name, String address) {
 
 		        SimpleMailMessage message = new SimpleMailMessage(); 
@@ -18,8 +19,8 @@ public class EmailServiceImpl implements EmailService {
 		        message.setTo(sendTo); 
 		        message.setSubject("Password Reset Request"); 
 		        
-		        String msg = "Hi " + name + ",\nClick this link to reset your password:\n" +
-		        		address + "\nIgnore this mail if you did not make this request.\nRegards,\nCAPS team";
+		        String msg = "Hi " + name + ",\n\n\tClick this link to reset your password:\n\n\t" +
+		        		address + "\n\n\tIgnore this mail if you did not make this request.\n\nRegards,\nCAPS team";
 		        
 		        message.setText(msg);
 		        emailSender.send(message);
@@ -35,8 +36,8 @@ public class EmailServiceImpl implements EmailService {
         message.setTo(sendTo); 
         message.setSubject("Successful Registration for course: " + courseCode); 
         
-        String msg = "Hi " + name + ",\n\tThis is to notify you that you have successfully enrolled for: " +
-        		courseCode+ "Please login to CAPS system to view your courses." + "\n" + "\nRegards,\nCAPS team";
+        String msg = "Hi " + name + ",\n\n\tThis is to notify you that you have successfully enrolled for: " +
+        		courseCode+ "." + "\n\tPlease login to CAPS system to view your courses." + "\n\nRegards,\nCAPS team";
         
         message.setText(msg);
         emailSender.send(message);

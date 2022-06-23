@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,8 +17,8 @@ import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.LecturerService;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
-import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Controller
 @RequestMapping("/manage/course")
@@ -32,9 +30,12 @@ public class AdminManageCourseController {
     @Autowired
     LecturerService lecturerService;
     
+    @Autowired
+    UserSessionService userSessionService;
+    
     @RequestMapping("/list")
-    public String listCourses(HttpSession session, Model model, @RequestParam(value="pageNo", required = false) Integer pageNo) {
-    	User user = UserSessionUtil.findUser(session);
+    public String listCourses(Model model, @RequestParam(value="pageNo", required = false) Integer pageNo) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	//Page<Course> pageCourse = courseService.findAllCoursesSortPage(0, 5);
@@ -48,8 +49,8 @@ public class AdminManageCourseController {
     }
     
     @GetMapping("/delete/{courseId}")
-    public String deleteCourse(Model model, @PathVariable("courseId") String courseId, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
+    public String deleteCourse(Model model, @PathVariable("courseId") String courseId) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         courseService.deleteCourse(courseId);

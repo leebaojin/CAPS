@@ -18,6 +18,8 @@ import sg.edu.iss.caps.model.CourseStudent;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.StudentCourseServiceImpl;
+import sg.edu.iss.caps.service.StudentService;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 import sg.edu.iss.caps.util.UserSessionUtil;
 
@@ -27,10 +29,16 @@ public class StudentProfileController {
 
 	@Autowired
 	StudentCourseServiceImpl scsImpl;
+	
+	@Autowired
+	StudentService studentService;
+	
+	@Autowired
+    UserSessionService userSessionService;
 
 	@GetMapping("/courses")
-	public String listCourses(HttpSession session, Model model) {
-		User user = UserSessionUtil.findUser(session);
+	public String listCourses(Model model) {
+		User user = userSessionService.findUserSession();
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}
@@ -46,8 +54,8 @@ public class StudentProfileController {
 	}
 
 	@GetMapping("/grades")
-	public String listGrades(Model model, HttpSession session) {
-		User user = UserSessionUtil.findUser(session);
+	public String listGrades(Model model) {
+		User user = userSessionService.findUserSession();
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}
@@ -75,8 +83,8 @@ public class StudentProfileController {
 	}
 
 	@GetMapping("/profile")
-	public String viewStudentProfile(Model model, HttpSession session) {
-		User user = UserSessionUtil.findUser(session);
+	public String viewStudentProfile(Model model) {
+		User user = userSessionService.findUserSession();
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}
@@ -89,8 +97,8 @@ public class StudentProfileController {
 	}
 	
 	@RequestMapping("/profile-edit")
-	public String editStudentProfile(Model model, HttpSession session) {
-		User user = UserSessionUtil.findUser(session);
+	public String editStudentProfile(Model model) {
+		User user = userSessionService.findUserSession();
 		if (user == null || !(user instanceof Student)) {
 			return "redirect:/home";
 		}
@@ -103,13 +111,16 @@ public class StudentProfileController {
 	}
 	
 	@GetMapping("/profile-update")
-	public String saveStudentProfile(@ModelAttribute @Valid Student student, Model model, BindingResult bindingResult,HttpSession session) {
+	public String saveStudentProfile(@ModelAttribute @Valid Student student, Model model, BindingResult bindingResult) {
 		if(bindingResult.hasErrors())
 			return "forward:/student/profile-edit";
+		Student s1 = userSessionService.findStudentSession();
+		if(s1 == null || s1.getStudentId() != student.getStudentId()) {
+			return "redirect:/home";
+		}
 		
-		Student s = scsImpl.changeStudentProfile(student);
-		
-		session.setAttribute("loginUser",s);
+		Student s = studentService.changeStudentProfile(student);
+		userSessionService.setUserSession(s);
 		
 		return "forward:/student/profile";
 	}

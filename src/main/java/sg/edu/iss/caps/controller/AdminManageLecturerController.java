@@ -21,6 +21,7 @@ import sg.edu.iss.caps.model.Lecturer;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.LecturerService;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 import sg.edu.iss.caps.util.UserSessionUtil;
 
@@ -31,9 +32,12 @@ public class AdminManageLecturerController {
     @Autowired
     LecturerService lecturerService;
     
+    @Autowired
+	private UserSessionService userSessionService;
+    
     @GetMapping("/create")
-    public String loadLecturerForm(HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
+    public String loadLecturerForm(Model model) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         Lecturer l = new Lecturer();
@@ -43,8 +47,8 @@ public class AdminManageLecturerController {
     }
     
     @PostMapping("/create")
-    public String saveLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
+    public String saveLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, Model model) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
 
     	model.addAttribute("action","create");
@@ -62,8 +66,8 @@ public class AdminManageLecturerController {
     }
     
     @GetMapping("/edit/{lecturerId}")
-    public String loadEditLecturerForm(Model model, @PathVariable("lecturerId") Integer lecturerId, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
+    public String loadEditLecturerForm(Model model, @PathVariable("lecturerId") Integer lecturerId) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	model.addAttribute("lecturer", lecturerService.findLecturerById(lecturerId));
@@ -72,8 +76,8 @@ public class AdminManageLecturerController {
     }
     
     @PostMapping("/edit/{lecturerId}")
-    public String saveEditLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult,HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
+    public String saveEditLecturerForm(@ModelAttribute("lecturer") @Valid Lecturer l, BindingResult bindingResult, Model model) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	model.addAttribute("action","edit");
@@ -86,8 +90,8 @@ public class AdminManageLecturerController {
     }
 
     @RequestMapping("/list")
-    public String listLecturers(HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
+    public String listLecturers(Model model) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
         
 //        model.addAttribute("lecturerList", lecturerService.findAllActiveLecturers());
@@ -96,8 +100,8 @@ public class AdminManageLecturerController {
     }
 
     @GetMapping("/delete/{lecturerId}")
-    public String deleteLecturer(Model model, @PathVariable("lecturerId") Integer lecturerId, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
+    public String deleteLecturer(Model model, @PathVariable("lecturerId") Integer lecturerId) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	Lecturer l2 = lecturerService.findLecturerById(lecturerId);
@@ -107,6 +111,8 @@ public class AdminManageLecturerController {
     
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo, Model model) {
+    	User user = userSessionService.findUserSession();
+    	MenuNavBarUtil.generateNavBar(user, model);
     	int pageSize = 5;
     	
     	Page<Lecturer> page = lecturerService.findPaginated(pageNo, pageSize);

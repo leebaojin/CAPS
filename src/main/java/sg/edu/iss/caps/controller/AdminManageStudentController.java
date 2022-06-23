@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.StudentService;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 import sg.edu.iss.caps.util.UserSessionUtil;
 
@@ -30,10 +31,13 @@ public class AdminManageStudentController {
     
     @Autowired
     StudentService stuService;
+    
+    @Autowired
+    UserSessionService userSessionService;
 
     @GetMapping("/create")
-    public String createStudentPage(HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
+    public String createStudentPage(Model model) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         Student s = new Student();
@@ -42,8 +46,8 @@ public class AdminManageStudentController {
     }
 
     @GetMapping("/save")
-    public String saveStudent(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
+    public String saveStudent(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, Model model) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	if (bindingResult.hasErrors()) 
 		{
@@ -62,8 +66,8 @@ public class AdminManageStudentController {
     }
 
     @GetMapping("/view")
-    public String listStudents(HttpSession session, Model model) {
-    	User user = UserSessionUtil.findUser(session);
+    public String listStudents(Model model) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
 //    	List<Student> studentActiveList = stuService.findAllActiveStudents();
@@ -73,8 +77,8 @@ public class AdminManageStudentController {
     }
 
     @GetMapping("/view/{name}")
-    public String listStudentsByName(Model model, @PathVariable("name") String name, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
+    public String listStudentsByName(Model model, @PathVariable("name") String name) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         List<Student> studentListByName = stuService.findAllStudentsByName(name);
@@ -83,8 +87,8 @@ public class AdminManageStudentController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editStudent(Model model, @PathVariable("id") Integer id, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
+    public String editStudent(Model model, @PathVariable("id") Integer id) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	Student studentById = stuService.findStudentById(id);
@@ -93,8 +97,8 @@ public class AdminManageStudentController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteStudent(Model model, @PathVariable("id") Integer id, HttpSession session) {
-    	User user = UserSessionUtil.findUser(session);
+    public String deleteStudent(Model model, @PathVariable("id") Integer id) {
+    	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         stuService.deleteStudent(id);
@@ -103,6 +107,9 @@ public class AdminManageStudentController {
     
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo, Model model) {
+    	User user = userSessionService.findUserSession();
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
     	int pageSize = 5;
     	
     	Page<Student> page = stuService.findPaginated(pageNo, pageSize);

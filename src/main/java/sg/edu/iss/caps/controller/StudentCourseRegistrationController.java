@@ -20,6 +20,7 @@ import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.CourseService;
 import sg.edu.iss.caps.service.EmailService;
 import sg.edu.iss.caps.service.StudentCourseService;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
 import sg.edu.iss.caps.util.UserSessionUtil;
 
@@ -36,12 +37,15 @@ public class StudentCourseRegistrationController {
     
     @Autowired
     EmailService emailService;
+    
+    @Autowired
+    UserSessionService userSessionService;
 
     @GetMapping("")
-    public String listAvailableCourse(HttpSession session, HttpServletRequest request, 
+    public String listAvailableCourse(HttpServletRequest request, 
     		Model model) {
     	
-    	User user = UserSessionUtil.findUser(session);
+    	User user = userSessionService.findUserSession();
     	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}
@@ -67,14 +71,14 @@ public class StudentCourseRegistrationController {
     
     @GetMapping("/find")
     public String listAvailableCourseBySearch(@RequestParam("findCourse") String searchStr,
-    		HttpSession session, Model model) {
+    		Model model) {
     	
     	if(searchStr == null || searchStr.equals("")) {
     		//Redirect if search is empty
     		return "redirect:/student/course-registration";
     	}
     	
-    	User user = UserSessionUtil.findUser(session);
+    	User user = userSessionService.findUserSession();
     	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}
@@ -89,10 +93,10 @@ public class StudentCourseRegistrationController {
     }
 
     @GetMapping("/register/{id}")
-    public String addCourseStudent(@PathVariable("id") String courseCode, HttpSession session, 
-    		HttpServletRequest request, Model model) {
+    public String addCourseStudent(@PathVariable("id") String courseCode, HttpServletRequest request, 
+    		Model model) {
     	
-    	User user = UserSessionUtil.findUser(session);
+    	User user = userSessionService.findUserSession();
     	if(user == null || !(user instanceof Student)) {
     		return "redirect:/home";
     	}
@@ -105,7 +109,7 @@ public class StudentCourseRegistrationController {
     	}
     	
     	//Send email notification
-    	//emailService.SendCourseRegisteredEmail(student.getEmail(), String.join(" ", student.getFirstName(),student.getLastName()), courseCode);
+    	emailService.SendCourseRegisteredEmail(student.getEmail(), String.join(" ", student.getFirstName(),student.getLastName()), courseCode);
     	
     	//Set the required attribute to the request before forwarding
     	request.setAttribute("successfulRegistration",true);
@@ -113,13 +117,4 @@ public class StudentCourseRegistrationController {
         return "forward:/student/course-registration"; //Forward and pass new data
     }
     
-    //Should not be able to unregister as a student. This should be left to admin
-    /*
-    @GetMapping("/delete/{id}")
-    public String deleteCourseStudent(Model model, @PathVariable("id") Integer courseStudentId) {
-        CourseStudent cs = courseStudentRepo.findById(courseStudentId).get();
-        courseStudentRepo.delete(cs);
-        return "forward:/course-register/home";
-    }
-    */
 }

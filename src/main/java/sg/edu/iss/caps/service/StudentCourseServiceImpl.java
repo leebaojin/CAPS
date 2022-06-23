@@ -68,12 +68,13 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 	}
 	
 	@Override
-	public Student changeStudentProfile(Student student) {
-		Student s = stuRepo.findById(student.getStudentId()).get();
-		s.setFirstName(student.getFirstName());
-		s.setLastName(student.getLastName());
-		s.setEmail(student.getEmail());
-		return stuRepo.saveAndFlush(s);	
+	public void unenrollStudentFromCourse(Integer studentId, String courseCode) {
+		// TODO Auto-generated method stub
+		Student student = stuRepo.findById(studentId).get();
+		Course course = courseRepo.findCourseCode(courseCode);
+		CourseStudent courseStudent =  courseStudentRepo.findCourseStudent(student, course);		
+		courseStudentRepo.delete(courseStudent);
 	}
+	
 	
 }

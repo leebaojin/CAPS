@@ -20,6 +20,7 @@ import sg.edu.iss.caps.model.ChangePWRequest;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.model.UserStatus;
 import sg.edu.iss.caps.service.AccountAuthenticationService;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.UserSessionUtil;
 import sg.edu.iss.caps.validator.AccountValidator;
 
@@ -31,6 +32,9 @@ public class AuthController {
 	
 	@Autowired
 	private AccountValidator aValidator;
+	
+	@Autowired
+    UserSessionService userSessionService;
 	
 	@InitBinder
 	private void initAccountBinder(WebDataBinder binder) {
@@ -48,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping(path = "/login/authenticate")
-    public String login (@ModelAttribute("account") @Valid Account account, BindingResult result, HttpSession session, Model model) {
+    public String login (@ModelAttribute("account") @Valid Account account, BindingResult result, Model model) {
     	//To authenticate the login
     	//Admin - capslbj, Student - troy, Lecturer - yuenkwan
     	if(result.hasErrors()) {
@@ -67,13 +71,13 @@ public class AuthController {
     		return "login";
     	}
     	//Set the user into the session data
-    	UserSessionUtil.setUser(session, user);
+    	userSessionService.setUserSession(user);
         return "redirect:/home";
     }
 
     @GetMapping("/logout")
-    public String logout (HttpSession session, Model model) {
-    	UserSessionUtil.removeSession(session);
+    public String logout (Model model) {
+    	userSessionService.removeUserSession();
         return "redirect:/home";
     }
     
@@ -155,16 +159,5 @@ public class AuthController {
         return "redirect:/login";
     }
     
-    /*
-    //Temp controller method for testing purposes
-    @GetMapping("/change-password")
-    public String changePassword (Model model) {
-        // need to standardize naming conventions here
-    	String uuidStr = UUID.randomUUID().toString();
-    	model.addAttribute("resetId",uuidStr);
-    	model.addAttribute("repeatreset",false);
-        return "loginPasswordResetForm";
-    }
-    */
 
 }

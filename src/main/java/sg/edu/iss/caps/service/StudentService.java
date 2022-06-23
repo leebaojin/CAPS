@@ -14,4 +14,6 @@ public interface StudentService {
 	void editStudent(Student s);
 	void deleteStudent(Integer id);
 	Page<Student> findPaginated(int pageNo, int pageSize);
+	
+	public Student changeStudentProfile(Student s);
 }
