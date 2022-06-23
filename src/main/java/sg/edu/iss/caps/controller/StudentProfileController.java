@@ -64,19 +64,8 @@ public class StudentProfileController {
 		MenuNavBarUtil.generateNavBar(student, model);
 		
 		List<CourseStudent> courseGrades = scsImpl.findStudentGrades(student);
-		
-		int numerator = 0;
-		int denomenator = 0;
-		
-		for(CourseStudent courseGrade : courseGrades) {
-			Course c = courseGrade.getCourse();
-			numerator += courseGrade.getScore() * Integer.parseInt(c.getCourseCredits());
-			denomenator += Integer.parseInt(c.getCourseCredits());
-		}
-		
-		double overallGrade = numerator / denomenator;
-
-		model.addAttribute("overallGrade", overallGrade);
+		double gpa = scsImpl.getGPA(courseGrades, student);
+		model.addAttribute("overallGrade", gpa);
 		model.addAttribute("courseGrades", courseGrades);	
 
 		return "view-grades";
