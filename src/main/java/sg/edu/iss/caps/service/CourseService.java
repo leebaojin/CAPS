@@ -16,7 +16,7 @@ public interface CourseService {
 	
 	public List<Course> findAllCourses();
 	
-	public Page<Course> findAllCoursesSortPage(int page, int view);
+	Page<Course> findPaginated(int pageNo, int pageSize);
 	
 	public Course findCourseById(String courseId);
 

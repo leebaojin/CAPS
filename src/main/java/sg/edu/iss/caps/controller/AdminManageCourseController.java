@@ -2,9 +2,8 @@ package sg.edu.iss.caps.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,15 +36,11 @@ public class AdminManageCourseController {
     public String listCourses(Model model, @RequestParam(value="pageNo", required = false) Integer pageNo) {
     	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
-    	
-    	//Page<Course> pageCourse = courseService.findAllCoursesSortPage(0, 5);
-    	//List<Course> courseList = pageCourse.getContent();
-    	
-        List<Course> courseList = courseService.findAllCourses();
+
         List<Lecturer> lecturerList = lecturerService.findAllLecturers();
-        model.addAttribute("courseList", courseList);
         model.addAttribute("lecturerList", lecturerList);
-        return "list-courses";
+
+        return findPaginated(1, model);
     }
     
     @GetMapping("/delete/{courseId}")
@@ -55,6 +50,24 @@ public class AdminManageCourseController {
     	
         courseService.deleteCourse(courseId);
         return "redirect:/manage/course/list";
+    }
+    
+    @GetMapping("/page/{pageNo}")
+    public String findPaginated(@PathVariable (value = "pageNo") int pageNo, Model model) {
+    	User user = userSessionService.findUserSession();
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	int pageSize = 5;
+    	
+    	Page<Course> page = courseService.findPaginated(pageNo, pageSize);
+    	List<Course> courseList = page.getContent();
+    	
+    	model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		
+		model.addAttribute("courseList", courseList);
+		
+		return "list-courses";
     }
     
     /*

@@ -1,9 +1,7 @@
 package sg.edu.iss.caps.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.caps.model.Lecturer;
-import sg.edu.iss.caps.model.Student;
 import sg.edu.iss.caps.model.User;
 import sg.edu.iss.caps.service.LecturerService;
 import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.MenuNavBarUtil;
-import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Controller
 @RequestMapping("/manage/lecturer") 

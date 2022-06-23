@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.caps.model.Course;
@@ -104,11 +104,12 @@ public class CourseServiceImpl implements CourseService {
 				.collect(Collectors.toList());
 	}
 
+	@Transactional
 	@Override
-	public Page<Course> findAllCoursesSortPage(int page, int view) {
-		// Find all, sort ascending and page
+	public Page<Course> findPaginated(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		
-		return courseRepo.findAll(PageRequest.of(page, view, Sort.Direction.ASC,"courseCode"));
+		return this.courseRepo.findAll(pageable);
 	}
 
 	@Transactional
@@ -131,4 +132,6 @@ public class CourseServiceImpl implements CourseService {
 		}
 		
 	}
+
+
 }
