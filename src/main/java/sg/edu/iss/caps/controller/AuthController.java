@@ -143,8 +143,8 @@ public class AuthController {
     }
     
     @PostMapping("/login/reset-new-password")
-    public String resetNewPassword (@ModelAttribute("resetId") String uuidStr,@ModelAttribute("newPW") String newPW,
-    		@ModelAttribute("newCmfPW") String newCmfPW,Model model) {
+    public String resetNewPassword (@RequestParam("resetId") String uuidStr,@RequestParam("newPW") String newPW,
+    		@RequestParam("newCmfPW") String newCmfPW,Model model) {
     	// To perform the password reset
         
     	if(!newPW.equals(newCmfPW)) {
