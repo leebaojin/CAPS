@@ -25,6 +25,7 @@
 						<th scope="col" th:text=#{course.list.courseDescription}></th>
 						<th scope="col" th:text=#{course.list.courseCredits}></th>
 						<th scope="col" th:text=#{course.list.courseCapacity}></th>
+						<th scope="col" th:text=#{course.list.courseEnrolled}></th>
 						<th scope="col" th:text=#{course.list.courseStatus}></th>
 						<th class="col-2" scope="col" th:text=#{course.list.Lecturers}></th>
 						<th scope="col" th:text=#{course.list.Edit}></th>
@@ -38,6 +39,8 @@
 						<td th:text="${course.courseDescription}"></td>
 						<td th:text="${course.courseCredits}"></td>
 						<td th:text="${course.courseCapacity}"></td>
+						
+						<td th:text="${#lists.size(course.courseStudents)} + ${#lists.size(course.courseStudents) >= course.courseCapacity? ' (Full)' : ''}"></td>
 						<td th:text="${course.courseStatus}"></td>
 						<td>
 							<span th:each="lecturer:${course.courseLecturers}"

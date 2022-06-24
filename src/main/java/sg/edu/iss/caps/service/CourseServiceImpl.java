@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -119,9 +120,24 @@ public class CourseServiceImpl implements CourseService {
 	@Transactional(readOnly=true)
 	public Page<Course> findAvailableCourseForStudentPage(Student s,int pageNo, int pageSize, String searchStr){
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		Page<Course> coursepage = (searchStr == null)?
-				courseRepo.findCourseNotTakenPage(s, pageable) :
-					courseRepo.findCourseNotTakenSearchPage(s,searchStr, pageable);
+		//Find the courses that the student have not taken
+		List<Course> courseNotTaken = (searchStr == null)?
+				courseRepo.findCourseNotTaken(s):
+					courseRepo.findCourseNotTakenSearch(s, searchStr);
+		
+		
+		// Filter out the full courses
+		List<Course> courseAvailable = getCourseAvailable(courseNotTaken);
+		
+		int start = (int) pageable.getOffset();
+		int end = (int) ((start + pageable.getPageSize()) > courseAvailable.size() ? courseAvailable.size()
+				  : (start + pageable.getPageSize()));
+		
+		Page<Course> coursepage = new PageImpl<Course>(courseAvailable.subList(start, end), pageable, courseAvailable.size());
+		
+//		Page<Course> coursepage = (searchStr == null)?
+//				courseRepo.findCourseNotTakenPage(s, pageable) :
+//					courseRepo.findCourseNotTakenSearchPage(s,searchStr, pageable);
 		
 		return coursepage;
 	}

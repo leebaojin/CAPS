@@ -31,14 +31,14 @@ public interface CourseRepository extends JpaRepository<Course, String> {
 	public List<Lecturer> findCourseLecturers(@Param("courseCode") String courseCode);
 	
 	
-	@Query("SELECT c FROM Course c WHERE c.courseStatus = 'OPEN' AND c NOT IN((SELECT c FROM Course c  JOIN c.courseStudents cs WHERE cs.student = :s), "
-			+ "(SELECT cs.course FROM CourseStudent cs GROUP BY cs.course HAVING count(cs) < cs.course.courseCapacity))")
-	public Page<Course> findCourseNotTakenPage(@Param("s")Student s, Pageable pageable);
-	
-	@Query("SELECT c FROM Course c WHERE c.courseStatus = 'OPEN' AND c NOT IN((SELECT c FROM Course c  JOIN c.courseStudents cs WHERE cs.student = :s), "
-			+ "(SELECT cs.course FROM CourseStudent cs GROUP BY cs.course HAVING count(cs) < cs.course.courseCapacity))"
-			+ "AND (c.courseCode LIKE CONCAT('%',:searchStr,'%') or c.courseTitle LIKE CONCAT('%',:searchStr,'%'))")
-	public Page<Course> findCourseNotTakenSearchPage(@Param("s")Student s,String searchStr, Pageable pageable);
+//	@Query("SELECT c FROM Course c WHERE c.courseStatus = 'OPEN' AND c NOT IN(SELECT c FROM Course c  JOIN c.courseStudents cs WHERE cs.student = :s) AND "
+//			+ "c NOT IN(SELECT cs.course FROM CourseStudent cs GROUP BY cs.course HAVING count(cs.course) < cs.course.courseCapacity)")
+//	public Page<Course> findCourseNotTakenPage(@Param("s")Student s, Pageable pageable);
+//	
+//	@Query("SELECT c FROM Course c WHERE c.courseStatus = 'OPEN' AND c NOT IN(SELECT c FROM Course c  JOIN c.courseStudents cs WHERE cs.student = :s) AND "
+//			+ "c NOT IN(SELECT cs.course FROM CourseStudent cs GROUP BY cs.course HAVING count(cs.course) < cs.course.courseCapacity)"
+//			+ "AND (c.courseCode LIKE CONCAT('%',:searchStr,'%') or c.courseTitle LIKE CONCAT('%',:searchStr,'%'))")
+//	public Page<Course> findCourseNotTakenSearchPage(@Param("s")Student s,String searchStr, Pageable pageable);
 	
 	public Page<Course> findAll(Pageable pageable);
 }
