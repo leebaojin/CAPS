@@ -14,6 +14,8 @@
 </head>
 
 <body>
+<script type="text/javascript" th:src="@{/scripts/CourseRegister.js}"
+		src="../static/scripts/CourseRegister.js"></script>
 	<!-- Menu section -->
 	<div th:replace="fragments/layout :: headermenu"></div>
 	<br>
@@ -53,7 +55,7 @@
 						   	<td><a  th:href="@{/student/course-registration/register/}+${course.courseCode}" th:utext="#{student.course-registration.register}"> Register</a></td>
 						 	-->
 						<td><a th:href="'javascript:registerConfirmation(\''+${course.courseCode}+'\',\''+@{/student/course-registration/register}+'\')'"
-								th:utext="#{student.course-registration.register}"> Register</a></td>
+								th:utext="#{student.course-registration.register}" > Register</a></td>
 					</tr>
 				</table>
 
