@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.caps.model.Student;
@@ -36,19 +37,22 @@ public class AdminManageStudentController {
     UserSessionService userSessionService;
 
     @GetMapping("/create")
-    public String createStudentPage(Model model) {
+    public String loadStudentForm(Model model) {
     	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         Student s = new Student();
         model.addAttribute("student",s);
+        model.addAttribute("action","create");
         return "student-form";
     }
 
-    @GetMapping("/save")
-    public String saveStudent(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, Model model) {
+    @PostMapping("/create")
+    public String saveStudentForm(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, Model model) {
     	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
+    	
+    	model.addAttribute("action","create");
     	if (bindingResult.hasErrors()) 
 		{
 			return "student-form";
@@ -62,38 +66,50 @@ public class AdminManageStudentController {
     	{
     		stuService.createStudent(s);
 		}
-        return "forward:/manage/student/view";
+        return "redirect:/manage/student/list";
     }
 
-    @GetMapping("/view")
+    @RequestMapping("/list")
     public String listStudents(Model model) {
     	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
-    	
-//    	List<Student> studentActiveList = stuService.findAllActiveStudents();
-//        model.addAttribute("studentList", studentActiveList);
-//        return "list-students";
+
     	return findPaginated(1, model);
     }
 
-    @GetMapping("/view/{name}")
-    public String listStudentsByName(Model model, @PathVariable("name") String name) {
-    	User user = userSessionService.findUserSession();
-    	MenuNavBarUtil.generateNavBar(user, model);
-    	
-        List<Student> studentListByName = stuService.findAllStudentsByName(name);
-        model.addAttribute("studentList", studentListByName);
-        return "list-students";
-    }
+//    @GetMapping("/list/{name}")
+//    public String listStudentsByName(Model model, @PathVariable("name") String name) {
+//    	User user = userSessionService.findUserSession();
+//    	MenuNavBarUtil.generateNavBar(user, model);
+//    	
+//        List<Student> studentListByName = stuService.findAllStudentsByName(name);
+//        model.addAttribute("studentList", studentListByName);
+//        return "list-students";
+//    }
 
     @GetMapping("/edit/{id}")
-    public String editStudent(Model model, @PathVariable("id") Integer id) {
+    public String loadEditStudentForm(Model model, @PathVariable("id") Integer id) {
     	User user = userSessionService.findUserSession();
     	MenuNavBarUtil.generateNavBar(user, model);
     	
     	Student studentById = stuService.findStudentById(id);
         model.addAttribute("student", studentById);
+        model.addAttribute("action","edit");
         return "student-form";
+    }
+    
+    @PostMapping("/edit/{id}")
+    public String saveEditStudentForm(@ModelAttribute("student") @Valid Student s, BindingResult bindingResult, Model model) {
+    	User user = userSessionService.findUserSession();
+    	MenuNavBarUtil.generateNavBar(user, model);
+    	
+    	model.addAttribute("action","edit");
+		if(bindingResult.hasErrors()) {
+			return "student-form";
+		}
+		stuService.editStudent(s);
+		model.addAttribute("action","edit");
+        return "redirect:/manage/student/list";
     }
 
     @GetMapping("/delete/{id}")
@@ -102,7 +118,7 @@ public class AdminManageStudentController {
     	MenuNavBarUtil.generateNavBar(user, model);
     	
         stuService.deleteStudent(id);
-        return "forward:/manage/student/view";
+        return "redirect:/manage/student/list";
     }
     
     @GetMapping("/page/{pageNo}")
