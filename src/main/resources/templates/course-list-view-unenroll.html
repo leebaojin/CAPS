@@ -20,13 +20,16 @@
 						   	<th scope="col">COURSE CODE</th>
 							<th scope="col">COURSE TITLE</th>
 							<th scope="col">DESCRIPTION</th>
-							<th scope="col">ACTION</th>
+							<th scope="col">STATUS / ACTION</th>
 						 </tr>
 						 <tr th:each="courseStu:${enrolledCourseStu}" class="table-row">
 						 	<td th:text="${courseStu.course.courseCode}"></td>
 						   	<td th:text="${courseStu.course.courseTitle}"></td>
 						   	<td th:text="${courseStu.course.courseDescription}"></td>
-						   	<td><a th:if="${#strings.toString(courseStu.courseStudentStatus) == 'ENROLLED'}" th:href="@{/manage/studentcourse/unenroll/}+${studentId}+'/'+${courseStu.course.courseCode}">Unenroll</a></td>
+						   	<td>
+						   		<a th:if="${#strings.toString(courseStu.courseStudentStatus) == 'ENROLLED'}" th:href="@{/manage/studentcourse/unenroll/}+${studentId}+'/'+${courseStu.course.courseCode}">Unenroll</a>
+						   		<span th:if="${#strings.toString(courseStu.courseStudentStatus) != 'ENROLLED'}" th:text="${#strings.toString(courseStu.courseStudentStatus)}">COMPLETED</span>
+						   	</td>
 						 </tr>
 					</table>
 				</div>

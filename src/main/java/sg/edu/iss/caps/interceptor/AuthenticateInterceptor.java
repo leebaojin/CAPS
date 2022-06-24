@@ -15,13 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.iss.caps.model.Role;
 import sg.edu.iss.caps.model.User;
+import sg.edu.iss.caps.service.UserSessionService;
 import sg.edu.iss.caps.util.UserSessionUtil;
 
 @Component
 public class AuthenticateInterceptor implements HandlerInterceptor {
 
 	@Autowired
-	HttpSession session;
+	UserSessionService userSessionService;
 
 	private List<String> noblocklist = Arrays.asList("/home", "/login", "/logout");
 	private List<String> adminlist = Arrays.asList("/manage/");
@@ -34,7 +35,8 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
 		String path = request.getRequestURI();
 
 		// Allow all request for css and js to pass
-		if(path.contains("/external/bootstrap/css/") || path.contains("/css/") || path.contains("/external/fontawesome/") || path.contains("/scripts/")) {
+		if(path.contains("/external/bootstrap/css/") || path.contains("/css/") || 
+				path.contains("/external/fontawesome/") || path.contains("/scripts/") || path.endsWith("favicon.ico")) {
 			return true;
 		}
 		
@@ -44,9 +46,19 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		}
-
+		
+		if (path.startsWith("/api/manage/")) {
+			//Check that only admin can access this api
+			return true;
+//			if(user.getRole() == Role.ADMIN) {
+//				return true;
+//			}
+//			response.sendRedirect("/home");
+//			return false;
+		}
+		
 		// Check user with session
-		User user = UserSessionUtil.findUser(session);
+		User user = userSessionService.findUserSession();
 
 		if (user == null) {
 			// Redirect if user is not found
@@ -54,14 +66,7 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		
-		if (path.startsWith("/api/manage/")) {
-			//Check that only admin can access this api
-			if(user.getRole() == Role.ADMIN) {
-				return true;
-			}
-			response.sendRedirect("/home");
-			return false;
-		}
+		
 
 		if (user.getRole() == Role.ADMIN) {
 			//Check if path is for admin
