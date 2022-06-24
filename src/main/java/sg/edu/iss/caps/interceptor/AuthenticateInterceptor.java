@@ -48,13 +48,8 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
 		}
 		
 		if (path.startsWith("/api/manage/")) {
-			//Check that only admin can access this api
+			//Leave API authentication to user
 			return true;
-//			if(user.getRole() == Role.ADMIN) {
-//				return true;
-//			}
-//			response.sendRedirect("/home");
-//			return false;
 		}
 		
 		// Check user with session
