@@ -14,15 +14,15 @@ function App() {
       <Router>
       <header className="App-header">
         <Header />
-        <Navbar />
+        
 
       </header>
       
         <Switch>
           <Route exact path='/manage/course/courselecturer' component={CourseLecturerList} />
-          <Route path="/" component={RedirectPage}></Route>
+          <Route exact path="/" component={RedirectPage}></Route>
           <Route path="/manage/course/edit/:id" component={CourseNew} />
-          <Route path="/manage/course/create" component={CourseNew} />
+          <Route exact path="/manage/course/create" component={CourseNew} />
           <Route exact path="/manage/course/edit" component={RedirectPage}/>
             
         </Switch>
