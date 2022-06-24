@@ -20,9 +20,7 @@ function App() {
       
         <Switch>
           <Route exact path='/manage/course/courselecturer' component={CourseLecturerList} />
-          <Route exact path="/">
-            <Redirect to="/manage/course/courselecturer" />
-          </Route>
+          <Route path="/" component={RedirectPage}></Route>
           <Route path="/manage/course/edit/:id" component={CourseNew} />
           <Route path="/manage/course/create" component={CourseNew} />
           <Route exact path="/manage/course/edit" component={RedirectPage}/>

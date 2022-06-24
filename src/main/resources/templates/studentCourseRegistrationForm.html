@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:replace="fragments/layout.html :: headsection">
 	<title>Course Application Processing System</title>
 	<!-- For input stylesheet -->
 	<!-- Using bootstrap 4.3.1 -->
-	<link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} " />
+	<link th:rel="stylesheet" th:href="@{/external/bootstrap/css/bootstrap.min.css} " />
 	<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" href="../static/css/home.css" />
 	<script type="text/javascript" th:src="@{/scripts/CourseRegister.js}"
 		src="../static/scripts/CourseRegister.js"></script>
